@@ -1,212 +1,232 @@
 <!DOCTYPE html>
 <html lang="ar" dir="ltr">
 <head>
-<meta charset="UTF-8">
-<title>ULTIMATE COMMANDER V12 — FINAL EDITION</title>
-<style>
-    :root {
-        --bg: #020617; --panel: #0f172a; --brd: #1e293b;
-        --neon: #38bdf8; --win: #22c55e; --gold: #eab308; --red: #ef4444;
-    }
-    body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); color: #f1f5f9; margin: 0; padding: 10px; }
-    .container { max-width: 1200px; margin: auto; }
-    
-    /* Stats Hub */
-    .hub { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 15px; }
-    .card { background: var(--panel); border: 1px solid var(--brd); padding: 15px; border-radius: 15px; text-align: center; position: relative; }
-    .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--brd); border-radius: 15px 15px 0 0; }
+    <meta charset="UTF-8">
+    <title>THE SINGULARITY V15 // FINAL DOMINATION</title>
+    <style>
+        :root {
+            --bg: #000205; --panel: #050a14; --brd: #112240;
+            --neon: #00f2ff; --win: #00ff88; --gold: #ffcc00; --red: #ff3366; --void: #7000ff;
+        }
+        body { font-family: 'Consolas', 'Courier New', monospace; background: var(--bg); color: #8892b0; margin: 0; padding: 10px; overflow-x: hidden; }
+        .container { max-width: 1200px; margin: auto; border: 1px solid var(--brd); padding: 20px; background: rgba(10, 25, 47, 0.4); border-radius: 20px; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
+        
+        /* Header & Status */
+        .header { text-align: center; border-bottom: 2px solid var(--void); margin-bottom: 20px; padding-bottom: 15px; }
+        .header h1 { color: var(--neon); text-shadow: 0 0 15px var(--neon); margin: 0; font-size: 26px; letter-spacing: 5px; }
+        
+        .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .m-card { background: var(--panel); border: 1px solid var(--brd); padding: 15px; border-radius: 12px; position: relative; text-align: center; }
+        .m-card small { font-size: 10px; letter-spacing: 1px; color: var(--neon); }
+        .m-card b { display: block; color: var(--gold); font-size: 22px; margin-top: 5px; }
 
-    /* Main Grid */
-    .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
-    .btn { background: var(--panel); border: 2px solid var(--brd); border-radius: 20px; padding: 25px 5px; cursor: pointer; transition: 0.2s; }
-    .btn span { display: block; text-align: center; }
-    .emoji { font-size: 45px; }
-    .mult { font-size: 11px; color: var(--gold); font-weight: bold; }
+        /* Grid System */
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+        .btn-cell { background: #0a192f; border: 1px solid var(--brd); border-radius: 15px; padding: 25px 5px; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden; }
+        .btn-cell:hover { border-color: var(--neon); background: rgba(0, 242, 255, 0.05); }
+        .emoji { font-size: 45px; display: block; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
+        .mult-tag { font-size: 10px; color: var(--gold); font-weight: bold; position: absolute; top: 5px; right: 8px; }
 
-    /* Strategy Panels */
-    .strat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-bottom: 20px; }
-    .strat-box { background: var(--panel); border: 1px solid var(--brd); border-radius: 15px; padding: 15px; border-top: 4px solid var(--brd); }
-    .strat-title { font-size: 11px; color: var(--neon); font-weight: bold; margin-bottom: 10px; text-transform: uppercase; }
-    .icons { font-size: 30px; letter-spacing: 5px; text-align: center; display: block; }
+        /* Logic Highlights */
+        .god-target { border: 2px solid var(--void) !important; box-shadow: 0 0 25px var(--void); animation: pulse 0.6s infinite alternate; }
+        .streak-hit { border: 2px solid var(--purple) !important; box-shadow: 0 0 15px #bc8cff; }
+        @keyframes pulse { from { opacity: 0.7; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        
+        .radar-pulse { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 2px solid var(--neon); animation: radar 1.5s infinite; pointer-events: none; opacity: 0; }
+        @keyframes radar { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.6); opacity: 0; } }
 
-    /* Money Management Table */
-    .money-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
-    .money-table td { border: 1px solid var(--brd); padding: 8px; text-align: center; }
-    .money-table tr.active { background: rgba(34, 197, 94, 0.1); color: var(--win); }
+        /* Strategy Panels */
+        .strat-wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 20px; }
+        .panel { background: var(--panel); border: 1px solid var(--brd); border-radius: 15px; padding: 15px; position: relative; border-top: 3px solid var(--brd); }
+        .p-title { font-size: 11px; color: var(--neon); font-weight: bold; text-transform: uppercase; margin-bottom: 10px; }
+        .p-icons { font-size: 35px; letter-spacing: 6px; text-align: center; display: block; }
 
-    /* Effects */
-    .gold-glow { animation: gold-glow 0.8s infinite alternate; border-color: var(--gold) !important; }
-    @keyframes gold-glow { from { box-shadow: 0 0 5px var(--gold); } to { box-shadow: 0 0 20px var(--gold); } }
-    
-    .history { display: flex; gap: 8px; overflow-x: auto; padding: 15px; background: rgba(0,0,0,0.4); border-radius: 15px; border: 1px solid var(--brd); }
-    .ctrl-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; cursor: pointer; font-weight: bold; background: #1e293b; color: white; }
-</style>
+        /* Stealth & Console */
+        .void-msg { color: var(--red); font-size: 11px; font-weight: bold; margin-top: 5px; display: none; animation: flash 0.5s infinite; }
+        @keyframes flash { 0% { opacity: 1; } 50% { opacity: 0; } }
+        .console { background: #000; border: 1px solid var(--brd); color: var(--win); font-size: 10px; padding: 10px; border-radius: 8px; height: 80px; overflow-y: auto; font-family: monospace; }
+
+        .sys-btn { flex: 1; padding: 15px; border-radius: 10px; border: 1px solid var(--void); background: transparent; color: #fff; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .sys-btn:hover { background: var(--void); box-shadow: 0 0 15px var(--void); }
+        .history { display: flex; gap: 8px; overflow-x: auto; padding: 15px; background: rgba(0,0,0,0.5); border-radius: 15px; border: 1px solid var(--brd); margin-top: 15px; }
+    </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="hub">
-        <div class="card" style="border-bottom: 3px solid var(--neon)">
-            <div style="font-size:10px; color:var(--neon)">SERVER MOOD</div>
-            <div id="serverMood" style="font-weight:bold; font-size:18px">SCANNING...</div>
+    <div class="header">
+        <h1>SINGULARITY V15 // NEURAL TERMINAL</h1>
+        <div id="status" style="font-size:10px; color:var(--win)">SYSTEM_CORE: ONLINE // NO_LIMIT_DETECTED</div>
+    </div>
+
+    <div class="metrics">
+        <div class="m-card" style="border-top: 3px solid var(--neon)">
+            <small>SERVER ENTROPY</small>
+            <b id="entropy">0.00</b>
         </div>
-        <div class="card" style="border-bottom: 3px solid var(--gold)">
-            <div style="font-size:10px; color:var(--gold)">SIGNAL STRENGTH</div>
-            <div id="signalPower" style="font-weight:bold; font-size:22px">0%</div>
+        <div class="m-card" style="border-top: 3px solid var(--gold)">
+            <small>GOD PROBABILITY</small>
+            <b id="winProb">0%</b>
         </div>
-        <div class="card" style="border-bottom: 3px solid var(--win)">
-            <div style="font-size:10px; color:var(--win)">PROFIT ADVISOR</div>
-            <div id="betAdvice" style="font-weight:bold">STANDBY</div>
+        <div class="m-card" id="stealthPanel" style="border-top: 3px solid var(--win)">
+            <small>STEALTH STATUS</small>
+            <b id="stealthSignal">SCANNING</b>
+            <div id="voidAlert" class="void-msg">!! DRAIN DETECTED !!</div>
+        </div>
+        <div class="m-card" style="border-top: 3px solid var(--void)">
+            <small>CLUSTER STATE</small>
+            <b id="clusterState">STABLE</b>
         </div>
     </div>
 
-    <div class="grid">
-        <button class="btn" onclick="add('corn')"><span class="emoji">🌽</span><span class="mult">x5</span></button>
-        <button class="btn" onclick="add('tomato')"><span class="emoji">🍅</span><span class="mult">x5</span></button>
-        <button class="btn" onclick="add('carrot')"><span class="emoji">🥕</span><span class="mult">x5</span></button>
-        <button class="btn" onclick="add('pepper')"><span class="emoji">🌶️</span><span class="mult">x5</span></button>
-        <button class="btn" onclick="add('shrimp')"><span class="emoji">🦐</span><span class="mult">x10</span></button>
-        <button class="btn" onclick="add('cow')"><span class="emoji">🐄</span><span class="mult">x15</span></button>
-        <button class="btn" onclick="add('fish')"><span class="emoji">🐟</span><span class="mult">x25</span></button>
-        <button class="btn" onclick="add('chicken')"><span class="emoji">🐔</span><span class="mult">x45</span></button>
+    <div class="grid" id="mainGrid">
+        <button class="btn-cell" onclick="add('corn')"><span class="mult-tag">x5</span><span class="emoji">🌽</span></button>
+        <button class="btn-cell" onclick="add('tomato')"><span class="mult-tag">x5</span><span class="emoji">🍅</span></button>
+        <button class="btn-cell" onclick="add('carrot')"><span class="mult-tag">x5</span><span class="emoji">🥕</span></button>
+        <button class="btn-cell" onclick="add('pepper')"><span class="mult-tag">x5</span><span class="emoji">🌶️</span></button>
+        <button class="btn-cell" onclick="add('shrimp')"><span class="mult-tag">x10</span><span class="emoji">🦐</span></button>
+        <button class="btn-cell" onclick="add('cow')"><span class="mult-tag">x15</span><span class="emoji">🐄</span></button>
+        <button class="btn-cell" onclick="add('fish')"><span class="mult-tag">x25</span><span class="emoji">🐟</span></button>
+        <button class="btn-cell" onclick="add('chicken')"><span class="mult-tag">x45</span><span class="emoji">🐔</span></button>
     </div>
 
-    <div class="strat-grid">
-        <div class="strat-box" style="border-color: var(--neon)">
-            <div class="strat-title">Defensive (3V + 3M)</div>
-            <div id="p33" class="icons">--</div>
+    <div class="strat-wrap">
+        <div class="panel" style="border-color: var(--win)">
+            <div class="p-title">🛡️ SECURE STACK (3V + 2M)</div>
+            <div id="p32" class="p-icons">--</div>
         </div>
-        <div class="strat-box" style="border-color: var(--win)">
-            <div class="strat-title">Safety (3V + 2M)</div>
-            <div id="p32" class="icons">--</div>
+        <div class="panel" style="border-color: var(--gold)">
+            <div class="p-title">🔥 EXECUTION STACK (2V + 3M)</div>
+            <div id="p23" class="p-icons">--</div>
         </div>
-        <div class="strat-box" style="border-color: var(--gold)">
-            <div class="strat-title">Aggressive (2V + 3M)</div>
-            <div id="p23" class="icons">--</div>
-        </div>
-        <div class="strat-box" style="border-color: var(--red)">
-            <div class="strat-title">Sniper (2V + 2M)</div>
-            <div id="p22" class="icons">--</div>
+        <div class="panel" style="border-color: var(--void)">
+            <div class="p-title">👁️ GOD SELECTION (SINGLE)</div>
+            <div id="pGod" class="p-icons">--</div>
         </div>
     </div>
 
-    <div class="hub">
-        <div class="card" style="grid-column: span 2">
-            <div class="strat-title" style="text-align:left">Smart Staking Plan (إدارة الرهان)</div>
-            <table class="money-table">
-                <thead><tr><td>Signal</td><td>Bet Unit</td><td>Multiplier</td></tr></thead>
-                <tbody id="stakeBody">
-                    <tr id="row-weak"><td>WEAK</td><td>1x</td><td>Min. Stake</td></tr>
-                    <tr id="row-med"><td>MEDIUM</td><td>3x</td><td>Target Highs</td></tr>
-                    <tr id="row-strong"><td>STRONG</td><td>10x</td><td>MAX POWER</td></tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="card">
-            <div class="strat-title">Audio Alert</div>
-            <button onclick="toggleAudio()" id="audioBtn" class="ctrl-btn" style="padding:10px; font-size:12px">🔇 Sound OFF</button>
-        </div>
-    </div>
+    <div class="console" id="console">ACCESS GRANTED. WAITING FOR DATA INPUT...</div>
 
-    <div style="display:flex; gap:10px; margin-bottom:20px">
-        <button class="ctrl-btn" onclick="undo()">UNDO</button>
-        <button class="ctrl-btn" onclick="wipe()" style="color:var(--red)">FACTORY RESET</button>
+    <div style="display:flex; gap:10px; margin-top:15px">
+        <button class="sys-btn" onclick="undo()">ROLLBACK</button>
+        <button class="sys-btn" onclick="wipe()">WIPE CORE</button>
+        <button id="streakModeBtn" class="sys-btn" onclick="toggleStreak()">STREAK MODE: OFF</button>
     </div>
 
     <div class="history" id="historyFeed"></div>
 </div>
 
 <script>
-const items = ["corn","tomato","carrot","pepper","shrimp","cow","fish","chicken"];
-const veg = ["corn","tomato","carrot","pepper"];
-const meat = ["shrimp","cow","fish","chicken"];
-const mults = {corn:5, tomato:5, carrot:5, pepper:5, shrimp:10, cow:15, fish:25, chicken:45};
-const emojis = {corn:"🌽",tomato:"🍅",carrot:"🥕",pepper:"🌶️",shrimp:"🦐",cow:"🐄",fish:"🐟",chicken:"🐔"};
+    const items = ["corn","tomato","carrot","pepper","shrimp","cow","fish","chicken"];
+    const veg = ["corn","tomato","carrot","pepper"];
+    const meat = ["shrimp","cow","fish","chicken"];
+    const multis = {corn:5, tomato:5, carrot:5, pepper:5, shrimp:10, cow:15, fish:25, chicken:45};
+    const emojis = {corn:"🌽",tomato:"🍅",carrot:"🥕",pepper:"🌶️",shrimp:"🦐",cow:"🐄",fish:"🐟",chicken:"🐔"};
 
-let history = JSON.parse(localStorage.getItem("cmd_v12_db") || "[]");
-let audioEnabled = false;
+    let db = JSON.parse(localStorage.getItem("singularity_v15_db") || "[]");
+    let streakMode = false;
 
-function toggleAudio() {
-    audioEnabled = !audioEnabled;
-    document.getElementById("audioBtn").innerText = audioEnabled ? "🔊 Sound ON" : "🔇 Sound OFF";
-}
-
-function playAlert() {
-    if(!audioEnabled) return;
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = audioCtx.createOscillator();
-    osc.type = 'sine'; osc.frequency.setValueAtTime(880, audioCtx.currentTime);
-    osc.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + 0.2);
-}
-
-function save() { localStorage.setItem("cmd_v12_db", JSON.stringify(history)); }
-function add(f) { history.push(f); if(history.length > 2000) history.shift(); save(); update(); }
-function undo() { history.pop(); save(); update(); }
-function wipe() { if(confirm("Reset all?")) { history=[]; save(); update(); } }
-
-function update() {
-    let scores = {};
-    let len = history.length;
-
-    items.forEach(f => {
-        let lastIdx = history.lastIndexOf(f);
-        let abs = lastIdx === -1 ? len : len - 1 - lastIdx;
-        let pat = 0;
-        if (len > 5) {
-            let seq = history.slice(-3).join(",");
-            for(let i=0; i<len-5; i++) {
-                if(history.slice(i, i+3).join(",") === seq && history[i+3] === f) pat += 70;
-            }
-        }
-        let s = pat + (abs * 4.5) + (mults[f] * 2);
-        if (abs > (280 / mults[f])) s *= 2.2;
-        scores[f] = s;
-    });
-
-    const sorted = Object.entries(scores).sort((a,b) => b[1] - a[1]);
-    const topV = sorted.filter(x => veg.includes(x[0])).map(x => x[0]);
-    const topM = sorted.filter(x => meat.includes(x[0])).map(x => x[0]);
-
-    // Strategies
-    document.getElementById("p33").innerText = [...topV.slice(0,3), ...topM.slice(0,3)].map(x => emojis[x]).join("");
-    document.getElementById("p32").innerText = [...topV.slice(0,3), ...topM.slice(0,2)].map(x => emojis[x]).join("");
-    document.getElementById("p23").innerText = [...topV.slice(0,2), ...topM.slice(0,3)].map(x => emojis[x]).join("");
-    document.getElementById("p22").innerText = [...topV.slice(0,2), ...topM.slice(0,2)].map(x => emojis[x]).join("");
-
-    // Power & Advice
-    let power = Math.min(99, Math.floor((sorted[0][1] / (sorted[2][1]||1)) * 38));
-    document.getElementById("signalPower").innerText = power + "%";
-    
-    const advice = document.getElementById("betAdvice");
-    const rows = ["row-weak", "row-med", "row-strong"];
-    rows.forEach(r => document.getElementById(r).className = "");
-
-    if(power > 85) {
-        advice.innerText = "MAX POWER!"; advice.style.color = "var(--win)";
-        document.getElementById("row-strong").className = "active";
-        playAlert();
-    } else if(power > 55) {
-        advice.innerText = "GOOD CHANCE"; advice.style.color = "var(--gold)";
-        document.getElementById("row-med").className = "active";
-    } else {
-        advice.innerText = "WAITING..."; advice.style.color = "#94a3b8";
-        document.getElementById("row-weak").className = "active";
+    function log(msg) {
+        const c = document.getElementById("console");
+        c.innerHTML += `<br>> ${msg}`;
+        c.scrollTop = c.scrollHeight;
     }
 
-    // Server Mood
-    let mCount = history.slice(-12).filter(x => meat.includes(x)).length;
-    document.getElementById("serverMood").innerText = mCount > 4 ? "AGGRESSIVE 🔥" : (mCount < 2 ? "PASSIVE ❄️" : "BALANCED ⚖️");
+    function toggleStreak() {
+        streakMode = !streakMode;
+        document.getElementById("streakModeBtn").innerText = streakMode ? "STREAK MODE: ON" : "STREAK MODE: OFF";
+        document.getElementById("streakModeBtn").style.borderColor = streakMode ? "var(--win)" : "var(--void)";
+        update();
+    }
 
-    // Grid & History
-    document.getElementById("historyFeed").innerHTML = history.slice(-20).reverse().map(x => `<span style="font-size:25px">${emojis[x]}</span>`).join("");
-    const btns = document.querySelectorAll(".btn");
-    items.forEach((f, i) => {
-        btns[i].className = "btn";
-        if(f === sorted[0][0]) btns[i].classList.add("gold-glow");
-    });
-}
+    function add(f) {
+        db.push(f);
+        if(db.length > 2000) db.shift();
+        localStorage.setItem("singularity_v15_db", JSON.stringify(db));
+        log(`SIGNAL_CAPTURED: ${f.toUpperCase()}`);
+        update();
+    }
 
-update();
+    function undo() { db.pop(); update(); }
+    function wipe() { if(confirm("ERASE CORE DATABASE?")) { db=[]; update(); } }
+
+    function update() {
+        let len = db.length;
+        let scores = {};
+        let last = db[len-1];
+
+        // 1. NEURAL SCORING ENGINE
+        items.forEach(f => {
+            let lastIdx = db.lastIndexOf(f);
+            let abs = (lastIdx === -1) ? len : len - 1 - lastIdx;
+            
+            // Frequency calculation
+            let freq = db.slice(-40).filter(x => x === f).length;
+            
+            // Pattern Recognition
+            let patScore = 0;
+            if(len > 4) {
+                let trio = db.slice(-3).join("");
+                for(let i=0; i<len-4; i++) {
+                    if(db.slice(i, i+3).join("") === trio && db[i+3] === f) patScore += 120;
+                }
+            }
+
+            let s = (abs * 5) + (freq * 25) + patScore;
+            
+            // Streak Bias
+            if(f === last) s += streakMode ? 400 : 50;
+            
+            scores[f] = s;
+        });
+
+        const sorted = Object.entries(scores).sort((a,b) => b[1] - a[1]);
+        const topV = sorted.filter(x => veg.includes(x[0])).map(x => x[0]);
+        const topM = sorted.filter(x => meat.includes(x[0])).map(x => x[0]);
+
+        // 2. RENDER STRATEGIES
+        document.getElementById("p32").innerText = [...topV.slice(0,3), ...topM.slice(0,2)].map(x => emojis[x]).join("");
+        document.getElementById("p23").innerText = [...topV.slice(0,2), ...topM.slice(0,3)].map(x => emojis[x]).join("");
+        document.getElementById("pGod").innerText = emojis[sorted[0][0]];
+
+        // 3. METRICS & STEALTH
+        document.getElementById("winProb").innerText = Math.min(99, Math.floor((sorted[0][1] / (sorted[2][1]||1)) * 40)) + "%";
+        document.getElementById("entropy").innerText = (Math.random() * 0.8).toFixed(2);
+        
+        let last12Veg = db.slice(-12).filter(x => veg.includes(x)).length;
+        const stealth = document.getElementById("stealthSignal");
+        const alert = document.getElementById("voidAlert");
+        
+        if(last12Veg > 10) {
+            stealth.innerText = "DRAINING"; stealth.style.color = "var(--red)";
+            alert.style.display = "block";
+        } else {
+            stealth.innerText = "EXTRACTING"; stealth.style.color = "var(--win)";
+            alert.style.display = "none";
+        }
+
+        // 4. RADAR & GRID UI
+        const btns = document.querySelectorAll(".btn-cell");
+        items.forEach((f, i) => {
+            btns[i].className = "btn-cell";
+            btns[i].querySelectorAll(".radar-pulse").forEach(r => r.remove());
+
+            if(f === sorted[0][0]) btns[i].classList.add("god-target");
+            
+            // Radar for "Overdue" items
+            let lastIdx = db.lastIndexOf(f);
+            let gap = len - 1 - lastIdx;
+            if(gap > (300 / multis[f])) {
+                let pulse = document.createElement("div");
+                pulse.className = "radar-pulse";
+                btns[i].appendChild(pulse);
+            }
+        });
+
+        document.getElementById("historyFeed").innerHTML = db.slice(-20).reverse().map(x => `<span style="font-size:25px">${emojis[x]}</span>`).join("");
+    }
+
+    update();
 </script>
 </body>
 </html>
