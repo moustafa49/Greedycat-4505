@@ -2,249 +2,214 @@
 <html lang="ar" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<title>Greedy Cat — PRO PREDICTOR V2</title>
+<title>THE ZENITH V9 — ULTIMATE AI</title>
 <style>
-    body{font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;background:#020617;color:#e5e7eb;margin:0;padding:16px}
-    h1{color:#22c55e;margin:8px 0 16px;text-align:center;text-transform:uppercase;letter-spacing:2px}
-    .wrap{max-width:980px;margin:auto}
-    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
-    
-    button{padding:20px;font-size:32px;background:#0f172a;color:#fff;border:2px solid #1e293b;border-radius:16px;cursor:pointer;transition:all 0.2s}
-    button:hover{background:#1e293b;transform:scale(1.05)}
-    button:active{transform:scale(0.95)}
-    
-    /* أنماط التميز للأزرار */
-    button.best{border-color:#22c55e;box-shadow:0 0 20px rgba(34,197,94,0.4);background:#064e3b}
-    button.second{border-color:#eab308;box-shadow:0 0 15px rgba(234,179,8,0.3);background:#422006}
+    :root {
+        --bg: #030508; --panel: #0a0f18; --brd: #1a2333;
+        --neon: #00f2ff; --win: #00ff88; --warn: #ff3366; --gold: #ffcc00;
+    }
+    body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; }
+    .container { max-width: 1200px; margin: auto; }
 
-    .bar{display:flex;gap:10px;justify-content:center;margin-bottom:20px}
-    .btn-action{padding:10px 20px;font-size:16px;background:#334155;border-radius:8px}
+    /* Top Intelligence Bar */
+    .intel-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; margin-bottom: 20px; }
+    .intel-card { background: var(--panel); border: 1px solid var(--brd); padding: 15px; border-radius: 15px; position: relative; border-bottom: 3px solid var(--brd); }
     
-    .section{background:#0f172a;border:1px solid #1e293b;border-radius:14px;padding:15px;margin-bottom:15px}
-    .title{font-weight:bold;color:#22c55e;margin-bottom:10px;display:flex;justify-content:space-between}
-    .big{font-size:24px;letter-spacing:4px}
-    .row{display:flex;flex-wrap:wrap;gap:15px}
-    .col{flex:1 1 300px}
+    /* Server Mood & Wave */
+    .wave-indicator { height: 6px; background: #1a2333; border-radius: 3px; margin-top: 10px; overflow: hidden; }
+    .wave-fill { height: 100%; transition: 1s cubic-bezier(0.4, 0, 0.2, 1); }
+
+    /* Grid System */
+    .main-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+    .btn-item { background: var(--panel); border: 2px solid var(--brd); border-radius: 20px; padding: 30px 5px; cursor: pointer; transition: 0.3s; position: relative; }
+    .btn-item span { display: block; text-align: center; }
+    .emoji { font-size: 45px; }
+    .multi { font-size: 12px; color: var(--gold); font-weight: bold; margin-top: 5px; }
+
+    /* AI Highlights */
+    .prime-target { border-color: var(--neon) !important; box-shadow: 0 0 20px rgba(0,242,255,0.3); background: rgba(0,242,255,0.05); }
+    .explode { animation: explode-pulse 0.6s infinite alternate; border-color: var(--warn) !important; }
+    @keyframes explode-pulse { from { box-shadow: 0 0 5px var(--warn); } to { box-shadow: 0 0 25px var(--warn); } }
+
+    /* Results & Strategy */
+    .strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
+    .box { background: var(--panel); border: 1px solid var(--brd); border-radius: 20px; padding: 20px; }
     
-    .stat-box{display:inline-block;padding:5px 10px;background:#1e293b;border-radius:6px;margin:2px;font-size:13px}
-    canvas{background:#000;border-radius:12px;display:block;margin:auto;max-width:100%}
-    .highlight{color:#22c55e;font-weight:bold}
+    .history-strip { display: flex; gap: 8px; overflow-x: auto; padding: 15px; background: rgba(0,0,0,0.5); border-radius: 15px; border: 1px solid var(--brd); margin-top: 15px; }
+    .btn-sys { flex: 1; padding: 15px; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; background: #1a2333; color: #fff; }
 </style>
 </head>
 <body>
 
-<div class="wrap">
-    <h1>Greedy Cat — <span style="color:#fff">GOD MODE</span></h1>
-
-    <div class="grid" id="mainGrid">
-        <button onclick="add('corn')">🌽</button>
-        <button onclick="add('tomato')">🍅</button>
-        <button onclick="add('carrot')">🥕</button>
-        <button onclick="add('pepper')">🌶️</button>
-        <button onclick="add('fish')">🐟</button>
-        <button onclick="add('shrimp')">🦐</button>
-        <button onclick="add('cow')">🐄</button>
-        <button onclick="add('chicken')">🐔</button>
-    </div>
-
-    <div class="bar">
-        <button class="btn-action" onclick="undo()">Undo</button>
-        <button class="btn-action" onclick="reset()">Reset Data</button>
-        <button class="btn-action" id="botBtn" onclick="toggleBot()" style="background:#16a34a">Bot: OFF</button>
-    </div>
-
-    <div class="section">
-        <div class="title">History (Last 20) <span id="accuracy" style="color:#fff"></span></div>
-        <div id="history" class="big"></div>
-    </div>
-
-    <div class="row">
-        <div class="col section">
-            <div class="title">AI Primary Prediction 🎯</div>
-            <div id="prediction" class="big">--</div>
-            <div id="why" style="font-size:12px;color:#9ca3af;margin-top:8px"></div>
+<div class="container">
+    <div class="intel-bar">
+        <div class="intel-card" id="waveCard">
+            <div style="font-size: 11px; color: var(--neon)">SERVER WAVE ANALYSIS</div>
+            <div id="waveStatus" style="font-size: 18px; font-weight: bold; margin: 5px 0">CALIBRATING...</div>
+            <div class="wave-indicator"><div id="waveFill" class="wave-fill"></div></div>
         </div>
-        <div class="col section">
-            <div class="title">Safe Strategy (Top 5) 🛡️</div>
-            <div id="top5" class="big">--</div>
+        <div class="intel-card">
+            <div style="font-size: 11px; color: var(--win)">AI PREDICTION STRENGTH</div>
+            <div id="aiPower" style="font-size: 24px; font-weight: bold">0%</div>
+        </div>
+        <div class="intel-card">
+            <div style="font-size: 11px; color: var(--gold)">EXPECTED ACCURACY</div>
+            <div id="accuracy" style="font-size: 24px; font-weight: bold">0%</div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col section">
-            <div class="title">Live Probabilities %</div>
-            <div id="prob" style="display:grid;grid-template-columns:1fr 1fr;gap:5px"></div>
+    <div class="main-grid" id="gameGrid">
+        <button class="btn-item" onclick="add('corn')"><span class="emoji">🌽</span><span class="multi">5x</span></button>
+        <button class="btn-item" onclick="add('tomato')"><span class="emoji">🍅</span><span class="multi">5x</span></button>
+        <button class="btn-item" onclick="add('carrot')"><span class="emoji">🥕</span><span class="multi">5x</span></button>
+        <button class="btn-item" onclick="add('pepper')"><span class="emoji">🌶️</span><span class="multi">5x</span></button>
+        <button class="btn-item" onclick="add('shrimp')"><span class="emoji">🦐</span><span class="multi">10x</span></button>
+        <button class="btn-item" onclick="add('cow')"><span class="emoji">🐄</span><span class="multi">15x</span></button>
+        <button class="btn-item" onclick="add('fish')"><span class="emoji">🐟</span><span class="multi">25x</span></button>
+        <button class="btn-item" onclick="add('chicken')"><span class="emoji">🐔</span><span class="multi">45x</span></button>
+    </div>
+
+    <div style="display:flex; gap:10px; margin-bottom:20px">
+        <button class="btn-sys" onclick="undo()">UNDO</button>
+        <button class="btn-sys" onclick="wipe()" style="color:var(--warn)">WIPE MEMORY</button>
+        <button class="btn-sys" id="botToggle" onclick="toggleBot()">SYSTEM: STANDBY</button>
+    </div>
+
+    <div class="strategy-grid">
+        <div class="box" style="border-left: 5px solid var(--neon)">
+            <div style="font-size: 11px; color: var(--neon)">ZENITH TOP TARGETS</div>
+            <div id="primeTarget" style="font-size: 50px; text-align: center">-- --</div>
         </div>
-        <div class="col section">
-            <div class="title">Absence Tracker (الغيبة)</div>
-            <div id="absence" style="display:flex;flex-wrap:wrap;gap:5px"></div>
+        <div class="box" style="border-left: 5px solid var(--gold)">
+            <div style="font-size: 11px; color: var(--gold)">SMART 6-SLOT COVERAGE</div>
+            <div id="top6Target" style="font-size: 40px; text-align: center; letter-spacing: 5px">-- -- -- -- -- --</div>
         </div>
     </div>
 
-    <div class="section">
-        <div class="title">Pattern Analysis Radar</div>
-        <canvas id="radar" width="300" height="300"></canvas>
+    <div class="box">
+        <div style="font-size: 11px; color: var(--neon); margin-bottom: 10px">PROBABILITY MAP</div>
+        <div id="probMap" style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px"></div>
     </div>
+
+    <div class="history-strip" id="historyFeed"></div>
 </div>
 
 <script>
-// --- CONFIG & DATA ---
-const foods = ["corn","tomato","carrot","pepper","fish","shrimp","cow","chicken"];
+const items = ["corn","tomato","carrot","pepper","shrimp","cow","fish","chicken"];
 const veg = ["corn","tomato","carrot","pepper"];
-const meat = ["fish","shrimp","cow","chicken"];
-const emoji = {corn:"🌽",tomato:"🍅",carrot:"🥕",pepper:"🌶️",fish:"🐟",shrimp:"🦐",cow:"🐄",chicken:"🐔"};
-const values = {corn:5,tomato:5,carrot:5,pepper:5,fish:8,shrimp:10,cow:15,chicken:45};
+const meat = ["shrimp","cow","fish","chicken"];
+const mults = {corn:5, tomato:5, carrot:5, pepper:5, shrimp:10, cow:15, fish:25, chicken:45};
+const emojis = {corn:"🌽",tomato:"🍅",carrot:"🥕",pepper:"🌶️",shrimp:"🦐",cow:"🐄",fish:"🐟",chicken:"🐔"};
 
-let history = JSON.parse(localStorage.getItem("gc_v2_hist") || "[]");
-let bot = false;
-let totalPredictions = 0;
-let correctPredictions = 0;
+let history = JSON.parse(localStorage.getItem("zenith_v9_db") || "[]");
+let rounds = 0, wins = 0;
 
-// --- CORE FUNCTIONS ---
-function save() {
-    localStorage.setItem("gc_v2_hist", JSON.stringify(history));
-}
+function save() { localStorage.setItem("zenith_v9_db", JSON.stringify(history)); }
 
 function add(f) {
-    if (window.currentPicks) {
-        totalPredictions++;
-        if (window.currentPicks.includes(f)) correctPredictions++;
+    if (window.lastP) {
+        rounds++;
+        if (window.lastP.includes(f)) wins++;
     }
     history.push(f);
-    if (history.length > 500) history.shift();
+    if (history.length > 2000) history.shift();
     save();
     update();
 }
 
 function undo() { history.pop(); save(); update(); }
-function reset() { if(confirm("Clear all data?")) { history=[]; save(); update(); } }
+function wipe() { if(confirm("Wipe all AI data?")) { history=[]; save(); update(); } }
 
-// --- MATH ENGINE ---
-function getStats(f) {
-    let lastIdx = history.lastIndexOf(f);
-    let abs = lastIdx === -1 ? history.length : history.length - 1 - lastIdx;
-    let mom = history.slice(-10).filter(x => x === f).length;
-    
-    // Pattern Matching (Sequence of 2)
-    let pat = 0;
-    if (history.length > 3) {
-        let lastTwo = history.slice(-2).join("-");
-        for (let i = 0; i < history.length - 2; i++) {
-            if (history.slice(i, i+2).join("-") === lastTwo && history[i+2] === f) pat++;
-        }
-    }
-    return { abs, mom, pat };
-}
-
-function calculateScores() {
+function update() {
     let scores = {};
-    foods.forEach(f => {
-        let { abs, mom, pat } = getStats(f);
-        // المعادلة الذهبية
-        let s = 0;
-        s += pat * 15;        // قوة الأنماط المتكررة
-        s += mom * 5;         // قوة الزخم
-        s += abs * 1.2;       // قانون الاحتمالات المتأخرة
-        s += (values[f] / 10); // ترجيح القيم الأعلى قليلاً
+    let len = history.length;
+
+    // 1. WAVE ANALYSIS
+    let last12 = history.slice(-12);
+    let meatCount = last12.filter(x => meat.includes(x)).length;
+    let waveFill = document.getElementById("waveFill");
+    let waveStatus = document.getElementById("waveStatus");
+    
+    let wavePower = (meatCount / 12) * 100;
+    waveFill.style.width = wavePower + "%";
+    
+    if (wavePower > 40) {
+        waveStatus.innerText = "PROFIT WAVE 🔥";
+        waveFill.style.background = "var(--win)";
+    } else if (wavePower < 15) {
+        waveStatus.innerText = "RECOVERY WAVE ❄️";
+        waveFill.style.background = "var(--warn)";
+    } else {
+        waveStatus.innerText = "NEUTRAL WAVE ⚖️";
+        waveFill.style.background = "var(--neon)";
+    }
+
+    // 2. SCORING ENGINE (V9 Advanced)
+    items.forEach(f => {
+        let lastIdx = history.lastIndexOf(f);
+        let abs = lastIdx === -1 ? len : len - 1 - lastIdx;
         
+        // Deep Pattern Match (Length 3)
+        let pat = 0;
+        if (len > 4) {
+            let seq = history.slice(-3).join(",");
+            for(let i=0; i<len-4; i++) {
+                if(history.slice(i, i+3).join(",") === seq && history[i+3] === f) pat += 50;
+            }
+        }
+        
+        let s = pat + (abs * 3) + (mults[f] * 1.2);
+        // Overdue Spike
+        if (abs > (250 / mults[f])) s *= 2; 
         scores[f] = s;
     });
-    return scores;
-}
 
-// --- UI UPDATE ---
-function update() {
-    const scores = calculateScores();
     const sorted = Object.entries(scores).sort((a,b) => b[1] - a[1]);
-    
-    // 1. Prediction Logic
-    const best = sorted[0][0];
-    const alt = sorted[1][0];
-    
-    // 2. Strategy (Top 5: 3 Veg + 2 Meat to balance risk)
-    const topVeg = sorted.filter(x => veg.includes(x[0])).slice(0, 3).map(x => x[0]);
-    const topMeat = sorted.filter(x => meat.includes(x[0])).slice(0, 2).map(x => x[0]);
-    const top5 = [...topVeg, ...topMeat];
-    window.currentPicks = top5;
+    const best2 = [sorted[0][0], sorted[1][0]];
 
-    // 3. Update HTML
-    document.getElementById("history").innerHTML = history.slice(-15).map(x => emoji[x]).join(" ");
-    document.getElementById("prediction").innerHTML = `${emoji[best]} <span style="font-size:16px">Backup: ${emoji[alt]}</span>`;
-    document.getElementById("top5").innerHTML = top5.map(x => emoji[x]).join(" ");
-    
-    // Stats
-    document.getElementById("accuracy").innerText = `Accuracy: ${totalPredictions ? ((correctPredictions/totalPredictions)*100).toFixed(1) : 0}%`;
-    
-    // Probability List
-    let totalScore = Object.values(scores).reduce((a,b)=>a+b, 0);
-    document.getElementById("prob").innerHTML = sorted.map(([f, s]) => `
-        <div class="stat-box">${emoji[f]} ${((s/totalScore)*100).toFixed(1)}%</div>
-    `).join("");
+    // 3. ADAPTIVE TOP 6
+    let top6;
+    if (wavePower < 15) { // Safe mode
+        top6 = [...sorted.filter(x => veg.includes(x[0])).slice(0, 4).map(x => x[0]), 
+                ...sorted.filter(x => meat.includes(x[0])).slice(0, 2).map(x => x[0])];
+    } else { // Aggressive mode
+        top6 = [...sorted.filter(x => veg.includes(x[0])).slice(0, 3).map(x => x[0]), 
+                ...sorted.filter(x => meat.includes(x[0])).slice(0, 3).map(x => x[0])];
+    }
+    window.lastP = top6;
 
-    // Absence List
-    document.getElementById("absence").innerHTML = foods.map(f => {
-        let a = getStats(f).abs;
-        return `<div class="stat-box" style="color:${a > 10 ? '#ef4444' : '#fff'}">${emoji[f]} ${a}</div>`;
+    // 4. UI RENDER
+    document.getElementById("primeTarget").innerText = best2.map(x => emojis[x]).join("");
+    document.getElementById("top6Target").innerText = top6.map(x => emojis[x]).join("");
+    document.getElementById("accuracy").innerText = `${rounds ? ((wins/rounds)*100).toFixed(1) : 0}%`;
+    document.getElementById("aiPower").innerText = Math.min(99, Math.floor((sorted[0][1] / (sorted[2][1]||1)) * 45)) + "%";
+    
+    document.getElementById("historyFeed").innerHTML = history.slice(-20).reverse().map(x => `<span style="font-size:25px">${emojis[x]}</span>`).join("");
+
+    document.getElementById("probMap").innerHTML = items.map(f => {
+        let a = len - 1 - history.lastIndexOf(f);
+        if (history.lastIndexOf(f) === -1) a = len;
+        return `<div class="intel-card" style="padding:5px; text-align:center">
+            <div style="font-size:18px">${emojis[f]}</div>
+            <div style="font-size:10px; color:var(--gold)">A:${a}</div>
+        </div>`;
     }).join("");
 
-    // 4. Highlight Grid Buttons
-    const btns = document.getElementById("mainGrid").querySelectorAll("button");
-    foods.forEach((f, i) => {
-        btns[i].className = "";
-        if (f === best) btns[i].className = "best";
-        else if (top5.includes(f)) btns[i].className = "second";
+    // Grid Effects
+    const btns = document.querySelectorAll(".btn-item");
+    items.forEach((f, i) => {
+        btns[i].className = "btn-item";
+        if (f === best2[0]) btns[i].classList.add("prime-target");
+        if ((len - 1 - history.lastIndexOf(f)) > (250 / mults[f])) btns[i].classList.add("explode");
     });
-
-    drawRadar(scores);
 }
 
 function toggleBot() {
-    bot = !bot;
-    let b = document.getElementById("botBtn");
-    b.innerText = "Bot: " + (bot ? "ON" : "OFF");
-    b.style.background = bot ? "#ef4444" : "#16a34a";
+    let b = document.getElementById("botToggle");
+    b.innerText = b.innerText.includes("STANDBY") ? "SYSTEM: ACTIVE" : "SYSTEM: STANDBY";
+    b.style.background = b.innerText.includes("ACTIVE") ? "var(--win)" : "#1a2333";
 }
 
-// --- VISUALS ---
-function drawRadar(scores) {
-    const canvas = document.getElementById("radar");
-    const ctx = canvas.getContext("2d");
-    const cx = 150, cy = 150, r = 100;
-    ctx.clearRect(0, 0, 300, 300);
-
-    // Draw Circles
-    ctx.strokeStyle = "#1e293b";
-    for(let j=1; j<=4; j++) {
-        ctx.beginPath();
-        ctx.arc(cx, cy, (r/4)*j, 0, Math.PI*2);
-        ctx.stroke();
-    }
-
-    // Draw Data
-    ctx.beginPath();
-    ctx.strokeStyle = "#22c55e";
-    ctx.fillStyle = "rgba(34, 197, 94, 0.2)";
-    let maxS = Math.max(...Object.values(scores));
-    
-    foods.forEach((f, i) => {
-        let ang = (i / foods.length) * Math.PI * 2 - Math.PI/2;
-        let val = (scores[f] / maxS) * r;
-        let x = cx + Math.cos(ang) * val;
-        let y = cy + Math.sin(ang) * val;
-        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-        
-        // Labels
-        let lx = cx + Math.cos(ang) * (r + 20);
-        let ly = cy + Math.sin(ang) * (r + 20);
-        ctx.font = "16px Arial";
-        ctx.fillText(emoji[f], lx-10, ly+5);
-    });
-    ctx.closePath();
-    ctx.fill();
-    ctx.stroke();
-}
-
-// Initial Run
 update();
 </script>
 </body>
