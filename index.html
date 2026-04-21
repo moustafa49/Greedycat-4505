@@ -2,96 +2,118 @@
 <html lang="ar" dir="ltr">
 <head>
 <meta charset="UTF-8">
-<title>THE ZENITH V9 — ULTIMATE AI</title>
+<title>ULTIMATE COMMANDER V12 — FINAL EDITION</title>
 <style>
     :root {
-        --bg: #030508; --panel: #0a0f18; --brd: #1a2333;
-        --neon: #00f2ff; --win: #00ff88; --warn: #ff3366; --gold: #ffcc00;
+        --bg: #020617; --panel: #0f172a; --brd: #1e293b;
+        --neon: #38bdf8; --win: #22c55e; --gold: #eab308; --red: #ef4444;
     }
-    body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; }
+    body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); color: #f1f5f9; margin: 0; padding: 10px; }
     .container { max-width: 1200px; margin: auto; }
-
-    /* Top Intelligence Bar */
-    .intel-bar { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; margin-bottom: 20px; }
-    .intel-card { background: var(--panel); border: 1px solid var(--brd); padding: 15px; border-radius: 15px; position: relative; border-bottom: 3px solid var(--brd); }
     
-    /* Server Mood & Wave */
-    .wave-indicator { height: 6px; background: #1a2333; border-radius: 3px; margin-top: 10px; overflow: hidden; }
-    .wave-fill { height: 100%; transition: 1s cubic-bezier(0.4, 0, 0.2, 1); }
+    /* Stats Hub */
+    .hub { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 15px; }
+    .card { background: var(--panel); border: 1px solid var(--brd); padding: 15px; border-radius: 15px; text-align: center; position: relative; }
+    .card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: var(--brd); border-radius: 15px 15px 0 0; }
 
-    /* Grid System */
-    .main-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
-    .btn-item { background: var(--panel); border: 2px solid var(--brd); border-radius: 20px; padding: 30px 5px; cursor: pointer; transition: 0.3s; position: relative; }
-    .btn-item span { display: block; text-align: center; }
+    /* Main Grid */
+    .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+    .btn { background: var(--panel); border: 2px solid var(--brd); border-radius: 20px; padding: 25px 5px; cursor: pointer; transition: 0.2s; }
+    .btn span { display: block; text-align: center; }
     .emoji { font-size: 45px; }
-    .multi { font-size: 12px; color: var(--gold); font-weight: bold; margin-top: 5px; }
+    .mult { font-size: 11px; color: var(--gold); font-weight: bold; }
 
-    /* AI Highlights */
-    .prime-target { border-color: var(--neon) !important; box-shadow: 0 0 20px rgba(0,242,255,0.3); background: rgba(0,242,255,0.05); }
-    .explode { animation: explode-pulse 0.6s infinite alternate; border-color: var(--warn) !important; }
-    @keyframes explode-pulse { from { box-shadow: 0 0 5px var(--warn); } to { box-shadow: 0 0 25px var(--warn); } }
+    /* Strategy Panels */
+    .strat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-bottom: 20px; }
+    .strat-box { background: var(--panel); border: 1px solid var(--brd); border-radius: 15px; padding: 15px; border-top: 4px solid var(--brd); }
+    .strat-title { font-size: 11px; color: var(--neon); font-weight: bold; margin-bottom: 10px; text-transform: uppercase; }
+    .icons { font-size: 30px; letter-spacing: 5px; text-align: center; display: block; }
 
-    /* Results & Strategy */
-    .strategy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px; }
-    .box { background: var(--panel); border: 1px solid var(--brd); border-radius: 20px; padding: 20px; }
+    /* Money Management Table */
+    .money-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 12px; }
+    .money-table td { border: 1px solid var(--brd); padding: 8px; text-align: center; }
+    .money-table tr.active { background: rgba(34, 197, 94, 0.1); color: var(--win); }
+
+    /* Effects */
+    .gold-glow { animation: gold-glow 0.8s infinite alternate; border-color: var(--gold) !important; }
+    @keyframes gold-glow { from { box-shadow: 0 0 5px var(--gold); } to { box-shadow: 0 0 20px var(--gold); } }
     
-    .history-strip { display: flex; gap: 8px; overflow-x: auto; padding: 15px; background: rgba(0,0,0,0.5); border-radius: 15px; border: 1px solid var(--brd); margin-top: 15px; }
-    .btn-sys { flex: 1; padding: 15px; border-radius: 10px; border: none; cursor: pointer; font-weight: bold; background: #1a2333; color: #fff; }
+    .history { display: flex; gap: 8px; overflow-x: auto; padding: 15px; background: rgba(0,0,0,0.4); border-radius: 15px; border: 1px solid var(--brd); }
+    .ctrl-btn { flex: 1; padding: 15px; border-radius: 12px; border: none; cursor: pointer; font-weight: bold; background: #1e293b; color: white; }
 </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="intel-bar">
-        <div class="intel-card" id="waveCard">
-            <div style="font-size: 11px; color: var(--neon)">SERVER WAVE ANALYSIS</div>
-            <div id="waveStatus" style="font-size: 18px; font-weight: bold; margin: 5px 0">CALIBRATING...</div>
-            <div class="wave-indicator"><div id="waveFill" class="wave-fill"></div></div>
+    <div class="hub">
+        <div class="card" style="border-bottom: 3px solid var(--neon)">
+            <div style="font-size:10px; color:var(--neon)">SERVER MOOD</div>
+            <div id="serverMood" style="font-weight:bold; font-size:18px">SCANNING...</div>
         </div>
-        <div class="intel-card">
-            <div style="font-size: 11px; color: var(--win)">AI PREDICTION STRENGTH</div>
-            <div id="aiPower" style="font-size: 24px; font-weight: bold">0%</div>
+        <div class="card" style="border-bottom: 3px solid var(--gold)">
+            <div style="font-size:10px; color:var(--gold)">SIGNAL STRENGTH</div>
+            <div id="signalPower" style="font-weight:bold; font-size:22px">0%</div>
         </div>
-        <div class="intel-card">
-            <div style="font-size: 11px; color: var(--gold)">EXPECTED ACCURACY</div>
-            <div id="accuracy" style="font-size: 24px; font-weight: bold">0%</div>
+        <div class="card" style="border-bottom: 3px solid var(--win)">
+            <div style="font-size:10px; color:var(--win)">PROFIT ADVISOR</div>
+            <div id="betAdvice" style="font-weight:bold">STANDBY</div>
         </div>
     </div>
 
-    <div class="main-grid" id="gameGrid">
-        <button class="btn-item" onclick="add('corn')"><span class="emoji">🌽</span><span class="multi">5x</span></button>
-        <button class="btn-item" onclick="add('tomato')"><span class="emoji">🍅</span><span class="multi">5x</span></button>
-        <button class="btn-item" onclick="add('carrot')"><span class="emoji">🥕</span><span class="multi">5x</span></button>
-        <button class="btn-item" onclick="add('pepper')"><span class="emoji">🌶️</span><span class="multi">5x</span></button>
-        <button class="btn-item" onclick="add('shrimp')"><span class="emoji">🦐</span><span class="multi">10x</span></button>
-        <button class="btn-item" onclick="add('cow')"><span class="emoji">🐄</span><span class="multi">15x</span></button>
-        <button class="btn-item" onclick="add('fish')"><span class="emoji">🐟</span><span class="multi">25x</span></button>
-        <button class="btn-item" onclick="add('chicken')"><span class="emoji">🐔</span><span class="multi">45x</span></button>
+    <div class="grid">
+        <button class="btn" onclick="add('corn')"><span class="emoji">🌽</span><span class="mult">x5</span></button>
+        <button class="btn" onclick="add('tomato')"><span class="emoji">🍅</span><span class="mult">x5</span></button>
+        <button class="btn" onclick="add('carrot')"><span class="emoji">🥕</span><span class="mult">x5</span></button>
+        <button class="btn" onclick="add('pepper')"><span class="emoji">🌶️</span><span class="mult">x5</span></button>
+        <button class="btn" onclick="add('shrimp')"><span class="emoji">🦐</span><span class="mult">x10</span></button>
+        <button class="btn" onclick="add('cow')"><span class="emoji">🐄</span><span class="mult">x15</span></button>
+        <button class="btn" onclick="add('fish')"><span class="emoji">🐟</span><span class="mult">x25</span></button>
+        <button class="btn" onclick="add('chicken')"><span class="emoji">🐔</span><span class="mult">x45</span></button>
+    </div>
+
+    <div class="strat-grid">
+        <div class="strat-box" style="border-color: var(--neon)">
+            <div class="strat-title">Defensive (3V + 3M)</div>
+            <div id="p33" class="icons">--</div>
+        </div>
+        <div class="strat-box" style="border-color: var(--win)">
+            <div class="strat-title">Safety (3V + 2M)</div>
+            <div id="p32" class="icons">--</div>
+        </div>
+        <div class="strat-box" style="border-color: var(--gold)">
+            <div class="strat-title">Aggressive (2V + 3M)</div>
+            <div id="p23" class="icons">--</div>
+        </div>
+        <div class="strat-box" style="border-color: var(--red)">
+            <div class="strat-title">Sniper (2V + 2M)</div>
+            <div id="p22" class="icons">--</div>
+        </div>
+    </div>
+
+    <div class="hub">
+        <div class="card" style="grid-column: span 2">
+            <div class="strat-title" style="text-align:left">Smart Staking Plan (إدارة الرهان)</div>
+            <table class="money-table">
+                <thead><tr><td>Signal</td><td>Bet Unit</td><td>Multiplier</td></tr></thead>
+                <tbody id="stakeBody">
+                    <tr id="row-weak"><td>WEAK</td><td>1x</td><td>Min. Stake</td></tr>
+                    <tr id="row-med"><td>MEDIUM</td><td>3x</td><td>Target Highs</td></tr>
+                    <tr id="row-strong"><td>STRONG</td><td>10x</td><td>MAX POWER</td></tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card">
+            <div class="strat-title">Audio Alert</div>
+            <button onclick="toggleAudio()" id="audioBtn" class="ctrl-btn" style="padding:10px; font-size:12px">🔇 Sound OFF</button>
+        </div>
     </div>
 
     <div style="display:flex; gap:10px; margin-bottom:20px">
-        <button class="btn-sys" onclick="undo()">UNDO</button>
-        <button class="btn-sys" onclick="wipe()" style="color:var(--warn)">WIPE MEMORY</button>
-        <button class="btn-sys" id="botToggle" onclick="toggleBot()">SYSTEM: STANDBY</button>
+        <button class="ctrl-btn" onclick="undo()">UNDO</button>
+        <button class="ctrl-btn" onclick="wipe()" style="color:var(--red)">FACTORY RESET</button>
     </div>
 
-    <div class="strategy-grid">
-        <div class="box" style="border-left: 5px solid var(--neon)">
-            <div style="font-size: 11px; color: var(--neon)">ZENITH TOP TARGETS</div>
-            <div id="primeTarget" style="font-size: 50px; text-align: center">-- --</div>
-        </div>
-        <div class="box" style="border-left: 5px solid var(--gold)">
-            <div style="font-size: 11px; color: var(--gold)">SMART 6-SLOT COVERAGE</div>
-            <div id="top6Target" style="font-size: 40px; text-align: center; letter-spacing: 5px">-- -- -- -- -- --</div>
-        </div>
-    </div>
-
-    <div class="box">
-        <div style="font-size: 11px; color: var(--neon); margin-bottom: 10px">PROBABILITY MAP</div>
-        <div id="probMap" style="display: grid; grid-template-columns: repeat(8, 1fr); gap: 8px"></div>
-    </div>
-
-    <div class="history-strip" id="historyFeed"></div>
+    <div class="history" id="historyFeed"></div>
 </div>
 
 <script>
@@ -101,113 +123,87 @@ const meat = ["shrimp","cow","fish","chicken"];
 const mults = {corn:5, tomato:5, carrot:5, pepper:5, shrimp:10, cow:15, fish:25, chicken:45};
 const emojis = {corn:"🌽",tomato:"🍅",carrot:"🥕",pepper:"🌶️",shrimp:"🦐",cow:"🐄",fish:"🐟",chicken:"🐔"};
 
-let history = JSON.parse(localStorage.getItem("zenith_v9_db") || "[]");
-let rounds = 0, wins = 0;
+let history = JSON.parse(localStorage.getItem("cmd_v12_db") || "[]");
+let audioEnabled = false;
 
-function save() { localStorage.setItem("zenith_v9_db", JSON.stringify(history)); }
-
-function add(f) {
-    if (window.lastP) {
-        rounds++;
-        if (window.lastP.includes(f)) wins++;
-    }
-    history.push(f);
-    if (history.length > 2000) history.shift();
-    save();
-    update();
+function toggleAudio() {
+    audioEnabled = !audioEnabled;
+    document.getElementById("audioBtn").innerText = audioEnabled ? "🔊 Sound ON" : "🔇 Sound OFF";
 }
 
+function playAlert() {
+    if(!audioEnabled) return;
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = audioCtx.createOscillator();
+    osc.type = 'sine'; osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+    osc.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + 0.2);
+}
+
+function save() { localStorage.setItem("cmd_v12_db", JSON.stringify(history)); }
+function add(f) { history.push(f); if(history.length > 2000) history.shift(); save(); update(); }
 function undo() { history.pop(); save(); update(); }
-function wipe() { if(confirm("Wipe all AI data?")) { history=[]; save(); update(); } }
+function wipe() { if(confirm("Reset all?")) { history=[]; save(); update(); } }
 
 function update() {
     let scores = {};
     let len = history.length;
 
-    // 1. WAVE ANALYSIS
-    let last12 = history.slice(-12);
-    let meatCount = last12.filter(x => meat.includes(x)).length;
-    let waveFill = document.getElementById("waveFill");
-    let waveStatus = document.getElementById("waveStatus");
-    
-    let wavePower = (meatCount / 12) * 100;
-    waveFill.style.width = wavePower + "%";
-    
-    if (wavePower > 40) {
-        waveStatus.innerText = "PROFIT WAVE 🔥";
-        waveFill.style.background = "var(--win)";
-    } else if (wavePower < 15) {
-        waveStatus.innerText = "RECOVERY WAVE ❄️";
-        waveFill.style.background = "var(--warn)";
-    } else {
-        waveStatus.innerText = "NEUTRAL WAVE ⚖️";
-        waveFill.style.background = "var(--neon)";
-    }
-
-    // 2. SCORING ENGINE (V9 Advanced)
     items.forEach(f => {
         let lastIdx = history.lastIndexOf(f);
         let abs = lastIdx === -1 ? len : len - 1 - lastIdx;
-        
-        // Deep Pattern Match (Length 3)
         let pat = 0;
-        if (len > 4) {
+        if (len > 5) {
             let seq = history.slice(-3).join(",");
-            for(let i=0; i<len-4; i++) {
-                if(history.slice(i, i+3).join(",") === seq && history[i+3] === f) pat += 50;
+            for(let i=0; i<len-5; i++) {
+                if(history.slice(i, i+3).join(",") === seq && history[i+3] === f) pat += 70;
             }
         }
-        
-        let s = pat + (abs * 3) + (mults[f] * 1.2);
-        // Overdue Spike
-        if (abs > (250 / mults[f])) s *= 2; 
+        let s = pat + (abs * 4.5) + (mults[f] * 2);
+        if (abs > (280 / mults[f])) s *= 2.2;
         scores[f] = s;
     });
 
     const sorted = Object.entries(scores).sort((a,b) => b[1] - a[1]);
-    const best2 = [sorted[0][0], sorted[1][0]];
+    const topV = sorted.filter(x => veg.includes(x[0])).map(x => x[0]);
+    const topM = sorted.filter(x => meat.includes(x[0])).map(x => x[0]);
 
-    // 3. ADAPTIVE TOP 6
-    let top6;
-    if (wavePower < 15) { // Safe mode
-        top6 = [...sorted.filter(x => veg.includes(x[0])).slice(0, 4).map(x => x[0]), 
-                ...sorted.filter(x => meat.includes(x[0])).slice(0, 2).map(x => x[0])];
-    } else { // Aggressive mode
-        top6 = [...sorted.filter(x => veg.includes(x[0])).slice(0, 3).map(x => x[0]), 
-                ...sorted.filter(x => meat.includes(x[0])).slice(0, 3).map(x => x[0])];
-    }
-    window.lastP = top6;
+    // Strategies
+    document.getElementById("p33").innerText = [...topV.slice(0,3), ...topM.slice(0,3)].map(x => emojis[x]).join("");
+    document.getElementById("p32").innerText = [...topV.slice(0,3), ...topM.slice(0,2)].map(x => emojis[x]).join("");
+    document.getElementById("p23").innerText = [...topV.slice(0,2), ...topM.slice(0,3)].map(x => emojis[x]).join("");
+    document.getElementById("p22").innerText = [...topV.slice(0,2), ...topM.slice(0,2)].map(x => emojis[x]).join("");
 
-    // 4. UI RENDER
-    document.getElementById("primeTarget").innerText = best2.map(x => emojis[x]).join("");
-    document.getElementById("top6Target").innerText = top6.map(x => emojis[x]).join("");
-    document.getElementById("accuracy").innerText = `${rounds ? ((wins/rounds)*100).toFixed(1) : 0}%`;
-    document.getElementById("aiPower").innerText = Math.min(99, Math.floor((sorted[0][1] / (sorted[2][1]||1)) * 45)) + "%";
+    // Power & Advice
+    let power = Math.min(99, Math.floor((sorted[0][1] / (sorted[2][1]||1)) * 38));
+    document.getElementById("signalPower").innerText = power + "%";
     
+    const advice = document.getElementById("betAdvice");
+    const rows = ["row-weak", "row-med", "row-strong"];
+    rows.forEach(r => document.getElementById(r).className = "");
+
+    if(power > 85) {
+        advice.innerText = "MAX POWER!"; advice.style.color = "var(--win)";
+        document.getElementById("row-strong").className = "active";
+        playAlert();
+    } else if(power > 55) {
+        advice.innerText = "GOOD CHANCE"; advice.style.color = "var(--gold)";
+        document.getElementById("row-med").className = "active";
+    } else {
+        advice.innerText = "WAITING..."; advice.style.color = "#94a3b8";
+        document.getElementById("row-weak").className = "active";
+    }
+
+    // Server Mood
+    let mCount = history.slice(-12).filter(x => meat.includes(x)).length;
+    document.getElementById("serverMood").innerText = mCount > 4 ? "AGGRESSIVE 🔥" : (mCount < 2 ? "PASSIVE ❄️" : "BALANCED ⚖️");
+
+    // Grid & History
     document.getElementById("historyFeed").innerHTML = history.slice(-20).reverse().map(x => `<span style="font-size:25px">${emojis[x]}</span>`).join("");
-
-    document.getElementById("probMap").innerHTML = items.map(f => {
-        let a = len - 1 - history.lastIndexOf(f);
-        if (history.lastIndexOf(f) === -1) a = len;
-        return `<div class="intel-card" style="padding:5px; text-align:center">
-            <div style="font-size:18px">${emojis[f]}</div>
-            <div style="font-size:10px; color:var(--gold)">A:${a}</div>
-        </div>`;
-    }).join("");
-
-    // Grid Effects
-    const btns = document.querySelectorAll(".btn-item");
+    const btns = document.querySelectorAll(".btn");
     items.forEach((f, i) => {
-        btns[i].className = "btn-item";
-        if (f === best2[0]) btns[i].classList.add("prime-target");
-        if ((len - 1 - history.lastIndexOf(f)) > (250 / mults[f])) btns[i].classList.add("explode");
+        btns[i].className = "btn";
+        if(f === sorted[0][0]) btns[i].classList.add("gold-glow");
     });
-}
-
-function toggleBot() {
-    let b = document.getElementById("botToggle");
-    b.innerText = b.innerText.includes("STANDBY") ? "SYSTEM: ACTIVE" : "SYSTEM: STANDBY";
-    b.style.background = b.innerText.includes("ACTIVE") ? "var(--win)" : "#1a2333";
 }
 
 update();
