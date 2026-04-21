@@ -2,101 +2,101 @@
 <html lang="ar" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>V31 — THE ULTIMATE ARCHIVE // NO LIMITS</title>
+    <title>V35 — THE NEURAL BRAIN // INTELLIGENT AGENT</title>
     <style>
         :root {
             --bg: #010409; --panel: #0d1117; --brd: #30363d;
             --neon: #58a6ff; --win: #238636; --gold: #f1e05a; --red: #f85149; --purple: #a371f7;
         }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #c9d1d9; margin: 0; padding: 10px; overflow-x: hidden; }
-        .container { max-width: 1100px; margin: auto; border: 1px solid var(--brd); padding: 15px; border-radius: 20px; background: var(--panel); box-shadow: 0 0 40px rgba(0,0,0,0.7); }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #c9d1d9; margin: 0; padding: 10px; }
+        .container { max-width: 1000px; margin: auto; border: 1px solid var(--brd); padding: 15px; border-radius: 20px; background: var(--panel); box-shadow: 0 0 30px rgba(88, 166, 255, 0.1); }
         
-        /* Stats Table */
-        .mega-dash { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin-bottom: 15px; }
-        .stat-card { background: #161b22; border: 1px solid var(--brd); padding: 10px; border-radius: 12px; text-align: center; border-bottom: 3px solid var(--neon); }
-        .stat-card b { display: block; font-size: 16px; color: var(--gold); }
+        /* The Mind Status */
+        .brain-header { background: #161b22; border: 1px solid var(--neon); border-radius: 15px; padding: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .brain-status { font-weight: bold; color: var(--neon); text-transform: uppercase; letter-spacing: 2px; }
+        .ai-advice { color: var(--gold); font-style: italic; font-size: 14px; }
 
-        /* Alerts Area */
-        .alerts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .alert-box { padding: 10px; border-radius: 10px; font-size: 11px; font-weight: bold; text-align: center; border: 1px solid var(--brd); background: #000; }
-        .trap-active { border-color: var(--red); color: var(--red); animation: pulse 1s infinite; }
-        .shift-active { border-color: var(--purple); color: var(--purple); animation: pulse 1.5s infinite; }
-        @keyframes pulse { 50% { opacity: 0.4; } }
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 15px; }
+        .stat-node { background: #000; border: 1px solid var(--brd); padding: 10px; border-radius: 10px; text-align: center; }
+        .stat-node b { display: block; font-size: 16px; color: var(--win); }
 
-        /* History Ribbon - Large Icons */
-        .history-box { background: #000; border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--brd); display: flex; gap: 15px; overflow-x: auto; }
-        .h-node { font-size: 38px; min-width: 50px; position: relative; filter: drop-shadow(0 0 5px rgba(255,255,255,0.1)); }
-        .streak-badge { position: absolute; top: -5px; right: -5px; background: var(--red); color: white; font-size: 11px; padding: 2px 7px; border-radius: 12px; font-weight: bold; border: 1px solid white; }
+        /* History Ribbon */
+        .history-box { background: #000; border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--brd); display: flex; gap: 12px; overflow-x: auto; }
+        .h-item { font-size: 35px; min-width: 45px; position: relative; }
 
-        /* Main Grid */
+        /* Main Input */
         .main-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
-        .btn-item { background: #161b22; border: 1px solid var(--brd); border-radius: 20px; padding: 15px 5px; cursor: pointer; text-align: center; position: relative; transition: 0.2s; }
-        .btn-item:hover { border-color: var(--neon); transform: translateY(-2px); }
-        .emoji { font-size: 48px; display: block; margin-bottom: 5px; }
-        .abs-val { font-size: 20px; color: var(--neon); font-weight: bold; display: block; }
-        .max-val { font-size: 10px; color: #8b949e; display: block; }
-        .prob-tag { position: absolute; top: 8px; left: 8px; color: var(--win); font-size: 11px; font-weight: bold; }
+        .btn-item { background: #161b22; border: 1px solid var(--brd); border-radius: 18px; padding: 15px 5px; cursor: pointer; text-align: center; position: relative; }
+        .emoji { font-size: 45px; display: block; }
+        .abs-val { font-size: 18px; color: var(--neon); font-weight: bold; }
 
-        /* STRATEGY SECTION (3+2, 3+3, 2+2) */
-        .strat-area { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 20px; }
-        .strat-card { background: #1c2128; border: 1px solid var(--brd); border-radius: 15px; padding: 12px; display: flex; align-items: center; }
-        .strat-info { width: 100px; border-right: 1px solid var(--brd); margin-right: 15px; }
-        .strat-info small { font-size: 10px; color: var(--gold); display: block; }
-        .strat-info b { font-size: 16px; color: white; }
-        .strat-icons { font-size: 32px; letter-spacing: 8px; flex-grow: 1; text-align: center; }
+        /* AI Prediction Boxes */
+        .ai-box { background: #161b22; border: 1px solid var(--brd); border-radius: 15px; padding: 15px; margin-bottom: 20px; position: relative; overflow: hidden; }
+        .ai-box::before { content: 'AI PREDICTION'; position: absolute; top: 0; right: 0; background: var(--purple); color: black; font-size: 8px; padding: 2px 8px; font-weight: bold; }
+        .strat-line { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #30363d; }
+        .strat-name { font-size: 13px; font-weight: bold; color: var(--gold); width: 120px; }
+        .strat-res { font-size: 30px; letter-spacing: 12px; flex-grow: 1; text-align: center; }
 
-        .console { background: #000; color: #39ff14; font-family: 'Courier New', monospace; font-size: 12px; padding: 12px; height: 60px; border-radius: 10px; border: 1px solid var(--brd); overflow-y: auto; margin-bottom: 10px; }
-        .sys-btn { flex: 1; padding: 15px; border-radius: 12px; background: #21262d; color: white; border: 1px solid var(--brd); cursor: pointer; font-weight: bold; }
+        /* The Intelligence Table */
+        .intel-table { width: 100%; border-collapse: collapse; background: #000; border-radius: 12px; overflow: hidden; font-size: 12px; }
+        .intel-table th, .intel-table td { padding: 10px; border: 1px solid var(--brd); text-align: center; }
+        .intel-table th { background: #161b22; color: var(--neon); }
+        .high-risk { color: var(--red); font-weight: bold; }
+
+        .sys-btn { flex: 1; padding: 15px; border-radius: 12px; background: #21262d; color: white; border: 1px solid var(--brd); cursor: pointer; font-weight: bold; margin-top: 15px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="mega-dash">
-        <div class="stat-card"><small>SYNC ACCURACY</small><b id="acc">0%</b></div>
-        <div class="stat-card"><small>CHICKEN GAP</small><b id="cGap">0</b></div>
-        <div class="stat-card"><small>SERVER HEAT</small><b id="heat">0%</b></div>
-        <div class="stat-card"><small>EVASION</small><b id="evade">LOW</b></div>
+    <div class="brain-header">
+        <div class="brain-status" id="brainMood">🧠 ANALYZING MOOD...</div>
+        <div class="ai-advice" id="aiAdvice">Wait for more data to sync...</div>
     </div>
 
-    <div class="alerts-row">
-        <div id="trapBox" class="alert-box">TRAP RADAR: CLEAR</div>
-        <div id="shiftBox" class="alert-box">PATTERN: STABLE</div>
+    <div class="stats-grid">
+        <div class="stat-node"><small>SYNC</small><b id="sync">0%</b></div>
+        <div class="stat-node"><small>MEAT HEAT</small><b id="heat">0%</b></div>
+        <div class="stat-node"><small>PATTERN</small><b id="patt">STABLE</b></div>
+        <div class="stat-node"><small>RISK</small><b id="risk">LOW</b></div>
     </div>
 
     <div class="history-box" id="history"></div>
 
     <div class="main-grid">
-        <button class="btn-item" onclick="add('corn')"><span class="prob-tag" id="p-corn">0%</span><span class="emoji">🌽</span><span class="abs-val" id="abs-corn">0</span><span class="max-val" id="max-corn">MAX:0</span></button>
-        <button class="btn-item" onclick="add('tomato')"><span class="prob-tag" id="p-tomato">0%</span><span class="emoji">🍅</span><span class="abs-val" id="abs-tomato">0</span><span class="max-val" id="max-tomato">MAX:0</span></button>
-        <button class="btn-item" onclick="add('carrot')"><span class="prob-tag" id="p-carrot">0%</span><span class="emoji">🥕</span><span class="abs-val" id="abs-carrot">0</span><span class="max-val" id="max-carrot">MAX:0</span></button>
-        <button class="btn-item" onclick="add('pepper')"><span class="prob-tag" id="p-pepper">0%</span><span class="emoji">🌶️</span><span class="abs-val" id="abs-pepper">0</span><span class="max-val" id="max-pepper">MAX:0</span></button>
-        <button class="btn-item" onclick="add('shrimp')"><span class="prob-tag" id="p-shrimp">0%</span><span class="emoji">🦐</span><span class="abs-val" id="abs-shrimp">0</span><span class="max-val" id="max-shrimp">MAX:0</span></button>
-        <button class="btn-item" onclick="add('cow')"><span class="prob-tag" id="p-cow">0%</span><span class="emoji">🐄</span><span class="abs-val" id="abs-cow">0</span><span class="max-val" id="max-cow">MAX:0</span></button>
-        <button class="btn-item" onclick="add('fish')"><span class="prob-tag" id="p-fish">0%</span><span class="emoji">🐟</span><span class="abs-val" id="abs-fish">0</span><span class="max-val" id="max-fish">MAX:0</span></button>
-        <button class="btn-item" onclick="add('chicken')"><span class="prob-tag" id="p-chicken">0%</span><span class="emoji">🐔</span><span class="abs-val" id="abs-chicken">0</span><span class="max-val" id="max-chicken">MAX:0</span></button>
+        <button class="btn-item" onclick="add('corn')"><span class="emoji">🌽</span><span class="abs-val" id="abs-corn">0</span></button>
+        <button class="btn-item" onclick="add('tomato')"><span class="emoji">🍅</span><span class="abs-val" id="abs-tomato">0</span></button>
+        <button class="btn-item" onclick="add('carrot')"><span class="emoji">🥕</span><span class="abs-val" id="abs-carrot">0</span></button>
+        <button class="btn-item" onclick="add('pepper')"><span class="emoji">🌶️</span><span class="abs-val" id="abs-pepper">0</span></button>
+        <button class="btn-item" onclick="add('shrimp')"><span class="emoji">🦐</span><span class="abs-val" id="abs-shrimp">0</span></button>
+        <button class="btn-item" onclick="add('cow')"><span class="emoji">🐄</span><span class="abs-val" id="abs-cow">0</span></button>
+        <button class="btn-item" onclick="add('fish')"><span class="emoji">🐟</span><span class="abs-val" id="abs-fish">0</span></button>
+        <button class="btn-item" onclick="add('chicken')"><span class="emoji">🐔</span><span class="abs-val" id="abs-chicken">0</span></button>
     </div>
 
-    <div class="strat-area">
-        <div class="strat-card" style="border-right: 6px solid var(--win)">
-            <div class="strat-info"><small>RECOMMENDED</small><b>STRAT 3+2</b></div>
-            <div id="s32" class="strat-icons">--</div>
-        </div>
-        <div class="strat-card" style="border-right: 6px solid var(--purple)">
-            <div class="strat-info"><small>AGGRESSIVE</small><b>STRAT 3+3</b></div>
-            <div id="s33" class="strat-icons">--</div>
-        </div>
-        <div class="strat-card" style="border-right: 6px solid var(--neon)">
-            <div class="strat-info"><small>STABLE</small><b>STRAT 2+2</b></div>
-            <div id="s22" class="strat-icons">--</div>
-        </div>
+    <div class="ai-box">
+        <div class="strat-line"><div class="strat-name">OPTIMAL (3+2)</div><div id="s32" class="strat-res">--</div></div>
+        <div class="strat-line"><div class="strat-name">ATTACK (3+3)</div><div id="s33" class="strat-res">--</div></div>
+        <div class="strat-line"><div class="strat-name">DEFENSE (2+2)</div><div id="s22" class="strat-res">--</div></div>
     </div>
 
-    <div class="console" id="log">V31 OVERLORD INITIALIZED. NO DATA DROPPED.</div>
+    <table class="intel-table">
+        <thead>
+            <tr>
+                <th>ITEM</th>
+                <th>ABS</th>
+                <th>MAX</th>
+                <th>AI SCORE</th>
+                <th>STATUS</th>
+            </tr>
+        </thead>
+        <tbody id="intelBody"></tbody>
+    </table>
 
     <div style="display:flex; gap:10px;">
-        <button class="sys-btn" onclick="undo()">UNDO LAST</button>
-        <button class="sys-btn" onclick="wipe()" style="color:var(--red)">FULL WIPE</button>
+        <button class="sys-btn" onclick="undo()">UNDO</button>
+        <button class="sys-btn" onclick="wipe()" style="color:var(--red)">WIPE MEMORY</button>
     </div>
 </div>
 
@@ -104,84 +104,88 @@
     const veg = ["corn","tomato","carrot","pepper"];
     const meat = ["shrimp","cow","fish","chicken"];
     const emojis = {corn:"🌽",tomato:"🍅",carrot:"🥕",pepper:"🌶️",shrimp:"🦐",cow:"🐄",fish:"🐟",chicken:"🐔"};
-    let db = JSON.parse(localStorage.getItem("v31_db") || "[]");
-    let maxAbs = JSON.parse(localStorage.getItem("v31_max") || "{}");
-    let rounds = 0; let wins = 0; let lastFull = [];
+    let db = JSON.parse(localStorage.getItem("v35_db") || "[]");
+    let maxAbs = JSON.parse(localStorage.getItem("v35_max") || "{}");
+    let wins = 0; let rounds = 0; let lastPicks = [];
 
     function add(f) {
-        if(lastFull.length > 0) { rounds++; if(lastFull.includes(f)) wins++; }
-        db.push(f); if(db.length > 2000) db.shift();
-        localStorage.setItem("v31_db", JSON.stringify(db));
+        if(lastPicks.length > 0) { rounds++; if(lastPicks.includes(f)) wins++; }
+        db.push(f); if(db.length > 3000) db.shift();
+        localStorage.setItem("v35_db", JSON.stringify(db));
         update();
     }
 
     function update() {
         let len = db.length;
-        let vScores = {}; let mScores = {};
+        let vS = {}; let mS = {};
+        let intelHTML = "";
 
-        // 1. History
+        // History
         let hHTML = ""; let streak = 1;
         for(let i=len-1; i>=Math.max(0, len-25); i--) {
             if(db[i] === db[i-1]) streak++; else {
-                hHTML += `<div class="h-node">${emojis[db[i]]}${streak>1?`<span class="streak-badge">${streak}</span>`:''}</div>`;
+                hHTML += `<div class="h-item">${emojis[db[i]]}</div>`;
                 streak = 1;
             }
         }
         document.getElementById("history").innerHTML = hHTML;
 
-        // 2. Scoring & Max Abs
+        // Neural Analysis Logic
         [...veg, ...meat].forEach(f => {
             let lastIdx = db.lastIndexOf(f);
             let abs = (lastIdx === -1) ? len : len - 1 - lastIdx;
             if(!maxAbs[f] || abs > maxAbs[f]) maxAbs[f] = abs;
-            localStorage.setItem("v31_max", JSON.stringify(maxAbs));
-
             document.getElementById(`abs-${f}`).innerText = abs;
-            document.getElementById(`max-${f}`).innerText = `MAX:${maxAbs[f]}`;
             
-            let score = (abs * 10) + (db.slice(-40).filter(x=>x===f).length * 15);
-            if(veg.includes(f)) vScores[f] = score; else mScores[f] = score;
+            // The Intelligence Formula (Weighted)
+            let freq = db.slice(-50).filter(x=>x===f).length;
+            let score = (abs * 15) + (freq * 10);
+            
+            // Magnet Logic (Relationship)
+            if(len > 1 && db[len-1] === 'corn' && f === 'shrimp') score += 50; 
+
+            if(veg.includes(f)) vS[f] = score; else mS[f] = score;
+
+            let status = abs > (maxAbs[f] * 0.8) ? "<span class='high-risk'>HOT</span>" : "STABLE";
+            intelHTML += `<tr><td>${emojis[f]}</td><td>${abs}</td><td>${maxAbs[f]}</td><td>${score}</td><td>${status}</td></tr>`;
         });
+        document.getElementById("intelBody").innerHTML = intelHTML;
 
-        const sV = Object.entries(vScores).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);
-        const sM = Object.entries(mScores).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);
+        const sv = Object.entries(vS).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);
+        const sm = Object.entries(mS).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);
 
-        // 3. Probabilities
-        let total = Object.values(vScores).reduce((a,b)=>a+b,0) + Object.values(mScores).reduce((a,b)=>a+b,0);
-        [...veg, ...meat].forEach(f => {
-            let sc = veg.includes(f) ? vScores[f] : mScores[f];
-            document.getElementById(`p-${f}`).innerText = Math.round((sc/total)*100) + "%";
-        });
+        // Strategies
+        const s32 = [...sv.slice(0,3), ...sm.slice(0,2)];
+        const s33 = [...sv.slice(0,3), ...sm.slice(0,3)];
+        const s22 = [...sv.slice(0,2), ...sm.slice(0,2)];
+        lastPicks = s33;
 
-        // 4. Strategies (3+2, 3+3, 2+2)
-        const p32 = [...sV.slice(0,3), ...sM.slice(0,2)];
-        const p33 = [...sV.slice(0,3), ...sM.slice(0,3)];
-        const p22 = [...sV.slice(0,2), ...sM.slice(0,2)];
-        lastFull = p33;
+        document.getElementById("s32").innerText = s32.map(x=>emojis[x]).join("");
+        document.getElementById("s33").innerText = s33.map(x=>emojis[x]).join("");
+        document.getElementById("s22").innerText = s22.map(x=>emojis[x]).join("");
 
-        document.getElementById("s32").innerText = p32.map(x=>emojis[x]).join("");
-        document.getElementById("s33").innerText = p33.map(x=>emojis[x]).join("");
-        document.getElementById("s22").innerText = p22.map(x=>emojis[x]).join("");
-
-        // 5. Trap & Shift Alerts
+        // Brain Mood & Advice
         let heat = (db.slice(-10).filter(x=>meat.includes(x)).length * 10);
         document.getElementById("heat").innerText = heat + "%";
-        
-        const trapBox = document.getElementById("trapBox");
-        if(len > 5 && db[len-1] === db[len-2] && db[len-2] === db[len-3]) {
-            trapBox.innerText = `🚨 TRAP: ${emojis[db[len-1]]} OVER-STACK`;
-            trapBox.className = "alert-box trap-active";
-        } else { trapBox.innerText = "TRAP RADAR: CLEAR"; trapBox.className = "alert-box"; }
+        document.getElementById("sync").innerText = rounds > 0 ? Math.round((wins/rounds)*100) + "%" : "0%";
 
-        document.getElementById("acc").innerText = rounds > 0 ? Math.round((wins/rounds)*100) + "%" : "0%";
-        if(db.lastIndexOf('chicken') !== -1) document.getElementById("cGap").innerText = len - 1 - db.lastIndexOf('chicken');
+        const mood = document.getElementById("brainMood");
+        const advice = document.getElementById("aiAdvice");
         
-        const l = document.getElementById("log");
-        l.innerHTML += `<br>> Round ${len}: ${emojis[db[len-1]]}`; l.scrollTop = l.scrollHeight;
+        if(heat < 20) {
+            mood.innerText = "📉 ACCUMULATION PHASE";
+            advice.innerText = "Server is collecting. Play safe with 2+2.";
+        } else if(heat > 60) {
+            mood.innerText = "🌋 EXPLOSION PHASE";
+            advice.innerText = "High meat activity! Use 3+3 strategy now.";
+        } else {
+            mood.innerText = "⚖️ BALANCED MOOD";
+            advice.innerText = "Normal cycle. 3+2 is the most stable choice.";
+        }
     }
 
     function undo() { db.pop(); update(); }
-    function wipe() { if(confirm("RESET ALL?")) { db=[]; maxAbs={}; localStorage.clear(); location.reload(); } }
+    function wipe() { if(confirm("CLEAR ALL MEMORY?")) { db=[]; maxAbs={}; localStorage.clear(); location.reload(); } }
     update();
 </script>
 </body>
