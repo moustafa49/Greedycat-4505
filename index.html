@@ -2,64 +2,58 @@
 <html lang="ar" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>V35 — THE NEURAL BRAIN // INTELLIGENT AGENT</title>
+    <title>V36 — THE PATTERN WHISPERER // STREAK LOGIC</title>
     <style>
         :root {
             --bg: #010409; --panel: #0d1117; --brd: #30363d;
             --neon: #58a6ff; --win: #238636; --gold: #f1e05a; --red: #f85149; --purple: #a371f7;
         }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #c9d1d9; margin: 0; padding: 10px; }
-        .container { max-width: 1000px; margin: auto; border: 1px solid var(--brd); padding: 15px; border-radius: 20px; background: var(--panel); box-shadow: 0 0 30px rgba(88, 166, 255, 0.1); }
+        .container { max-width: 1000px; margin: auto; border: 1px solid var(--brd); padding: 15px; border-radius: 20px; background: var(--panel); box-shadow: 0 0 30px rgba(163, 113, 247, 0.2); }
         
-        /* The Mind Status */
-        .brain-header { background: #161b22; border: 1px solid var(--neon); border-radius: 15px; padding: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .brain-status { font-weight: bold; color: var(--neon); text-transform: uppercase; letter-spacing: 2px; }
-        .ai-advice { color: var(--gold); font-style: italic; font-size: 14px; }
+        .brain-header { background: #161b22; border: 1px solid var(--purple); border-radius: 15px; padding: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .brain-status { font-weight: bold; color: var(--purple); letter-spacing: 1px; }
+        .wave-alert { color: var(--red); font-weight: bold; animation: blink 1s infinite; }
+        @keyframes blink { 50% { opacity: 0.3; } }
 
-        /* Stats Grid */
         .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 15px; }
         .stat-node { background: #000; border: 1px solid var(--brd); padding: 10px; border-radius: 10px; text-align: center; }
-        .stat-node b { display: block; font-size: 16px; color: var(--win); }
+        .stat-node b { display: block; font-size: 16px; color: var(--neon); }
 
-        /* History Ribbon */
         .history-box { background: #000; border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--brd); display: flex; gap: 12px; overflow-x: auto; }
         .h-item { font-size: 35px; min-width: 45px; position: relative; }
+        .h-streak { position: absolute; top: -5px; right: -5px; background: var(--red); color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
 
-        /* Main Input */
         .main-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
         .btn-item { background: #161b22; border: 1px solid var(--brd); border-radius: 18px; padding: 15px 5px; cursor: pointer; text-align: center; position: relative; }
         .emoji { font-size: 45px; display: block; }
         .abs-val { font-size: 18px; color: var(--neon); font-weight: bold; }
 
-        /* AI Prediction Boxes */
-        .ai-box { background: #161b22; border: 1px solid var(--brd); border-radius: 15px; padding: 15px; margin-bottom: 20px; position: relative; overflow: hidden; }
-        .ai-box::before { content: 'AI PREDICTION'; position: absolute; top: 0; right: 0; background: var(--purple); color: black; font-size: 8px; padding: 2px 8px; font-weight: bold; }
+        .ai-box { background: #161b22; border: 1px solid var(--brd); border-radius: 15px; padding: 15px; margin-bottom: 20px; border-top: 4px solid var(--gold); }
         .strat-line { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #30363d; }
         .strat-name { font-size: 13px; font-weight: bold; color: var(--gold); width: 120px; }
-        .strat-res { font-size: 30px; letter-spacing: 12px; flex-grow: 1; text-align: center; }
+        .strat-res { font-size: 32px; letter-spacing: 12px; flex-grow: 1; text-align: center; text-shadow: 0 0 10px rgba(255,255,255,0.2); }
 
-        /* The Intelligence Table */
-        .intel-table { width: 100%; border-collapse: collapse; background: #000; border-radius: 12px; overflow: hidden; font-size: 12px; }
+        .intel-table { width: 100%; border-collapse: collapse; background: #000; border-radius: 12px; overflow: hidden; font-size: 12px; border: 1px solid var(--brd); }
         .intel-table th, .intel-table td { padding: 10px; border: 1px solid var(--brd); text-align: center; }
         .intel-table th { background: #161b22; color: var(--neon); }
-        .high-risk { color: var(--red); font-weight: bold; }
 
-        .sys-btn { flex: 1; padding: 15px; border-radius: 12px; background: #21262d; color: white; border: 1px solid var(--brd); cursor: pointer; font-weight: bold; margin-top: 15px; }
+        .sys-btn { flex: 1; padding: 15px; border-radius: 12px; background: #21262d; color: white; border: 1px solid var(--brd); cursor: pointer; font-weight: bold; margin-top: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="brain-header">
-        <div class="brain-status" id="brainMood">🧠 ANALYZING MOOD...</div>
-        <div class="ai-advice" id="aiAdvice">Wait for more data to sync...</div>
+        <div class="brain-status" id="brainMood">🧠 SCANNING PATTERN...</div>
+        <div id="waveNotice" class="wave-alert" style="display:none">⚠️ RIDING THE WAVE</div>
     </div>
 
     <div class="stats-grid">
         <div class="stat-node"><small>SYNC</small><b id="sync">0%</b></div>
+        <div class="stat-node"><small>STREAK DETECTED</small><b id="strkText">NONE</b></div>
         <div class="stat-node"><small>MEAT HEAT</small><b id="heat">0%</b></div>
-        <div class="stat-node"><small>PATTERN</small><b id="patt">STABLE</b></div>
-        <div class="stat-node"><small>RISK</small><b id="risk">LOW</b></div>
+        <div class="stat-node"><small>AI CONFIDENCE</small><b id="conf">0%</b></div>
     </div>
 
     <div class="history-box" id="history"></div>
@@ -76,27 +70,21 @@
     </div>
 
     <div class="ai-box">
-        <div class="strat-line"><div class="strat-name">OPTIMAL (3+2)</div><div id="s32" class="strat-res">--</div></div>
-        <div class="strat-line"><div class="strat-name">ATTACK (3+3)</div><div id="s33" class="strat-res">--</div></div>
-        <div class="strat-line"><div class="strat-name">DEFENSE (2+2)</div><div id="s22" class="strat-res">--</div></div>
+        <div class="strat-line"><div class="strat-name">AI 3+2 (BALANCED)</div><div id="s32" class="strat-res">--</div></div>
+        <div class="strat-line"><div class="strat-name">AI 3+3 (STREAK)</div><div id="s33" class="strat-res">--</div></div>
+        <div class="strat-line"><div class="strat-name">AI 2+2 (CAUTIOUS)</div><div id="s22" class="strat-res">--</div></div>
     </div>
 
     <table class="intel-table">
         <thead>
-            <tr>
-                <th>ITEM</th>
-                <th>ABS</th>
-                <th>MAX</th>
-                <th>AI SCORE</th>
-                <th>STATUS</th>
-            </tr>
+            <tr><th>ITEM</th><th>ABS</th><th>MAX</th><th>SCORE</th><th>TREND</th></tr>
         </thead>
         <tbody id="intelBody"></tbody>
     </table>
 
     <div style="display:flex; gap:10px;">
         <button class="sys-btn" onclick="undo()">UNDO</button>
-        <button class="sys-btn" onclick="wipe()" style="color:var(--red)">WIPE MEMORY</button>
+        <button class="sys-btn" onclick="wipe()" style="color:var(--red)">WIPE</button>
     </div>
 </div>
 
@@ -104,14 +92,14 @@
     const veg = ["corn","tomato","carrot","pepper"];
     const meat = ["shrimp","cow","fish","chicken"];
     const emojis = {corn:"🌽",tomato:"🍅",carrot:"🥕",pepper:"🌶️",shrimp:"🦐",cow:"🐄",fish:"🐟",chicken:"🐔"};
-    let db = JSON.parse(localStorage.getItem("v35_db") || "[]");
-    let maxAbs = JSON.parse(localStorage.getItem("v35_max") || "{}");
+    let db = JSON.parse(localStorage.getItem("v36_db") || "[]");
+    let maxAbs = JSON.parse(localStorage.getItem("v36_max") || "{}");
     let wins = 0; let rounds = 0; let lastPicks = [];
 
     function add(f) {
         if(lastPicks.length > 0) { rounds++; if(lastPicks.includes(f)) wins++; }
         db.push(f); if(db.length > 3000) db.shift();
-        localStorage.setItem("v35_db", JSON.stringify(db));
+        localStorage.setItem("v36_db", JSON.stringify(db));
         update();
     }
 
@@ -119,35 +107,44 @@
         let len = db.length;
         let vS = {}; let mS = {};
         let intelHTML = "";
+        let currentStreakItem = null;
+        let currentStreakCount = 0;
+
+        // Detect Current Streak
+        if(len >= 2 && db[len-1] === db[len-2]) {
+            currentStreakItem = db[len-1];
+            let i = len-1; while(i >= 0 && db[i] === currentStreakItem) { currentStreakCount++; i--; }
+        }
 
         // History
-        let hHTML = ""; let streak = 1;
+        let hHTML = ""; let s = 1;
         for(let i=len-1; i>=Math.max(0, len-25); i--) {
-            if(db[i] === db[i-1]) streak++; else {
-                hHTML += `<div class="h-item">${emojis[db[i]]}</div>`;
-                streak = 1;
+            if(db[i] === db[i-1]) s++; else {
+                hHTML += `<div class="h-item">${emojis[db[i]]}${s>1?`<span class="h-streak">${s}</span>`:''}</div>`;
+                s = 1;
             }
         }
         document.getElementById("history").innerHTML = hHTML;
 
-        // Neural Analysis Logic
+        // Smart Scoring
         [...veg, ...meat].forEach(f => {
             let lastIdx = db.lastIndexOf(f);
             let abs = (lastIdx === -1) ? len : len - 1 - lastIdx;
             if(!maxAbs[f] || abs > maxAbs[f]) maxAbs[f] = abs;
             document.getElementById(`abs-${f}`).innerText = abs;
             
-            // The Intelligence Formula (Weighted)
-            let freq = db.slice(-50).filter(x=>x===f).length;
-            let score = (abs * 15) + (freq * 10);
+            // FORMULA: Absence Score + Frequency Score + STREAK BOOST
+            let score = (abs * 12) + (db.slice(-40).filter(x=>x===f).length * 10);
             
-            // Magnet Logic (Relationship)
-            if(len > 1 && db[len-1] === 'corn' && f === 'shrimp') score += 50; 
+            // THE REVOLUTION: If item is currently streaking, give it massive priority
+            if(f === currentStreakItem && currentStreakCount >= 2) {
+                score += 500; // Force it into the top picks
+            }
 
             if(veg.includes(f)) vS[f] = score; else mS[f] = score;
 
-            let status = abs > (maxAbs[f] * 0.8) ? "<span class='high-risk'>HOT</span>" : "STABLE";
-            intelHTML += `<tr><td>${emojis[f]}</td><td>${abs}</td><td>${maxAbs[f]}</td><td>${score}</td><td>${status}</td></tr>`;
+            let trend = (f === currentStreakItem) ? "🔥 REPEATING" : (abs > maxAbs[f]*0.8 ? "⌛ DUE" : "---");
+            intelHTML += `<tr><td>${emojis[f]}</td><td>${abs}</td><td>${maxAbs[f]}</td><td>${Math.round(score)}</td><td>${trend}</td></tr>`;
         });
         document.getElementById("intelBody").innerHTML = intelHTML;
 
@@ -164,29 +161,25 @@
         document.getElementById("s33").innerText = s33.map(x=>emojis[x]).join("");
         document.getElementById("s22").innerText = s22.map(x=>emojis[x]).join("");
 
-        // Brain Mood & Advice
-        let heat = (db.slice(-10).filter(x=>meat.includes(x)).length * 10);
-        document.getElementById("heat").innerText = heat + "%";
+        // UI Updates
         document.getElementById("sync").innerText = rounds > 0 ? Math.round((wins/rounds)*100) + "%" : "0%";
-
-        const mood = document.getElementById("brainMood");
-        const advice = document.getElementById("aiAdvice");
+        document.getElementById("heat").innerText = (db.slice(-10).filter(x=>meat.includes(x)).length * 10) + "%";
+        document.getElementById("strkText").innerText = currentStreakItem ? `${emojis[currentStreakItem]} (x${currentStreakCount})` : "NONE";
         
-        if(heat < 20) {
-            mood.innerText = "📉 ACCUMULATION PHASE";
-            advice.innerText = "Server is collecting. Play safe with 2+2.";
-        } else if(heat > 60) {
-            mood.innerText = "🌋 EXPLOSION PHASE";
-            advice.innerText = "High meat activity! Use 3+3 strategy now.";
+        const wave = document.getElementById("waveNotice");
+        if(currentStreakCount >= 3) {
+            wave.style.display = "block";
+            document.getElementById("brainMood").innerText = "🧠 MOMENTUM MODE ACTIVE";
         } else {
-            mood.innerText = "⚖️ BALANCED MOOD";
-            advice.innerText = "Normal cycle. 3+2 is the most stable choice.";
+            wave.style.display = "none";
+            document.getElementById("brainMood").innerText = "🧠 SCANNING PATTERN...";
         }
     }
 
     function undo() { db.pop(); update(); }
-    function wipe() { if(confirm("CLEAR ALL MEMORY?")) { db=[]; maxAbs={}; localStorage.clear(); location.reload(); } }
+    function wipe() { if(confirm("RESET?")) { db=[]; maxAbs={}; localStorage.clear(); location.reload(); } }
     update();
 </script>
 </body>
 </html>
+
