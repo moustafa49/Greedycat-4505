@@ -2,105 +2,87 @@
 <html lang="ar" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>V37 — THE PREDICTOR PRO // STACKING ENGINE</title>
+    <title>V40 — OMNI-PREDATOR // TRAP-COUNTER ENGINE</title>
     <style>
         :root {
-            --bg: #050505; --panel: #101216; --brd: #30363d;
-            --neon: #58a6ff; --win: #238636; --gold: #f1e05a; --red: #f85149; --purple: #a371f7;
+            --bg: #020202; --panel: #0a0a0c; --brd: #1a1a1c;
+            --neon: #00f2ff; --win: #00ff41; --red: #ff003c; --gold: #ffd700;
         }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #c9d1d9; margin: 0; padding: 10px; }
-        .container { max-width: 1000px; margin: auto; border: 1px solid var(--brd); padding: 15px; border-radius: 20px; background: var(--panel); box-shadow: 0 0 40px rgba(35, 134, 54, 0.15); }
+        body { font-family: 'Courier New', monospace; background: var(--bg); color: #fff; margin: 0; padding: 10px; overflow-x: hidden; }
+        .container { max-width: 950px; margin: auto; border: 2px solid var(--brd); padding: 15px; border-radius: 5px; position: relative; }
         
-        /* AI Status Bar */
-        .ai-header { background: #161b22; border-left: 5px solid var(--win); border-radius: 12px; padding: 15px; margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; }
-        .ai-mode { font-weight: bold; color: var(--win); text-shadow: 0 0 10px var(--win); }
-        .ai-thought { font-size: 13px; color: var(--gold); font-weight: 500; }
+        /* Predator Status Area */
+        .predator-core { background: #000; border: 1px solid var(--red); padding: 20px; margin-bottom: 20px; text-align: center; border-left: 10px solid var(--red); box-shadow: 0 0 20px rgba(255, 0, 60, 0.1); }
+        .ai-title { font-size: 10px; letter-spacing: 5px; color: var(--red); display: block; margin-bottom: 5px; }
+        .target-prediction { font-size: 60px; letter-spacing: 25px; color: #fff; text-shadow: 0 0 30px var(--win); margin: 10px 0; }
+        .trap-meter { font-size: 14px; color: var(--gold); font-weight: bold; }
 
-        /* Stats Grid */
-        .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 15px; }
-        .stat-node { background: #000; border: 1px solid var(--brd); padding: 10px; border-radius: 10px; text-align: center; }
-        .stat-node b { display: block; font-size: 16px; color: var(--neon); }
+        /* Real-time History Sync */
+        .history-sync { display: flex; gap: 15px; overflow-x: auto; padding: 15px; background: #050505; border: 1px solid var(--brd); margin-bottom: 20px; scrollbar-width: none; }
+        .h-node { font-size: 40px; min-width: 50px; position: relative; filter: grayscale(0.5); transition: 0.3s; }
+        .h-node.latest { filter: grayscale(0); transform: scale(1.2); border-bottom: 3px solid var(--win); }
 
-        /* History */
-        .history-box { background: #000; border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--brd); display: flex; gap: 15px; overflow-x: auto; }
-        .h-item { font-size: 40px; min-width: 50px; position: relative; }
-        .h-streak { position: absolute; top: -5px; right: -5px; background: var(--red); color: white; font-size: 11px; padding: 2px 7px; border-radius: 12px; font-weight: bold; }
+        /* The Grid */
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 25px; }
+        .item-btn { background: #0d0d0f; border: 1px solid var(--brd); border-radius: 4px; padding: 20px 0; cursor: pointer; transition: 0.2s; position: relative; }
+        .item-btn:hover { border-color: var(--neon); background: #111; }
+        .emoji { font-size: 45px; display: block; margin-bottom: 10px; }
+        .abs-num { font-size: 18px; color: var(--neon); font-weight: bold; }
 
-        /* Interaction Grid */
-        .main-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
-        .btn-item { background: #1c2128; border: 1px solid var(--brd); border-radius: 20px; padding: 20px 5px; cursor: pointer; text-align: center; transition: 0.2s; }
-        .btn-item:hover { border-color: var(--win); transform: translateY(-3px); }
-        .emoji { font-size: 50px; display: block; }
-        .abs-val { font-size: 20px; color: var(--neon); font-weight: bold; }
+        /* Prediction Matrix */
+        .matrix { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .matrix-box { background: #080808; border: 1px solid var(--brd); padding: 15px; text-align: center; }
+        .matrix-box h4 { font-size: 11px; margin: 0 0 10px 0; color: var(--gold); }
+        .matrix-icons { font-size: 28px; letter-spacing: 8px; }
 
-        /* THE AI PREDICTION CARD */
-        .ai-card { background: #161b22; border: 1px solid var(--brd); border-radius: 15px; padding: 20px; margin-bottom: 20px; border-top: 5px solid var(--purple); }
-        .strat-line { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #30363d; }
-        .strat-name { font-size: 14px; font-weight: bold; color: var(--gold); }
-        .strat-res { font-size: 35px; letter-spacing: 15px; }
+        /* Logic Table */
+        .logic-table { width: 100%; border-collapse: collapse; font-size: 12px; background: #050505; }
+        .logic-table th, .logic-table td { padding: 12px; border: 1px solid var(--brd); text-align: center; }
+        .logic-table th { color: var(--neon); text-transform: uppercase; }
+        .danger-zone { background: rgba(255, 0, 60, 0.1); color: var(--red); font-weight: bold; }
 
-        /* Intel Table */
-        .intel-table { width: 100%; border-collapse: collapse; background: #000; border-radius: 15px; overflow: hidden; font-size: 13px; margin-bottom: 15px; }
-        .intel-table th, .intel-table td { padding: 12px; border: 1px solid var(--brd); text-align: center; }
-        .intel-table th { background: #1c2128; color: var(--neon); }
-        .highlight-stack { background: rgba(35, 134, 54, 0.2); color: var(--win); font-weight: bold; }
-
-        .sys-btn { flex: 1; padding: 15px; border-radius: 12px; background: #21262d; color: white; border: 1px solid var(--brd); cursor: pointer; font-weight: bold; }
+        .sys-actions { display: flex; gap: 10px; margin-top: 20px; }
+        .action-btn { flex: 1; padding: 15px; background: #111; border: 1px solid var(--brd); color: #fff; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="ai-header">
-        <div class="ai-mode" id="aiMode">AI: MONITORING CYCLES</div>
-        <div class="ai-thought" id="aiThought">Waiting for pattern entry...</div>
+    <div class="predator-core">
+        <span class="ai-title">OMNI-PREDATOR ACTIVE // TRAP DETECTOR V4.0</span>
+        <div class="target-prediction" id="mainTarget">?? ?? ??</div>
+        <div class="trap-meter" id="trapAlert">SENSING SERVER PATTERN...</div>
     </div>
 
-    <div class="stats-grid">
-        <div class="stat-node"><small>SYNC</small><b id="sync">0%</b></div>
-        <div class="stat-node"><small>ACTIVE STACK</small><b id="stackText">NONE</b></div>
-        <div class="stat-node"><small>CYCLE TYPE</small><b id="cycleType">NEUTRAL</b></div>
-        <div class="stat-node"><small>WIN RATE</small><b id="winRate">0%</b></div>
+    <div class="history-sync" id="syncBar"></div>
+
+    <div class="grid">
+        <button class="item-btn" onclick="add('corn')"><span class="emoji">🌽</span><span class="abs-num" id="abs-corn">0</span></button>
+        <button class="item-btn" onclick="add('tomato')"><span class="emoji">🍅</span><span class="abs-num" id="abs-tomato">0</span></button>
+        <button class="item-btn" onclick="add('carrot')"><span class="emoji">🥕</span><span class="abs-val" id="abs-carrot">0</span></button>
+        <button class="item-btn" onclick="add('pepper')"><span class="emoji">🌶️</span><span class="abs-num" id="abs-pepper">0</span></button>
+        <button class="item-btn" onclick="add('shrimp')"><span class="emoji">🦐</span><span class="abs-num" id="abs-shrimp">0</span></button>
+        <button class="item-btn" onclick="add('cow')"><span class="emoji">🐄</span><span class="abs-num" id="abs-cow">0</span></button>
+        <button class="item-btn" onclick="add('fish')"><span class="emoji">🐟</span><span class="abs-num" id="abs-fish">0</span></button>
+        <button class="item-btn" onclick="add('chicken')"><span class="emoji">🐔</span><span class="abs-num" id="abs-chicken">0</span></button>
     </div>
 
-    <div class="history-box" id="history"></div>
-
-    <div class="main-grid">
-        <button class="btn-item" onclick="add('corn')"><span class="emoji">🌽</span><span class="abs-val" id="abs-corn">0</span></button>
-        <button class="btn-item" onclick="add('tomato')"><span class="emoji">🍅</span><span class="abs-val" id="abs-tomato">0</span></button>
-        <button class="btn-item" onclick="add('carrot')"><span class="emoji">🥕</span><span class="abs-val" id="abs-carrot">0</span></button>
-        <button class="btn-item" onclick="add('pepper')"><span class="emoji">🌶️</span><span class="abs-val" id="abs-pepper">0</span></button>
-        <button class="btn-item" onclick="add('shrimp')"><span class="emoji">🦐</span><span class="abs-val" id="abs-shrimp">0</span></button>
-        <button class="btn-item" onclick="add('cow')"><span class="emoji">🐄</span><span class="abs-val" id="abs-cow">0</span></button>
-        <button class="btn-item" onclick="add('fish')"><span class="emoji">🐟</span><span class="abs-val" id="abs-fish">0</span></button>
-        <button class="btn-item" onclick="add('chicken')"><span class="emoji">🐔</span><span class="abs-val" id="abs-chicken">0</span></button>
+    <div class="matrix">
+        <div class="matrix-box"><h4>STRAT 3+2</h4><div id="s32" class="matrix-icons">--</div></div>
+        <div class="matrix-box" style="border-color: var(--win)"><h4>STRAT 3+3</h4><div id="s33" class="matrix-icons">--</div></div>
+        <div class="matrix-box"><h4>STRAT 2+2</h4><div id="s22" class="matrix-icons">--</div></div>
     </div>
 
-    <div class="ai-card">
-        <div class="strat-line">
-            <div class="strat-name">AI PREDICTION (3+2)</div>
-            <div id="s32" class="strat-res">--</div>
-        </div>
-        <div class="strat-line">
-            <div class="strat-name">AI PREDICTION (3+3)</div>
-            <div id="s33" class="strat-res">--</div>
-        </div>
-        <div class="strat-line">
-            <div class="strat-name">AI PREDICTION (2+2)</div>
-            <div id="s22" class="strat-res">--</div>
-        </div>
-    </div>
-
-    <table class="intel-table">
+    <table class="logic-table">
         <thead>
-            <tr><th>ITEM</th><th>ABS</th><th>PROBABILITY</th><th>STATUS</th></tr>
+            <tr><th>TARGET</th><th>ABSENCE</th><th>TRAP CHANCE</th><th>AI PRIORITY</th></tr>
         </thead>
-        <tbody id="intelBody"></tbody>
+        <tbody id="logicBody"></tbody>
     </table>
 
-    <div style="display:flex; gap:10px;">
-        <button class="sys-btn" onclick="undo()">UNDO</button>
-        <button class="sys-btn" onclick="wipe()" style="color:var(--red)">RESET ENGINE</button>
+    <div class="sys-actions">
+        <button class="action-btn" onclick="undo()">RECALL (UNDO)</button>
+        <button class="action-btn" onclick="wipe()" style="color:var(--red)">TERMINATE DATA</button>
     </div>
 </div>
 
@@ -108,96 +90,91 @@
     const veg = ["corn","tomato","carrot","pepper"];
     const meat = ["shrimp","cow","fish","chicken"];
     const emojis = {corn:"🌽",tomato:"🍅",carrot:"🥕",pepper:"🌶️",shrimp:"🦐",cow:"🐄",fish:"🐟",chicken:"🐔"};
-    let db = JSON.parse(localStorage.getItem("v37_db") || "[]");
-    let wins = 0; let rounds = 0; let lastPicks = [];
+    let db = JSON.parse(localStorage.getItem("omni_db") || "[]");
 
     function add(f) {
-        if(lastPicks.length > 0) { rounds++; if(lastPicks.includes(f)) wins++; }
-        db.push(f); if(db.length > 3000) db.shift();
-        localStorage.setItem("v37_db", JSON.stringify(db));
+        db.push(f); if(db.length > 2500) db.shift();
+        localStorage.setItem("omni_db", JSON.stringify(db));
         update();
     }
 
     function update() {
-        let len = db.length;
-        let vScores = {}; let mScores = {};
-        let intelHTML = "";
+        const len = db.length;
+        const last = db[len-1];
         
-        // 1. STACK DETECTION (العصب الحسي)
-        let activeStack = null;
-        let stackCount = 0;
-        if(len >= 1) {
-            activeStack = db[len-1];
-            let i = len-1; while(i >= 0 && db[i] === activeStack) { stackCount++; i--; }
+        // 1. Live Sync Bar (History connected to Brain)
+        let sHTML = "";
+        for(let i=len-1; i>=Math.max(0, len-15); i--) {
+            let cls = (i === len-1) ? "h-node latest" : "h-node";
+            sHTML += `<div class="${cls}">${emojis[db[i]]}</div>`;
         }
+        document.getElementById("syncBar").innerHTML = sHTML;
 
-        // 2. HISTORY
-        let hHTML = ""; let s = 1;
-        for(let i=len-1; i>=Math.max(0, len-25); i--) {
-            if(db[i] === db[i-1]) s++; else {
-                hHTML += `<div class="h-item">${emojis[db[i]]}${s>1?`<span class="h-streak">${s}</span>`:''}</div>`;
-                s = 1;
-            }
-        }
-        document.getElementById("history").innerHTML = hHTML;
+        // 2. The Trap-Counter Logic
+        let scores = {};
+        let logicHTML = "";
+        let isTrapMode = false;
 
-        // 3. AI BRAIN SCORING (التوقع التكراري)
+        // Check for "The Stacker Trap" (3+ repeats)
+        let streak = 0;
+        let j = len-1; while(j >= 0 && db[j] === last) { streak++; j--; }
+        if(streak >= 2) isTrapMode = true;
+
         [...veg, ...meat].forEach(f => {
             let lastIdx = db.lastIndexOf(f);
             let abs = (lastIdx === -1) ? len : len - 1 - lastIdx;
             document.getElementById(`abs-${f}`).innerText = abs;
+
+            // PREDICTOR FORMULA
+            let base = abs * 10;
             
-            // Equation: Absence + Frequency + REPEAT_WEIGHT
-            let baseScore = (abs * 10);
+            // Link History to Prediction
+            if(isTrapMode && f === last) {
+                base += (streak * 300); // Follow the streak (The Momentum Mind)
+            }
             
-            // الـ AI هنا بيفهم التكرار:
-            if(f === activeStack) {
-                // لو الصنف لسه ظاهر حالا، ارفع احتماليته جدا عشان يلحق التكرار
-                baseScore += (stackCount * 150); 
+            // Anti-Trap Logic: If server shifts from meat to veg suddenly
+            if(len > 1 && meat.includes(db[len-2]) && veg.includes(db[len-1])) {
+                if(meat.includes(f)) base += 200; // Expected immediate meat return
             }
 
-            if(veg.includes(f)) vScores[f] = baseScore; else mScores[f] = baseScore;
+            scores[f] = base;
+            let trapChance = (f === last) ? (streak * 25) : 0;
+            let priority = Math.min(99, Math.round(base / 8));
+            let rowCls = (priority > 80) ? "class='danger-zone'" : "";
 
-            let prob = Math.min(99, Math.round(baseScore / 5));
-            let status = (f === activeStack && stackCount >= 2) ? "STREAKING" : "STABLE";
-            let rowClass = (f === activeStack && stackCount >= 2) ? "class='highlight-stack'" : "";
-            intelHTML += `<tr ${rowClass}><td>${emojis[f]}</td><td>${abs}</td><td>${prob}%</td><td>${status}</td></tr>`;
+            logicHTML += `<tr ${rowCls}><td>${emojis[f]}</td><td>${abs}</td><td>${trapChance}%</td><td>${priority}</td></tr>`;
         });
-        document.getElementById("intelBody").innerHTML = intelHTML;
+        document.getElementById("logicBody").innerHTML = logicHTML;
 
-        const sv = Object.entries(vScores).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);
-        const sm = Object.entries(mScores).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);
+        // 3. Execution (The 3+2 / 3+3 / 2+2)
+        const sv = veg.sort((a,b) => scores[b] - scores[a]);
+        const sm = meat.sort((a,b) => scores[b] - scores[a]);
 
-        // 4. STRATEGIES (3+2, 3+3, 2+2)
         const p32 = [...sv.slice(0,3), ...sm.slice(0,2)];
         const p33 = [...sv.slice(0,3), ...sm.slice(0,3)];
         const p22 = [...sv.slice(0,2), ...sm.slice(0,2)];
-        lastPicks = p33;
 
         document.getElementById("s32").innerText = p32.map(x=>emojis[x]).join("");
         document.getElementById("s33").innerText = p33.map(x=>emojis[x]).join("");
         document.getElementById("s22").innerText = p22.map(x=>emojis[x]).join("");
+        document.getElementById("mainTarget").innerText = p33.slice(0,3).map(x=>emojis[x]).join("");
 
-        // 5. AI THOUGHT LOGIC
-        const mode = document.getElementById("aiMode");
-        const thought = document.getElementById("aiThought");
-        document.getElementById("stackText").innerText = activeStack ? `${emojis[activeStack]} x${stackCount}` : "NONE";
-        document.getElementById("winRate").innerText = rounds > 0 ? Math.round((wins/rounds)*100) + "%" : "0%";
-
-        if(stackCount >= 2) {
-            mode.innerText = "AI: STREAK DETECTION ACTIVE";
-            thought.innerText = `Server is repeating ${emojis[activeStack]}. Pattern suggests follow the streak.`;
-            document.getElementById("cycleType").innerText = "STREAKING";
+        // Trap Alert Text
+        const alert = document.getElementById("trapAlert");
+        if(isTrapMode) {
+            alert.innerText = `🚨 TRAP DETECTED: ${emojis[last]} STREAK (x${streak}). RIDING WAVE!`;
+            alert.style.color = "var(--red)";
         } else {
-            mode.innerText = "AI: ANALYZING CYCLES";
-            thought.innerText = "Pattern is shifting. Predictive scoring calibrated to absence.";
-            document.getElementById("cycleType").innerText = "SHIFTING";
+            alert.innerText = "SENSING SERVER PATTERN: STABLE RECOVERY MODE.";
+            alert.style.color = "var(--win)";
         }
     }
 
     function undo() { db.pop(); update(); }
-    function wipe() { if(confirm("RESET BRAIN?")) { db=[]; localStorage.clear(); location.reload(); } }
+    function wipe() { if(confirm("TERMINATE ENGINE MEMORY?")) { db=[]; localStorage.clear(); location.reload(); } }
     update();
 </script>
 </body>
 </html>
+
