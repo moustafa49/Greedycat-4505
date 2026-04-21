@@ -3,91 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>V50 — THE MASTERPIECE // FULL SYSTEM</title>
+    <title>V52 — SNIPER ELITE // THE FINAL VISION</title>
     <style>
         :root {
             --bg: #050505; --panel: #0d1117; --brd: #30363d;
-            --neon: #00f2ff; --win: #00ff41; --gold: #ffd700; --red: #ff003c; --rare: #bc13fe;
+            --neon: #00f2ff; --win: #00ff41; --gold: #ffd700; --red: #ff003c; --purple: #bc13fe;
         }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; overflow-x: hidden; }
-        .container { max-width: 500px; margin: auto; border: 1px solid var(--brd); padding: 15px; border-radius: 25px; background: var(--panel); box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; }
+        .container { max-width: 500px; margin: auto; border: 1px solid var(--brd); padding: 15px; border-radius: 25px; background: var(--panel); box-shadow: 0 0 50px rgba(0,0,0,0.5); }
         
-        /* Oracle Header */
-        .header { background: #000; border: 2px solid var(--neon); border-radius: 20px; padding: 20px; text-align: center; margin-bottom: 15px; position: relative; }
-        .main-icons { font-size: 55px; letter-spacing: 15px; color: #fff; text-shadow: 0 0 20px var(--neon); margin: 10px 0; }
-        .pwr-badge { background: var(--win); color: #000; padding: 5px 15px; border-radius: 50px; font-weight: bold; font-size: 18px; display: inline-block; }
-        .ai-status { font-size: 12px; color: var(--gold); margin-top: 8px; font-weight: bold; }
+        /* Tactical Header */
+        .header { background: #000; border: 2px solid var(--neon); border-radius: 20px; padding: 15px; text-align: center; margin-bottom: 10px; }
+        .main-icons { font-size: 50px; letter-spacing: 10px; margin: 5px 0; text-shadow: 0 0 20px var(--neon); }
+        .pwr-bar { height: 6px; background: #222; border-radius: 10px; margin: 10px auto; width: 80%; overflow: hidden; }
+        #pwrFill { height: 100%; width: 0%; background: var(--win); transition: 0.5s; }
 
-        /* Balancer Bar */
-        .bal-wrap { margin: 15px 0; text-align: center; }
-        .bal-bar { display: flex; height: 12px; background: #222; border-radius: 10px; overflow: hidden; border: 1px solid #444; }
-        #vBar { width: 50%; background: var(--neon); transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-        #mBar { width: 50%; background: var(--red); transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
-        .bal-text { display: flex; justify-content: space-between; font-size: 10px; color: #8b949e; margin-top: 5px; font-weight: bold; }
+        /* 🔥 LIVE SNIPER PICKS (اللوحة الاحترافية) 🔥 */
+        .sniper-box { background: rgba(0,0,0,0.6); border: 1px solid var(--gold); border-radius: 15px; padding: 15px; margin-bottom: 15px; }
+        .sniper-title { font-size: 10px; color: var(--gold); letter-spacing: 3px; text-align: center; margin-bottom: 12px; font-weight: bold; }
+        .picks-grid { display: flex; justify-content: space-around; gap: 10px; }
+        .pick-card { text-align: center; flex: 1; background: rgba(255,255,255,0.03); padding: 10px 5px; border-radius: 10px; border: 1px solid #222; }
+        .pick-emoji { font-size: 35px; display: block; margin-bottom: 5px; }
+        .pick-reason { font-size: 9px; color: var(--neon); font-weight: bold; text-transform: uppercase; }
+        .pick-conf { font-size: 11px; color: var(--win); margin-top: 3px; }
 
-        /* History Stripe */
-        .history { display: flex; gap: 8px; overflow-x: auto; padding: 10px 0; margin-bottom: 15px; scrollbar-width: none; }
-        .h-item { font-size: 35px; min-width: 45px; height: 45px; background: rgba(255,255,255,0.05); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
-        .h-item:first-child { border: 2px solid var(--win); transform: scale(1.1); background: rgba(0,255,65,0.1); }
+        /* Balancer */
+        .bal-wrap { margin-bottom: 15px; }
+        .bal-bar { display: flex; height: 8px; background: #222; border-radius: 10px; overflow: hidden; }
+        #vBar { background: var(--neon); transition: 0.8s; }
+        #mBar { background: var(--red); transition: 0.8s; }
 
-        /* Input Grid */
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
-        .btn { background: #161b22; border: 1px solid var(--brd); border-radius: 15px; padding: 12px 0; cursor: pointer; transition: 0.1s; position: relative; }
-        .btn:active { transform: scale(0.92); background: #21262d; }
-        .btn .emoji { font-size: 40px; display: block; }
-        .btn .abs { font-size: 14px; color: var(--neon); font-weight: bold; margin-top: 5px; display: block; }
+        /* History & Grid */
+        .history { display: flex; gap: 5px; overflow-x: auto; margin-bottom: 15px; padding-bottom: 5px; }
+        .h-node { font-size: 28px; min-width: 38px; height: 38px; background: #161b22; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 15px; }
+        .btn { background: #161b22; border: 1px solid var(--brd); border-radius: 12px; padding: 10px 0; cursor: pointer; color: #fff; }
+        .btn .abs { font-size: 12px; color: var(--neon); display: block; margin-top: 4px; }
 
-        /* Analysis Table */
-        .table-area { background: #000; border-radius: 15px; overflow: hidden; border: 1px solid var(--brd); margin-bottom: 15px; }
-        table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        th { background: #161b22; color: var(--neon); padding: 10px; font-size: 11px; }
-        td { padding: 10px; text-align: center; border-top: 1px solid var(--brd); }
-        .high-conf { color: var(--win); font-weight: bold; }
-
-        /* Buttons Footer */
+        /* Footer */
         .footer { display: flex; gap: 10px; }
-        .sys-btn { flex: 1; padding: 15px; border-radius: 12px; border: 1px solid var(--brd); background: #21262d; color: #fff; font-weight: bold; cursor: pointer; }
-        .sys-btn:active { background: #30363d; }
+        .sys-btn { flex: 1; padding: 12px; border-radius: 10px; border: 1px solid var(--brd); background: #21262d; color: #fff; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="header">
-        <div style="font-size: 10px; letter-spacing: 3px; color: var(--neon);">ULTIMATE V50 // AI PREDICTOR</div>
         <div class="main-icons" id="prediction">?? ?? ??</div>
-        <div class="pwr-badge" id="pwr">POWER: 0%</div>
-        <div class="ai-status" id="status">INITIALIZING NEURAL NETWORK...</div>
+        <div class="pwr-bar"><div id="pwrFill"></div></div>
+        <div id="pwrText" style="font-size: 12px; color: var(--win);">SYSTEM READY</div>
+    </div>
+
+    <div class="sniper-box">
+        <div class="sniper-title">TARGET ACQUISITION // LIVE PICKS</div>
+        <div class="picks-grid" id="picksDisplay">
+            </div>
     </div>
 
     <div class="bal-wrap">
-        <div class="bal-bar"><div id="vBar"></div><div id="mBar"></div></div>
-        <div class="bal-text"><span>VEG SECTOR</span><span id="balLabel">BALANCED</span><span>MEAT SECTOR</span></div>
+        <div class="bal-bar"><div id="vBar" style="width:50%"></div><div id="mBar" style="width:50%"></div></div>
+        <div style="display:flex; justify-content:space-between; font-size:9px; color:#666; margin-top:4px;"><span>VEG SECTOR</span><span id="balHint">STABLE</span><span>MEAT SECTOR</span></div>
     </div>
 
     <div class="history" id="history"></div>
 
     <div class="grid">
-        <button class="btn" onclick="add('corn')"><span class="emoji">🌽</span><span class="abs" id="abs-corn">0</span></button>
-        <button class="btn" onclick="add('tomato')"><span class="emoji">🍅</span><span class="abs" id="abs-tomato">0</span></button>
-        <button class="btn" onclick="add('carrot')"><span class="emoji">🥕</span><span class="abs" id="abs-carrot">0</span></button>
-        <button class="btn" onclick="add('pepper')"><span class="emoji">🌶️</span><span class="abs" id="abs-pepper">0</span></button>
-        <button class="btn" onclick="add('shrimp')"><span class="emoji">🦐</span><span class="abs" id="abs-shrimp">0</span></button>
-        <button class="btn" onclick="add('cow')"><span class="emoji">🐄</span><span class="abs" id="abs-cow">0</span></button>
-        <button class="btn" onclick="add('fish')"><span class="emoji">🐟</span><span class="abs" id="abs-fish">0</span></button>
-        <button class="btn" onclick="add('chicken')"><span class="emoji">🐔</span><span class="abs" id="abs-chicken">0</span></button>
-    </div>
-
-    <div class="table-area">
-        <table>
-            <thead><tr><th>TARGET</th><th>ABSENCE</th><th>PROBABILITY</th></tr></thead>
-            <tbody id="stats"></tbody>
-        </table>
+        <button class="btn" onclick="add('corn')">🌽<span class="abs" id="abs-corn">0</span></button>
+        <button class="btn" onclick="add('tomato')">🍅<span class="abs" id="abs-tomato">0</span></button>
+        <button class="btn" onclick="add('carrot')">🥕<span class="abs" id="abs-carrot">0</span></button>
+        <button class="btn" onclick="add('pepper')">🌶️<span class="abs" id="abs-pepper">0</span></button>
+        <button class="btn" onclick="add('shrimp')">🦐<span class="abs" id="abs-shrimp">0</span></button>
+        <button class="btn" onclick="add('cow')">🐄<span class="abs" id="abs-cow">0</span></button>
+        <button class="btn" onclick="add('fish')">🐟<span class="abs" id="abs-fish">0</span></button>
+        <button class="btn" onclick="add('chicken')">🐔<span class="abs" id="abs-chicken">0</span></button>
     </div>
 
     <div class="footer">
         <button class="sys-btn" onclick="undo()">UNDO</button>
-        <button class="sys-btn" onclick="reset()" style="color:var(--red)">FULL RESET</button>
+        <button class="sys-btn" onclick="reset()" style="color:var(--red)">RESET</button>
     </div>
 </div>
 
@@ -96,99 +89,73 @@
     const meat = ["shrimp", "cow", "fish", "chicken"];
     const rare = ["chicken", "fish"];
     const emojis = {corn:"🌽",tomato:"🍅",carrot:"🥕",pepper:"🌶️",shrimp:"🦐",cow:"🐄",fish:"🐟",chicken:"🐔"};
-    
-    let db = JSON.parse(localStorage.getItem("v50_data") || "[]");
+    let db = JSON.parse(localStorage.getItem("v52_db") || "[]");
 
-    function add(item) {
-        db.push(item);
-        if (db.length > 2000) db.shift();
-        saveAndUI();
-    }
+    function add(f) { db.push(f); if(db.length > 2000) db.shift(); save(); }
+    function undo() { db.pop(); save(); }
+    function reset() { if(confirm("Clear Brain?")) { db = []; save(); } }
+    function save() { localStorage.setItem("v52_db", JSON.stringify(db)); update(); }
 
-    function undo() { db.pop(); saveAndUI(); }
-    function reset() { if(confirm("Reset data?")) { db = []; saveAndUI(); } }
-
-    function saveAndUI() {
-        localStorage.setItem("v50_data", JSON.stringify(db));
-        updateUI();
-    }
-
-    function updateUI() {
-        const len = db.length;
-        if (len === 0) return;
-
-        const last = db[len - 1];
+    function update() {
+        const len = db.length; if(len === 0) return;
+        const last = db[len-1], prev = db[len-2], pprev = db[len-3];
         const last20 = db.slice(-20);
 
-        // Update History
+        // History UI
         let hHTML = "";
-        for (let i = len - 1; i >= Math.max(0, len - 20); i--) {
-            hHTML += `<div class="h-item">${emojis[db[i]]}</div>`;
-        }
+        for(let i=len-1; i>=Math.max(0, len-20); i--) hHTML += `<div class="h-node">${emojis[db[i]]}</div>`;
         document.getElementById("history").innerHTML = hHTML;
 
-        // Update Balancer
+        // Balancer logic
         let vCount = last20.filter(x => veg.includes(x)).length;
         let vPerc = (vCount / last20.length) * 100;
         document.getElementById("vBar").style.width = vPerc + "%";
         document.getElementById("mBar").style.width = (100 - vPerc) + "%";
-        document.getElementById("balLabel").innerText = vPerc > 75 ? "VEG SATURATED ⚠️" : (vPerc < 25 ? "MEAT SATURATED ⚠️" : "BALANCED");
 
-        // Advanced Logic Engine
-        let scores = {};
+        let scores = {}, reasons = {};
+
         [...veg, ...meat].forEach(f => {
-            let lastIdx = db.lastIndexOf(f);
-            let abs = (lastIdx === -1) ? len : len - 1 - lastIdx;
+            let abs = (db.lastIndexOf(f) === -1) ? len : len - 1 - db.lastIndexOf(f);
             document.getElementById(`abs-${f}`).innerText = abs;
 
-            // 1. BASE SCORE
-            let score = abs * 10;
+            let s = abs * 5; 
+            reasons[f] = "Normal";
 
-            // 2. STREAK SUPREMACY (تصحيح غلطة النسخة اللي فاتت)
-            if (f === last) score += 3000; 
+            if (f === last) { s += 4000; reasons[f] = "STREAK"; }
+            else if (f === prev && last !== prev) { s += 1500; reasons[f] = "RE-ENTRY"; }
+            
+            if (len >= 3 && pprev === f && last !== f) { s += 3000; reasons[f] = "ZIGZAG"; }
+            
+            if (rare.includes(f) && abs > 40) { s += (abs * 30); reasons[f] = "RARE DUE"; }
+            
+            if (vPerc > 75 && meat.includes(f)) { s += 1200; reasons[f] = "SHIFT"; }
+            if (vPerc < 25 && veg.includes(f)) { s += 1200; reasons[f] = "SHIFT"; }
 
-            // 3. ZIGZAG LOGIC (🌶️🍅🌶️ -> 🍅)
-            if (len >= 3 && db[len-1] !== db[len-2] && db[len-3] === db[len-1] && f === db[len-2]) {
-                score += 2500;
-            }
-
-            // 4. RARITY (فراخة وسمكة)
-            if (rare.includes(f) && abs > 40) score += (abs * 30);
-
-            // 5. SECTOR SHIFT (تغيير النوع)
-            if (vPerc > 75 && meat.includes(f)) score += 800;
-            if (vPerc < 25 && veg.includes(f)) score += 800;
-
-            scores[f] = score;
+            scores[f] = s;
         });
 
-        // Generate Stats Table
-        let sorted = [...veg, ...meat].sort((a, b) => scores[b] - scores[a]);
-        let tableHTML = "";
-        sorted.forEach(f => {
-            let prob = Math.min(99, Math.round((scores[f] / 3000) * 100));
-            let cl = prob > 80 ? "class='high-conf'" : "";
-            tableHTML += `<tr><td>${emojis[f]}</td><td>${document.getElementById(`abs-${f}`).innerText}</td><td ${cl}>${prob}%</td></tr>`;
-        });
-        document.getElementById("stats").innerHTML = tableHTML;
-
-        // Final Prediction & Power
-        const top3 = sorted.slice(0, 3);
-        document.getElementById("prediction").innerText = top3.map(x => emojis[x]).join("");
+        let sorted = [...veg, ...meat].sort((a,b) => scores[b] - scores[a]);
         
-        let powerVal = Math.min(100, Math.round((scores[sorted[0]] / 3000) * 100));
-        const pwr = document.getElementById("pwr");
-        pwr.innerText = `POWER: ${powerVal}%`;
-        pwr.style.background = powerVal > 85 ? "var(--win)" : "var(--gold)";
+        // Render Picks Cards
+        let picksHTML = "";
+        sorted.slice(0, 4).forEach(f => {
+            let conf = Math.min(99, Math.round((scores[f]/4000)*100));
+            picksHTML += `
+                <div class="pick-card">
+                    <span class="pick-emoji">${emojis[f]}</span>
+                    <span class="pick-reason">${reasons[f]}</span>
+                    <div class="pick-conf">${conf}%</div>
+                </div>`;
+        });
+        document.getElementById("picksDisplay").innerHTML = picksHTML;
 
-        const status = document.getElementById("status");
-        if (powerVal > 85) status.innerText = "🔥 STREAK/PATTERN CONFIRMED. HIGH ENTRY.";
-        else if (vPerc > 75) status.innerText = "🔄 SECTOR SATURATED. EXPECTING MEAT SHIFT.";
-        else status.innerText = "SCANNING SERVER WAVEFORMS...";
+        // Header Update
+        document.getElementById("prediction").innerText = sorted.slice(0, 3).map(x => emojis[x]).join("");
+        let mainPwr = Math.min(100, Math.round((scores[sorted[0]]/4000)*100));
+        document.getElementById("pwrFill").style.width = mainPwr + "%";
+        document.getElementById("pwrText").innerText = `CONFIDENCE: ${mainPwr}%`;
     }
-
-    // Initial run
-    updateUI();
+    update();
 </script>
 </body>
 </html>
