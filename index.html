@@ -2,100 +2,100 @@
 <html lang="ar" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>V43 — TOTAL RECALL // HYPER-INTELLIGENT BRAIN</title>
+    <title>V45 — ULTIMATE PREDATOR // RARITY & STREAK ENGINE</title>
     <style>
         :root {
-            --bg: #050505; --panel: #0f1115; --brd: #1f2328;
-            --neon: #00d4ff; --win: #00ff41; --gold: #ffcc00; --purple: #bc13fe; --red: #ff3131;
+            --bg: #000; --panel: #0a0c10; --brd: #1f2328;
+            --neon: #00f2ff; --win: #00ff41; --gold: #ffd700; --red: #ff003c; --rare: #ff00ff;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: #e6edf3; margin: 0; padding: 10px; }
-        .container { max-width: 900px; margin: auto; border: 1px solid var(--brd); padding: 15px; border-radius: 20px; background: var(--panel); box-shadow: 0 10px 50px rgba(0,0,0,0.5); }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; }
+        .container { max-width: 950px; margin: auto; border: 2px solid var(--brd); padding: 15px; border-radius: 20px; background: var(--panel); box-shadow: 0 0 40px rgba(255, 0, 255, 0.1); }
         
-        /* The Neural Display */
-        .neural-display { background: #000; border: 1px solid var(--purple); border-radius: 15px; padding: 20px; margin-bottom: 20px; text-align: center; position: relative; overflow: hidden; }
-        .neural-display::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, var(--purple), transparent); animation: scan 2s linear infinite; }
-        @keyframes scan { 0% { left: -100%; } 100% { left: 100%; } }
-        
-        .main-prediction { font-size: 55px; letter-spacing: 20px; color: #fff; text-shadow: 0 0 15px var(--purple); margin: 10px 0; display: block; }
-        .status-text { font-size: 14px; font-weight: bold; color: var(--gold); text-transform: uppercase; }
+        /* The Predator Oracle */
+        .header-oracle { background: #000; border: 2px solid var(--rare); border-radius: 15px; padding: 25px; margin-bottom: 20px; text-align: center; position: relative; }
+        .header-oracle::before { content: "ULTIMATE AI"; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--rare); padding: 2px 15px; font-size: 10px; border-radius: 10px; }
+        .prediction-text { font-size: 65px; letter-spacing: 25px; color: #fff; text-shadow: 0 0 25px var(--rare); margin: 15px 0; }
+        .ai-status { font-size: 14px; color: var(--gold); font-weight: bold; }
 
-        /* History Sync Bar */
-        .history-sync { display: flex; gap: 12px; overflow-x: auto; padding: 10px; margin-bottom: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; border: 1px solid var(--brd); }
-        .h-node { font-size: 35px; min-width: 50px; text-align: center; position: relative; }
-        .h-node:first-child { border-bottom: 2px solid var(--win); transform: scale(1.1); }
+        /* History Bar */
+        .history-sync { display: flex; gap: 12px; overflow-x: auto; padding: 12px; background: rgba(0,0,0,0.4); border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--brd); }
+        .h-item { font-size: 40px; min-width: 55px; text-align: center; }
 
-        /* Input Grid */
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
-        .btn { background: #161b22; border: 1px solid var(--brd); border-radius: 15px; padding: 15px 0; cursor: pointer; transition: 0.1s; }
-        .btn:active { background: var(--brd); transform: translateY(2px); }
-        .emoji { font-size: 45px; display: block; }
-        .abs-tag { font-size: 15px; color: var(--neon); font-weight: bold; margin-top: 5px; display: block; }
+        /* Grid Layout */
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 25px; }
+        .btn-box { background: #161b22; border: 1px solid var(--brd); border-radius: 18px; padding: 18px 0; cursor: pointer; position: relative; }
+        .btn-box:hover { border-color: var(--neon); background: #1c2128; }
+        .emoji { font-size: 48px; display: block; margin-bottom: 8px; }
+        .abs-count { font-size: 18px; color: var(--neon); font-weight: bold; }
 
-        /* Strat Matrix */
-        .matrix { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .m-box { background: #0d1117; border: 1px solid var(--brd); padding: 12px; text-align: center; border-radius: 12px; }
-        .m-box h6 { margin: 0 0 8px 0; font-size: 11px; color: #8b949e; }
-        .m-icons { font-size: 26px; letter-spacing: 6px; }
+        /* Strategies */
+        .matrix { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px; }
+        .m-card { background: #0d1117; border: 1px solid var(--brd); padding: 15px; text-align: center; border-radius: 12px; }
+        .m-card h6 { margin: 0 0 10px 0; font-size: 11px; color: #8b949e; text-transform: uppercase; }
+        .m-icons { font-size: 28px; letter-spacing: 8px; }
 
-        /* Full Intel Table */
-        .intel-table { width: 100%; border-collapse: collapse; font-size: 13px; background: #000; border-radius: 10px; overflow: hidden; }
-        .intel-table th, .intel-table td { padding: 12px; border: 1px solid var(--brd); text-align: center; }
+        /* Intel Data */
+        .intel-table { width: 100%; border-collapse: collapse; font-size: 13px; background: #000; border-radius: 12px; overflow: hidden; }
+        .intel-table th, .intel-table td { padding: 14px; border: 1px solid var(--brd); text-align: center; }
         .intel-table th { background: #161b22; color: var(--neon); }
-        .row-hot { background: rgba(188, 19, 254, 0.1); color: var(--purple); font-weight: bold; }
+        .row-rare { background: rgba(255, 0, 255, 0.1); color: var(--rare); font-weight: bold; }
+        .row-streak { background: rgba(0, 255, 65, 0.1); color: var(--win); }
 
-        .sys-btn { width: 100%; padding: 15px; background: #21262d; border: 1px solid var(--brd); color: #fff; font-weight: bold; cursor: pointer; margin-top: 10px; border-radius: 10px; }
+        .footer-btns { display: flex; gap: 10px; margin-top: 15px; }
+        .sys-btn { flex: 1; padding: 15px; background: #21262d; border: 1px solid var(--brd); color: #fff; font-weight: bold; cursor: pointer; border-radius: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="neural-display">
-        <span class="status-text" id="aiMood">🧠 SYSTEM INITIALIZING...</span>
-        <div class="main-prediction" id="mainTarget">?? ?? ??</div>
-        <div id="aiLogic" style="color: var(--neon); font-size: 12px; font-family: monospace;">WAITING FOR DATA INPUT...</div>
+    <div class="header-oracle">
+        <span style="color:var(--rare); font-size: 10px; letter-spacing: 5px;">RARITY & STACKING ADAPTIVE ENGINE</span>
+        <div class="prediction-text" id="mainTarget">?? ?? ??</div>
+        <div id="aiThought" class="ai-status">MONITORING SERVER CYCLES...</div>
     </div>
 
     <div class="history-sync" id="history"></div>
 
     <div class="grid">
-        <button class="btn" onclick="add('corn')"><span class="emoji">🌽</span><span class="abs-tag" id="abs-corn">0</span></button>
-        <button class="btn" onclick="add('tomato')"><span class="emoji">🍅</span><span class="abs-tag" id="abs-tomato">0</span></button>
-        <button class="btn" onclick="add('carrot')"><span class="emoji">🥕</span><span class="abs-tag" id="abs-carrot">0</span></button>
-        <button class="btn" onclick="add('pepper')"><span class="emoji">🌶️</span><span class="abs-tag" id="abs-pepper">0</span></button>
-        <button class="btn" onclick="add('shrimp')"><span class="emoji">🦐</span><span class="abs-tag" id="abs-shrimp">0</span></button>
-        <button class="btn" onclick="add('cow')"><span class="emoji">🐄</span><span class="abs-tag" id="abs-cow">0</span></button>
-        <button class="btn" onclick="add('fish')"><span class="emoji">🐟</span><span class="abs-tag" id="abs-fish">0</span></button>
-        <button class="btn" onclick="add('chicken')"><span class="emoji">🐔</span><span class="abs-tag" id="abs-chicken">0</span></button>
+        <button class="btn-box" onclick="add('corn')"><span class="emoji">🌽</span><span class="abs-count" id="abs-corn">0</span></button>
+        <button class="btn-box" onclick="add('tomato')"><span class="emoji">🍅</span><span class="abs-count" id="abs-tomato">0</span></button>
+        <button class="btn-box" onclick="add('carrot')"><span class="emoji">🥕</span><span class="abs-count" id="abs-carrot">0</span></button>
+        <button class="btn-box" onclick="add('pepper')"><span class="emoji">🌶️</span><span class="abs-count" id="abs-pepper">0</span></button>
+        <button class="btn-box" onclick="add('shrimp')"><span class="emoji">🦐</span><span class="abs-count" id="abs-shrimp">0</span></button>
+        <button class="btn-box" onclick="add('cow')"><span class="emoji">🐄</span><span class="abs-count" id="abs-cow">0</span></button>
+        <button class="btn-box" onclick="add('fish')"><span class="emoji">🐟</span><span class="abs-count" id="abs-fish">0</span></button>
+        <button class="btn-box" onclick="add('chicken')"><span class="emoji">🐔</span><span class="abs-count" id="abs-chicken">0</span></button>
     </div>
 
     <div class="matrix">
-        <div class="m-box"><h6>STRAT 3+2 (BALANCED)</h6><div id="s32" class="m-icons">--</div></div>
-        <div class="m-box" style="border-color: var(--purple);"><h6>STRAT 3+3 (ATTACK)</h6><div id="s33" class="m-icons">--</div></div>
-        <div class="m-box"><h6>STRAT 2+2 (DEFENSE)</h6><div id="s22" class="m-icons">--</div></div>
+        <div class="m-card"><h6>3+2 OMNI</h6><div id="s32" class="m-icons">--</div></div>
+        <div class="m-card" style="border-color: var(--rare);"><h6>3+3 ULTRA</h6><div id="s33" class="m-icons">--</div></div>
+        <div class="m-card"><h6>2+2 STABLE</h6><div id="s22" class="m-icons">--</div></div>
     </div>
 
     <table class="intel-table">
         <thead>
-            <tr><th>ITEM</th><th>ABSENCE</th><th>SCORE</th><th>AI SIGNAL</th></tr>
+            <tr><th>TARGET</th><th>ABS</th><th>RARITY SCORE</th><th>AI SIGNAL</th></tr>
         </thead>
         <tbody id="intelBody"></tbody>
     </table>
 
-    <div style="display:flex; gap:10px; margin-top:10px;">
+    <div class="footer-btns">
         <button class="sys-btn" onclick="undo()">UNDO</button>
-        <button class="sys-btn" onclick="wipe()" style="color:var(--red)">FULL RESET</button>
+        <button class="sys-btn" onclick="wipe()" style="color:var(--red)">WIPE MEMORY</button>
     </div>
 </div>
 
 <script>
     const veg = ["corn","tomato","carrot","pepper"];
     const meat = ["shrimp","cow","fish","chicken"];
+    const rareItems = ["chicken", "fish"]; // الفراخة والسمكة هما النوادر
     const emojis = {corn:"🌽",tomato:"🍅",carrot:"🥕",pepper:"🌶️",shrimp:"🦐",cow:"🐄",fish:"🐟",chicken:"🐔"};
-    let db = JSON.parse(localStorage.getItem("v43_db") || "[]");
+    let db = JSON.parse(localStorage.getItem("v45_db") || "[]");
 
     function add(f) {
-        db.push(f); if(db.length > 2500) db.shift();
-        localStorage.setItem("v43_db", JSON.stringify(db));
+        db.push(f); if(db.length > 3000) db.shift();
+        localStorage.setItem("v45_db", JSON.stringify(db));
         update();
     }
 
@@ -106,9 +106,7 @@
         const pprev = db[len-3];
         
         let hHTML = "";
-        for(let i=len-1; i>=Math.max(0, len-20); i--) {
-            hHTML += `<div class="h-node">${emojis[db[i]]}</div>`;
-        }
+        for(let i=len-1; i>=Math.max(0, len-20); i--) hHTML += `<div class="h-item">${emojis[db[i]]}</div>`;
         document.getElementById("history").innerHTML = hHTML;
 
         let scores = {};
@@ -119,24 +117,29 @@
             let abs = (lastIdx === -1) ? len : len - 1 - lastIdx;
             document.getElementById(`abs-${f}`).innerText = abs;
 
-            // --- THE TOTAL RECALL ENGINE ---
-            let score = abs * 10;
+            // --- THE ULTIMATE PREDATOR FORMULA ---
+            let score = abs * 5;
             
-            // 1. REPEAT POWER (Immediate response)
-            if (f === last) score += 600; 
+            // 1. REPEAT/STREAK (The 🌶️🌶️ Logic)
+            if (f === last) score += 600;
 
-            // 2. OSCILLATION / ZIGZAG (f-p-f pattern)
-            if (len >= 3 && last !== prev && pprev === last && f === prev) {
-                score += 800; // Extremely high prediction for return
+            // 2. ZIGZAG (The 🌶️🥕🌶️ Logic)
+            if (len >= 3 && last !== prev && pprev === last && f === prev) score += 800;
+
+            // 3. RARITY DETECTION (عقل الفراخة والسمكة)
+            if (rareItems.includes(f)) {
+                // لو الفرخة غابت أكتر من 40 جولة، بتبدأ تاخد وزن تقيل جداً
+                if (abs > 40) score += (abs * 20);
+                if (abs > 80) score += 1500; // أولوية قصوى - "استوت" ولازم تنزل
             }
 
-            // 3. RECENT FREQUENCY (Last 5 moves impact)
-            let freq = db.slice(-6).filter(x => x === f).length;
-            score += (freq * 50);
-
             scores[f] = score;
-            let signal = (score > 1000) ? "🚨 CRITICAL" : (score > 600 ? "🔥 HIGH" : "---");
-            let rowCls = (score > 600) ? "class='row-hot'" : "";
+            
+            let signal = "NORMAL";
+            let rowCls = "";
+            if (f === last) { signal = "STREAK"; rowCls = "class='row-streak'"; }
+            if (rareItems.includes(f) && abs > 40) { signal = "RARE DUE"; rowCls = "class='row-rare'"; }
+
             tableHTML += `<tr ${rowCls}><td>${emojis[f]}</td><td>${abs}</td><td>${Math.round(score)}</td><td>${signal}</td></tr>`;
         });
         document.getElementById("intelBody").innerHTML = tableHTML;
@@ -153,23 +156,23 @@
         document.getElementById("s22").innerText = p22.map(x=>emojis[x]).join("");
         document.getElementById("mainTarget").innerText = p33.slice(0,3).map(x=>emojis[x]).join("");
 
-        const mood = document.getElementById("aiMood");
-        const logic = document.getElementById("aiLogic");
-
-        if (len >= 3 && last !== prev && pprev === last) {
-            mood.innerText = "🚨 ZIGZAG DETECTED";
-            logic.innerText = `OSCILLATION BETWEEN ${emojis[last]} AND ${emojis[prev]}. TARGETING RETURN.`;
+        const thought = document.getElementById("aiThought");
+        let activeRare = rareItems.find(r => scores[r] > 800 && r !== last);
+        
+        if (activeRare) {
+            thought.innerText = `🚨 WARNING: RARE ${emojis[activeRare]} IS OVERDUE (ABS: ${document.getElementById('abs-'+activeRare).innerText}). PREPARING ENTRY.`;
+            thought.style.color = "var(--rare)";
         } else if (last === prev) {
-            mood.innerText = "🔥 STREAK MODE";
-            logic.innerText = `MOMENTUM ON ${emojis[last]}. PREDICTING CONTINUATION.`;
+            thought.innerText = `🔥 STREAK ACTIVE: FOLLOWING ${emojis[last]} MOMENTUM.`;
+            thought.style.color = "var(--win)";
         } else {
-            mood.innerText = "📡 SCANNING CYCLES";
-            logic.innerText = "BALANCED SERVER STATE. FOLLOWING HYBRID PROBABILITY.";
+            thought.innerText = "MONITORING SERVER CYCLES... ALL SYSTEMS NOMINAL.";
+            thought.style.color = "var(--gold)";
         }
     }
 
     function undo() { db.pop(); update(); }
-    function wipe() { if(confirm("WIPE MEMORY?")) { db=[]; localStorage.clear(); location.reload(); } }
+    function wipe() { if(confirm("ERASE ALL AI MEMORY?")) { db=[]; localStorage.clear(); location.reload(); } }
     update();
 </script>
 </body>
