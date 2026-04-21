@@ -1,88 +1,85 @@
-<!DOCTYPE html>
+l.i<!DOCTYPE html>
 <html lang="ar" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>V23 — THE BEAST MODE // FULL INTERFACE</title>
+    <title>V29 — GHOST PROTOCOL // TRAP & SHIFT RADAR</title>
     <style>
         :root {
             --bg: #010409; --panel: #0d1117; --brd: #30363d;
             --neon: #58a6ff; --win: #238636; --gold: #f1e05a; --red: #f85149; --purple: #a371f7;
         }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #c9d1d9; margin: 0; padding: 10px; }
-        .container { max-width: 1200px; margin: auto; border: 1px solid var(--brd); padding: 15px; border-radius: 20px; background: var(--panel); position: relative; }
+        .container { max-width: 1100px; margin: auto; border: 1px solid var(--brd); padding: 15px; border-radius: 20px; background: var(--panel); }
         
-        /* Dashboard */
-        .header-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 15px; }
-        .stat-card { background: #161b22; border: 1px solid var(--brd); padding: 10px; border-radius: 12px; text-align: center; }
-        .stat-card b { display: block; font-size: 18px; color: var(--neon); }
+        /* Stats Dashboard */
+        .mega-dash { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin-bottom: 15px; }
+        .stat-card { background: #161b22; border: 1px solid var(--brd); padding: 8px; border-radius: 12px; text-align: center; border-bottom: 3px solid var(--neon); }
+        .stat-card b { display: block; font-size: 15px; color: var(--gold); }
 
-        /* Heat Bar */
-        .heat-container { background: #000; height: 12px; border-radius: 6px; margin: 10px 0; border: 1px solid var(--brd); overflow: hidden; }
-        .heat-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--neon), var(--gold), var(--red)); transition: 0.8s; }
+        /* Trap & Shift Alerts */
+        .alerts-zone { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .alert-box { padding: 10px; border-radius: 10px; font-size: 11px; font-weight: bold; text-align: center; border: 1px solid var(--brd); }
+        .trap-active { background: rgba(248, 81, 73, 0.1); border-color: var(--red); color: var(--red); animation: pulse 1.5s infinite; }
+        .shift-active { background: rgba(163, 113, 247, 0.1); border-color: var(--purple); color: var(--purple); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
 
-        /* History Ribbon */
-        .history-ribbon { display: flex; gap: 8px; overflow-x: auto; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 10px; margin-bottom: 15px; border: 1px dashed var(--brd); }
-        .hist-item { font-size: 24px; min-width: 35px; text-align: center; }
+        /* History */
+        .history-box { background: #000; border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--brd); overflow-x: auto; display: flex; gap: 12px; }
+        .h-item { font-size: 35px; min-width: 45px; position: relative; }
+        .h-streak { position: absolute; top: -5px; right: -5px; background: var(--red); color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
 
         /* Main Grid */
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 15px; }
-        .btn-item { background: #161b22; border: 1px solid var(--brd); border-radius: 15px; padding: 15px 5px; cursor: pointer; transition: 0.2s; position: relative; }
-        .emoji { font-size: 35px; display: block; }
-        .abs-tag { font-size: 12px; color: var(--gold); font-weight: bold; margin-top: 5px; display: block; }
-        
-        /* Trap Overlay */
-        #trapBox { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 100; flex-direction: column; align-items: center; justify-content: center; border-radius: 20px; }
-        .trap-card { background: #161b22; padding: 25px; border: 2px solid var(--gold); border-radius: 15px; text-align: center; }
+        .main-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+        .btn-item { background: #161b22; border: 1px solid var(--brd); border-radius: 18px; padding: 15px 5px; cursor: pointer; text-align: center; position: relative; }
+        .emoji { font-size: 45px; display: block; }
+        .abs-val { font-size: 18px; color: var(--neon); font-weight: bold; }
+        .prob-val { font-size: 10px; color: var(--win); position: absolute; top: 5px; right: 8px; font-weight: bold; }
 
-        .strat-box { background: #161b22; border: 1px solid var(--brd); padding: 15px; border-radius: 15px; text-align: center; border-top: 4px solid var(--purple); }
-        .icons-row { font-size: 30px; letter-spacing: 8px; margin: 10px 0; display: block; }
+        /* Strategy Boards */
+        .strat-section { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
+        .strat-card { background: #161b22; border: 1px solid var(--brd); padding: 10px; border-radius: 12px; text-align: center; }
+        .strat-icons { font-size: 26px; letter-spacing: 5px; display: block; margin: 5px 0; }
 
-        .console { background: #000; color: #39ff14; font-family: monospace; font-size: 11px; padding: 10px; height: 60px; overflow-y: auto; border-radius: 8px; border: 1px solid var(--brd); }
+        .console { background: #000; color: #39ff14; font-family: monospace; font-size: 11px; padding: 10px; height: 50px; border-radius: 10px; border: 1px solid var(--brd); overflow-y: auto; }
         .sys-btn { flex: 1; padding: 12px; border-radius: 10px; background: #21262d; color: white; border: 1px solid var(--brd); cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div id="trapBox">
-        <div class="trap-card">
-            <h2 style="color:var(--gold); margin:0;">⚠️ TRAP ALERT</h2>
-            <p>السيرفر بيغريك بـ <span id="trapEmoji" style="font-size:30px;"></span></p>
-            <button class="sys-btn" style="background:var(--win)" onclick="confirmTrap('legit')">فرصة حقيقية ✅</button>
-            <button class="sys-btn" style="background:var(--red)" onclick="confirmTrap('trap')">دي جعفلة ❌</button>
-        </div>
-    </div>
-
-    <div class="header-grid">
-        <div class="stat-card"><small>SYNC</small><b id="sync">0%</b></div>
+    <div class="mega-dash">
         <div class="stat-card"><small>ACCURACY</small><b id="acc">0%</b></div>
-        <div class="stat-card"><small>SIGNAL</small><b id="sig">WAIT</b></div>
+        <div class="stat-card"><small>SYNC</small><b id="sync">0%</b></div>
         <div class="stat-card"><small>CHICKEN</small><b id="cGap">0</b></div>
+        <div class="stat-card"><small>HEAT</small><b id="heat">0%</b></div>
+        <div class="stat-card"><small>EVASION</small><b id="evade">LOW</b></div>
     </div>
 
-    <div class="heat-container"><div id="heatFill" class="heat-fill"></div></div>
-
-    <div class="history-ribbon" id="history">
-        </div>
-
-    <div class="grid">
-        <button class="btn-item" onclick="add('corn')"><span class="emoji">🌽</span><span class="abs-tag" id="abs-corn">0</span></button>
-        <button class="btn-item" onclick="add('tomato')"><span class="emoji">🍅</span><span class="abs-tag" id="abs-tomato">0</span></button>
-        <button class="btn-item" onclick="add('carrot')"><span class="emoji">🥕</span><span class="abs-tag" id="abs-carrot">0</span></button>
-        <button class="btn-item" onclick="add('pepper')"><span class="emoji">🌶️</span><span class="abs-tag" id="abs-pepper">0</span></button>
-        <button class="btn-item" onclick="add('shrimp')"><span class="emoji">🦐</span><span class="abs-tag" id="abs-shrimp">0</span></button>
-        <button class="btn-item" onclick="add('cow')"><span class="emoji">🐄</span><span class="abs-tag" id="abs-cow">0</span></button>
-        <button class="btn-item" onclick="add('fish')"><span class="emoji">🐟</span><span class="abs-tag" id="abs-fish">0</span></button>
-        <button class="btn-item" onclick="add('chicken')"><span class="emoji">🐔</span><span class="abs-tag" id="abs-chicken">0</span></button>
+    <div class="alerts-zone">
+        <div id="trapRadar" class="alert-box">NO TRAP DETECTED</div>
+        <div id="shiftRadar" class="alert-box">PATTERN STABLE</div>
     </div>
 
-    <div class="strat-box">
-        <small style="color:var(--gold)">BEST FORMATION (3+2 / 3+3)</small>
-        <div id="formation" class="icons-row">--</div>
-        <div id="advice" style="font-size:12px; color:var(--neon)">COLLECTING DATA...</div>
+    <div class="history-box" id="history"></div>
+
+    <div class="main-grid">
+        <button class="btn-item" onclick="add('corn')"><span id="p-corn" class="prob-val">0%</span><span class="emoji">🌽</span><span class="abs-val" id="abs-corn">0</span></button>
+        <button class="btn-item" onclick="add('tomato')"><span id="p-tomato" class="prob-val">0%</span><span class="emoji">🍅</span><span class="abs-val" id="abs-tomato">0</span></button>
+        <button class="btn-item" onclick="add('carrot')"><span id="p-carrot" class="prob-val">0%</span><span class="emoji">🥕</span><span class="abs-val" id="abs-carrot">0</span></button>
+        <button class="btn-item" onclick="add('pepper')"><span id="p-pepper" class="prob-val">0%</span><span class="emoji">🌶️</span><span class="abs-val" id="abs-pepper">0</span></button>
+        <button class="btn-item" onclick="add('shrimp')"><span id="p-shrimp" class="prob-val">0%</span><span class="emoji">🦐</span><span class="abs-val" id="abs-shrimp">0</span></button>
+        <button class="btn-item" onclick="add('cow')"><span id="p-cow" class="prob-val">0%</span><span class="emoji">🐄</span><span class="abs-val" id="abs-cow">0</span></button>
+        <button class="btn-item" onclick="add('fish')"><span id="p-fish" class="prob-val">0%</span><span class="emoji">🐟</span><span class="abs-val" id="abs-fish">0</span></button>
+        <button class="btn-item" onclick="add('chicken')"><span id="p-chicken" class="prob-val">0%</span><span class="emoji">🐔</span><span class="abs-val" id="abs-chicken">0</span></button>
     </div>
 
-    <div class="console" id="log">V23 BEAST MODE ACTIVE. HISTORY TRACKING ON.</div>
+    <div class="strat-section">
+        <div class="strat-card" style="border-top: 3px solid var(--win)"><small>4 PICKS</small><div id="p4" class="strat-icons">--</div></div>
+        <div class="strat-card" style="border-top: 3px solid var(--neon)"><small>5 PICKS</small><div id="p5" class="strat-icons">--</div></div>
+        <div class="strat-card" style="border-top: 3px solid var(--purple)"><small>6 PICKS</small><div id="p6" class="strat-icons">--</div></div>
+    </div>
+
+    <div class="console" id="log">SYSTEM READY. SCANNING FOR GHOST PATTERNS...</div>
 
     <div style="display:flex; gap:10px; margin-top:10px;">
         <button class="sys-btn" onclick="undo()">UNDO</button>
@@ -93,72 +90,88 @@
 <script>
     const items = ["corn","tomato","carrot","pepper","shrimp","cow","fish","chicken"];
     const emojis = {corn:"🌽",tomato:"🍅",carrot:"🥕",pepper:"🌶️",shrimp:"🦐",cow:"🐄",fish:"🐟",chicken:"🐔"};
-    let db = JSON.parse(localStorage.getItem("v23_db") || "[]");
-    let weights = {}; let lastPred = []; let wins = 0; let rounds = 0; let activeTrap = null;
+    let db = JSON.parse(localStorage.getItem("v29_db") || "[]");
+    let lastPicks = []; let wins = 0; let rounds = 0; let failStreak = 0;
 
     function log(m) { const l = document.getElementById("log"); l.innerHTML += `<br>> ${m}`; l.scrollTop = l.scrollHeight; }
 
     function add(f) {
-        if(lastPred.length > 0) { rounds++; if(lastPred.includes(f)) wins++; }
+        if(lastPicks.length > 0) {
+            rounds++;
+            if(lastPicks.includes(f)) { wins++; failStreak = 0; } else { failStreak++; }
+        }
         db.push(f);
-        if(db.length > 1000) db.shift();
-        localStorage.setItem("v23_db", JSON.stringify(db));
+        if(db.length > 2000) db.shift();
+        localStorage.setItem("v29_db", JSON.stringify(db));
         update();
     }
-
-    function confirmTrap(type) {
-        weights[activeTrap] = (type === 'trap') ? 0.2 : 3.0;
-        document.getElementById("trapBox").style.display = "none";
-        activeTrap = null;
-        update();
-    }
-
-    function undo() { db.pop(); update(); }
-    function wipe() { if(confirm("Clear?")) { db=[]; localStorage.clear(); location.reload(); } }
 
     function update() {
-        let len = db.length;
-        let scores = {};
+        let len = db.length; let scores = {};
         
-        // 1. History Ribbon
-        document.getElementById("history").innerHTML = db.slice(-20).reverse().map(x => `<div class="hist-item">${emojis[x]}</div>`).join("");
+        // History
+        let historyHTML = ""; let streak = 1;
+        for(let i = len-1; i >= Math.max(0, len-25); i--) {
+            if(db[i] === db[i-1]) streak++; else {
+                historyHTML += `<div class="h-item">${emojis[db[i]]}${streak>1?`<span class="h-streak">${streak}</span>`:''}</div>`;
+                streak = 1;
+            }
+        }
+        document.getElementById("history").innerHTML = historyHTML;
 
-        // 2. Heat & Logic
-        let meatC = db.slice(-10).filter(x => ["shrimp","cow","fish","chicken"].includes(x)).length;
-        document.getElementById("heatFill").style.width = (meatC * 10) + "%";
-
+        // Logic & Trap Radar
         items.forEach(f => {
             let lastIdx = db.lastIndexOf(f);
             let abs = (lastIdx === -1) ? len : len - 1 - lastIdx;
             document.getElementById(`abs-${f}`).innerText = abs;
-            if(f === 'chicken') document.getElementById("cGap").innerText = abs;
-            
-            let weight = weights[f] || 1;
-            scores[f] = (abs * 5) * weight;
+            scores[f] = (abs * 8) + (db.slice(-40).filter(x=>x===f).length * 12);
         });
 
-        const sorted = Object.entries(scores).sort((a,b) => b[1] - a[1]);
-        lastPred = sorted.slice(0,5).map(x => x[0]);
-
-        // 3. Trap Detect
-        if(sorted[0][1] > 200 && sorted[0][0] !== activeTrap) {
-            activeTrap = sorted[0][0];
-            document.getElementById("trapEmoji").innerText = emojis[activeTrap];
-            document.getElementById("trapBox").style.display = "flex";
+        // Pattern Shift Detection
+        let last5 = db.slice(-5);
+        let last5Meat = last5.filter(x => ["shrimp","cow","fish","chicken"].includes(x)).length;
+        let prev5 = db.slice(-10, -5);
+        let prev5Meat = prev5.filter(x => ["shrimp","cow","fish","chicken"].includes(x)).length;
+        
+        const shiftR = document.getElementById("shiftRadar");
+        if(Math.abs(last5Meat - prev5Meat) >= 3) {
+            shiftR.innerText = "⚠️ PATTERN SHIFT DETECTED";
+            shiftR.className = "alert-box shift-active";
+        } else {
+            shiftR.innerText = "PATTERN STABLE";
+            shiftR.className = "alert-box";
         }
 
-        // 4. UI Updates
-        document.getElementById("sync").innerText = rounds > 0 ? Math.round((wins/rounds)*100) + "%" : "0%";
-        document.getElementById("acc").innerText = rounds > 0 ? Math.round((wins/rounds)*100) + "%" : "0%";
-        document.getElementById("formation").innerText = lastPred.map(x => emojis[x]).join("");
+        const sorted = Object.entries(scores).sort((a,b) => b[1] - a[1]);
         
-        let sig = document.getElementById("sig");
-        if(meatC > 4) { sig.innerText = "STRIKE"; sig.style.color = "var(--win)"; }
-        else { sig.innerText = "WAIT"; sig.style.color = "var(--gold)"; }
+        // Trap Radar (Top Score is too high)
+        const trapR = document.getElementById("trapRadar");
+        if(sorted[0][1] > 300) {
+            trapR.innerText = `🚨 TRAP RADAR: ${emojis[sorted[0][0]]} HIGH RISK`;
+            trapR.className = "alert-box trap-active";
+        } else {
+            trapR.innerText = "NO TRAP DETECTED";
+            trapR.className = "alert-box";
+        }
 
-        log(`Result recorded: ${emojis[db[len-1]]}`);
+        lastPicks = sorted.slice(0,6).map(x => x[0]);
+        document.getElementById("p4").innerText = sorted.slice(0,4).map(x => emojis[x[0]]).join("");
+        document.getElementById("p5").innerText = sorted.slice(0,5).map(x => emojis[x[0]]).join("");
+        document.getElementById("p6").innerText = sorted.slice(0,6).map(x => emojis[x[0]]).join("");
+
+        // Dashboard
+        let acc = rounds > 0 ? Math.round((wins/rounds)*100) : 0;
+        document.getElementById("acc").innerText = acc + "%";
+        document.getElementById("sync").innerText = acc + "%";
+        document.getElementById("evade").innerText = failStreak > 3 ? "HIGH" : "LOW";
+        document.getElementById("heat").innerText = (last5Meat * 20) + "%";
+        if(db.lastIndexOf('chicken') !== -1) document.getElementById("cGap").innerText = len - 1 - db.lastIndexOf('chicken');
+
+        log(`Latest: ${emojis[db[len-1]]} | Evasion: ${failStreak}`);
     }
 
+    function undo() { db.pop(); update(); }
+    function wipe() { if(confirm("RESET?")) { db=[]; localStorage.clear(); location.reload(); } }
     update();
 </script>
 </body>
