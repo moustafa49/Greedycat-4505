@@ -2,100 +2,94 @@
 <html lang="ar" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>V45 — ULTIMATE PREDATOR // RARITY & STREAK ENGINE</title>
+    <title>V46 — THE PURE GENIUS // SHIFT DETECTOR</title>
     <style>
         :root {
-            --bg: #000; --panel: #0a0c10; --brd: #1f2328;
-            --neon: #00f2ff; --win: #00ff41; --gold: #ffd700; --red: #ff003c; --rare: #ff00ff;
+            --bg: #000; --panel: #0d1117; --brd: #30363d;
+            --neon: #00f2ff; --win: #00ff41; --gold: #ffd700; --red: #ff003c; --purple: #a371f7;
         }
         body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; }
-        .container { max-width: 950px; margin: auto; border: 2px solid var(--brd); padding: 15px; border-radius: 20px; background: var(--panel); box-shadow: 0 0 40px rgba(255, 0, 255, 0.1); }
+        .container { max-width: 950px; margin: auto; border: 1px solid var(--brd); padding: 15px; border-radius: 20px; background: var(--panel); }
         
-        /* The Predator Oracle */
-        .header-oracle { background: #000; border: 2px solid var(--rare); border-radius: 15px; padding: 25px; margin-bottom: 20px; text-align: center; position: relative; }
-        .header-oracle::before { content: "ULTIMATE AI"; position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--rare); padding: 2px 15px; font-size: 10px; border-radius: 10px; }
-        .prediction-text { font-size: 65px; letter-spacing: 25px; color: #fff; text-shadow: 0 0 25px var(--rare); margin: 15px 0; }
-        .ai-status { font-size: 14px; color: var(--gold); font-weight: bold; }
+        /* The Genius Display */
+        .genius-header { background: #000; border: 2px solid var(--gold); border-radius: 15px; padding: 20px; margin-bottom: 20px; text-align: center; position: relative; }
+        .prediction-display { font-size: 60px; letter-spacing: 20px; color: #fff; text-shadow: 0 0 20px var(--gold); margin: 10px 0; }
+        .shift-alert { font-size: 14px; font-weight: bold; padding: 5px 15px; border-radius: 20px; display: inline-block; margin-top: 5px; }
 
-        /* History Bar */
-        .history-sync { display: flex; gap: 12px; overflow-x: auto; padding: 12px; background: rgba(0,0,0,0.4); border-radius: 10px; margin-bottom: 20px; border: 1px solid var(--brd); }
-        .h-item { font-size: 40px; min-width: 55px; text-align: center; }
+        /* History Sync Bar */
+        .history-bar { display: flex; gap: 10px; overflow-x: auto; padding: 12px; background: rgba(0,0,0,0.5); border-radius: 10px; margin-bottom: 15px; border: 1px solid var(--brd); }
+        .h-node { font-size: 38px; min-width: 50px; text-align: center; }
 
-        /* Grid Layout */
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 25px; }
-        .btn-box { background: #161b22; border: 1px solid var(--brd); border-radius: 18px; padding: 18px 0; cursor: pointer; position: relative; }
-        .btn-box:hover { border-color: var(--neon); background: #1c2128; }
-        .emoji { font-size: 48px; display: block; margin-bottom: 8px; }
-        .abs-count { font-size: 18px; color: var(--neon); font-weight: bold; }
+        /* Grid */
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+        .btn { background: #161b22; border: 1px solid var(--brd); border-radius: 15px; padding: 15px 0; cursor: pointer; text-align: center; }
+        .emoji { font-size: 45px; display: block; }
+        .abs-num { font-size: 16px; color: var(--neon); font-weight: bold; }
 
         /* Strategies */
-        .matrix { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 25px; }
-        .m-card { background: #0d1117; border: 1px solid var(--brd); padding: 15px; text-align: center; border-radius: 12px; }
-        .m-card h6 { margin: 0 0 10px 0; font-size: 11px; color: #8b949e; text-transform: uppercase; }
-        .m-icons { font-size: 28px; letter-spacing: 8px; }
+        .matrix { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+        .m-box { background: #0d1117; border: 1px solid var(--brd); padding: 15px; text-align: center; border-radius: 12px; }
+        .m-icons { font-size: 26px; letter-spacing: 6px; }
 
-        /* Intel Data */
-        .intel-table { width: 100%; border-collapse: collapse; font-size: 13px; background: #000; border-radius: 12px; overflow: hidden; }
-        .intel-table th, .intel-table td { padding: 14px; border: 1px solid var(--brd); text-align: center; }
-        .intel-table th { background: #161b22; color: var(--neon); }
-        .row-rare { background: rgba(255, 0, 255, 0.1); color: var(--rare); font-weight: bold; }
-        .row-streak { background: rgba(0, 255, 65, 0.1); color: var(--win); }
+        /* Intel Table */
+        .intel-table { width: 100%; border-collapse: collapse; font-size: 12px; background: #000; }
+        .intel-table th, .intel-table td { padding: 12px; border: 1px solid var(--brd); text-align: center; }
+        .row-shift { background: rgba(255, 215, 0, 0.15); color: var(--gold); font-weight: bold; }
 
-        .footer-btns { display: flex; gap: 10px; margin-top: 15px; }
-        .sys-btn { flex: 1; padding: 15px; background: #21262d; border: 1px solid var(--brd); color: #fff; font-weight: bold; cursor: pointer; border-radius: 10px; }
+        .f-btn { width: 100%; padding: 15px; background: #21262d; border: 1px solid var(--brd); color: #fff; font-weight: bold; cursor: pointer; margin-top: 10px; border-radius: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header-oracle">
-        <span style="color:var(--rare); font-size: 10px; letter-spacing: 5px;">RARITY & STACKING ADAPTIVE ENGINE</span>
-        <div class="prediction-text" id="mainTarget">?? ?? ??</div>
-        <div id="aiThought" class="ai-status">MONITORING SERVER CYCLES...</div>
+    <div class="genius-header">
+        <span style="color:var(--gold); font-size: 10px; letter-spacing: 5px;">GENIUS V46 // PATTERN SHIFT DETECTOR</span>
+        <div class="prediction-display" id="mainTarget">?? ?? ??</div>
+        <div id="aiAnalysis" class="shift-alert" style="background: rgba(255, 215, 0, 0.1); color: var(--gold);">ANALYZING SHIFT...</div>
     </div>
 
-    <div class="history-sync" id="history"></div>
+    <div class="history-bar" id="history"></div>
 
     <div class="grid">
-        <button class="btn-box" onclick="add('corn')"><span class="emoji">🌽</span><span class="abs-count" id="abs-corn">0</span></button>
-        <button class="btn-box" onclick="add('tomato')"><span class="emoji">🍅</span><span class="abs-count" id="abs-tomato">0</span></button>
-        <button class="btn-box" onclick="add('carrot')"><span class="emoji">🥕</span><span class="abs-count" id="abs-carrot">0</span></button>
-        <button class="btn-box" onclick="add('pepper')"><span class="emoji">🌶️</span><span class="abs-count" id="abs-pepper">0</span></button>
-        <button class="btn-box" onclick="add('shrimp')"><span class="emoji">🦐</span><span class="abs-count" id="abs-shrimp">0</span></button>
-        <button class="btn-box" onclick="add('cow')"><span class="emoji">🐄</span><span class="abs-count" id="abs-cow">0</span></button>
-        <button class="btn-box" onclick="add('fish')"><span class="emoji">🐟</span><span class="abs-count" id="abs-fish">0</span></button>
-        <button class="btn-box" onclick="add('chicken')"><span class="emoji">🐔</span><span class="abs-count" id="abs-chicken">0</span></button>
+        <button class="btn" onclick="add('corn')"><span class="emoji">🌽</span><span class="abs-num" id="abs-corn">0</span></button>
+        <button class="btn" onclick="add('tomato')"><span class="emoji">🍅</span><span class="abs-num" id="abs-tomato">0</span></button>
+        <button class="btn" onclick="add('carrot')"><span class="emoji">🥕</span><span class="abs-num" id="abs-carrot">0</span></button>
+        <button class="btn" onclick="add('pepper')"><span class="emoji">🌶️</span><span class="abs-num" id="abs-pepper">0</span></button>
+        <button class="btn" onclick="add('shrimp')"><span class="emoji">🦐</span><span class="abs-num" id="abs-shrimp">0</span></button>
+        <button class="btn" onclick="add('cow')"><span class="emoji">🐄</span><span class="abs-num" id="abs-cow">0</span></button>
+        <button class="btn" onclick="add('fish')"><span class="emoji">🐟</span><span class="abs-num" id="abs-fish">0</span></button>
+        <button class="btn" onclick="add('chicken')"><span class="emoji">🐔</span><span class="abs-num" id="abs-chicken">0</span></button>
     </div>
 
     <div class="matrix">
-        <div class="m-card"><h6>3+2 OMNI</h6><div id="s32" class="m-icons">--</div></div>
-        <div class="m-card" style="border-color: var(--rare);"><h6>3+3 ULTRA</h6><div id="s33" class="m-icons">--</div></div>
-        <div class="m-card"><h6>2+2 STABLE</h6><div id="s22" class="m-icons">--</div></div>
+        <div class="m-box"><h6>3+2 DYNAMIC</h6><div id="s32" class="m-icons">--</div></div>
+        <div class="m-box" style="border-color: var(--win);"><h6>3+3 ATTACK</h6><div id="s33" class="m-icons">--</div></div>
+        <div class="m-box"><h6>2+2 SHIFT</h6><div id="s22" class="m-icons">--</div></div>
     </div>
 
     <table class="intel-table">
         <thead>
-            <tr><th>TARGET</th><th>ABS</th><th>RARITY SCORE</th><th>AI SIGNAL</th></tr>
+            <tr><th>TARGET</th><th>ABS</th><th>SCORE</th><th>AI SIGNAL</th></tr>
         </thead>
         <tbody id="intelBody"></tbody>
     </table>
 
-    <div class="footer-btns">
-        <button class="sys-btn" onclick="undo()">UNDO</button>
-        <button class="sys-btn" onclick="wipe()" style="color:var(--red)">WIPE MEMORY</button>
+    <div style="display:flex; gap:10px;">
+        <button class="f-btn" onclick="undo()">UNDO</button>
+        <button class="f-btn" onclick="wipe()" style="color:var(--red)">RESET BRAIN</button>
     </div>
 </div>
 
 <script>
     const veg = ["corn","tomato","carrot","pepper"];
     const meat = ["shrimp","cow","fish","chicken"];
-    const rareItems = ["chicken", "fish"]; // الفراخة والسمكة هما النوادر
+    const rare = ["chicken", "fish"];
     const emojis = {corn:"🌽",tomato:"🍅",carrot:"🥕",pepper:"🌶️",shrimp:"🦐",cow:"🐄",fish:"🐟",chicken:"🐔"};
-    let db = JSON.parse(localStorage.getItem("v45_db") || "[]");
+    let db = JSON.parse(localStorage.getItem("v46_db") || "[]");
 
     function add(f) {
         db.push(f); if(db.length > 3000) db.shift();
-        localStorage.setItem("v45_db", JSON.stringify(db));
+        localStorage.setItem("v46_db", JSON.stringify(db));
         update();
     }
 
@@ -103,50 +97,44 @@
         const len = db.length;
         const last = db[len-1];
         const prev = db[len-2];
-        const pprev = db[len-3];
         
         let hHTML = "";
-        for(let i=len-1; i>=Math.max(0, len-20); i--) hHTML += `<div class="h-item">${emojis[db[i]]}</div>`;
+        for(let i=len-1; i>=Math.max(0, len-20); i--) hHTML += `<div class="h-node">${emojis[db[i]]}</div>`;
         document.getElementById("history").innerHTML = hHTML;
 
+        // --- GENIUS SHIFT LOGIC ---
         let scores = {};
         let tableHTML = "";
+        let isVegStreak = db.slice(-4).every(x => veg.includes(x));
+        let isMeatStreak = db.slice(-4).every(x => meat.includes(x));
 
         [...veg, ...meat].forEach(f => {
             let lastIdx = db.lastIndexOf(f);
             let abs = (lastIdx === -1) ? len : len - 1 - lastIdx;
             document.getElementById(`abs-${f}`).innerText = abs;
 
-            // --- THE ULTIMATE PREDATOR FORMULA ---
-            let score = abs * 5;
+            let score = abs * 8;
             
-            // 1. REPEAT/STREAK (The 🌶️🌶️ Logic)
+            // 1. STREAK FOLLOW
             if (f === last) score += 600;
 
-            // 2. ZIGZAG (The 🌶️🥕🌶️ Logic)
-            if (len >= 3 && last !== prev && pprev === last && f === prev) score += 800;
+            // 2. SHIFT DETECTION (الشك في التغيير)
+            if (isVegStreak && meat.includes(f)) score += 400; // لو الخضار كتر، شك في اللحمة
+            if (isMeatStreak && veg.includes(f)) score += 400; // لو اللحمة كترت، شك في الخضار
 
-            // 3. RARITY DETECTION (عقل الفراخة والسمكة)
-            if (rareItems.includes(f)) {
-                // لو الفرخة غابت أكتر من 40 جولة، بتبدأ تاخد وزن تقيل جداً
-                if (abs > 40) score += (abs * 20);
-                if (abs > 80) score += 1500; // أولوية قصوى - "استوت" ولازم تنزل
-            }
+            // 3. RARITY & ZIGZAG
+            if (rare.includes(f) && abs > 40) score += (abs * 15);
+            if (len >= 3 && db[len-1] !== db[len-2] && db[len-3] === db[len-1] && f === db[len-2]) score += 700;
 
             scores[f] = score;
-            
-            let signal = "NORMAL";
-            let rowCls = "";
-            if (f === last) { signal = "STREAK"; rowCls = "class='row-streak'"; }
-            if (rareItems.includes(f) && abs > 40) { signal = "RARE DUE"; rowCls = "class='row-rare'"; }
-
+            let signal = (f === last) ? "STREAK" : (score > 800 ? "SHIFT TARGET" : "NORMAL");
+            let rowCls = (score > 800) ? "class='row-shift'" : "";
             tableHTML += `<tr ${rowCls}><td>${emojis[f]}</td><td>${abs}</td><td>${Math.round(score)}</td><td>${signal}</td></tr>`;
         });
         document.getElementById("intelBody").innerHTML = tableHTML;
 
         const sv = veg.sort((a,b) => scores[b] - scores[a]);
         const sm = meat.sort((a,b) => scores[b] - scores[a]);
-
         const p32 = [...sv.slice(0,3), ...sm.slice(0,2)];
         const p33 = [...sv.slice(0,3), ...sm.slice(0,3)];
         const p22 = [...sv.slice(0,2), ...sm.slice(0,2)];
@@ -156,23 +144,21 @@
         document.getElementById("s22").innerText = p22.map(x=>emojis[x]).join("");
         document.getElementById("mainTarget").innerText = p33.slice(0,3).map(x=>emojis[x]).join("");
 
-        const thought = document.getElementById("aiThought");
-        let activeRare = rareItems.find(r => scores[r] > 800 && r !== last);
-        
-        if (activeRare) {
-            thought.innerText = `🚨 WARNING: RARE ${emojis[activeRare]} IS OVERDUE (ABS: ${document.getElementById('abs-'+activeRare).innerText}). PREPARING ENTRY.`;
-            thought.style.color = "var(--rare)";
+        const analysis = document.getElementById("aiAnalysis");
+        if (isVegStreak) {
+            analysis.innerText = "🚨 VEG SATURATION: EXPECTING SHIFT TO MEAT SECTOR.";
+            analysis.style.color = "var(--red)";
         } else if (last === prev) {
-            thought.innerText = `🔥 STREAK ACTIVE: FOLLOWING ${emojis[last]} MOMENTUM.`;
-            thought.style.color = "var(--win)";
+            analysis.innerText = "🔥 STREAK DETECTED: FOLLOW CURRENT MOMENTUM.";
+            analysis.style.color = "var(--win)";
         } else {
-            thought.innerText = "MONITORING SERVER CYCLES... ALL SYSTEMS NOMINAL.";
-            thought.style.color = "var(--gold)";
+            analysis.innerText = "ANALYZING SHIFT... PATTERN IS BALANCED.";
+            analysis.style.color = "var(--gold)";
         }
     }
 
     function undo() { db.pop(); update(); }
-    function wipe() { if(confirm("ERASE ALL AI MEMORY?")) { db=[]; localStorage.clear(); location.reload(); } }
+    function wipe() { if(confirm("WIPE MEMORY?")) { db=[]; localStorage.clear(); location.reload(); } }
     update();
 </script>
 </body>
