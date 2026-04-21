@@ -1,177 +1,187 @@
-l.i<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>V29 — GHOST PROTOCOL // TRAP & SHIFT RADAR</title>
+    <title>V31 — THE ULTIMATE ARCHIVE // NO LIMITS</title>
     <style>
         :root {
             --bg: #010409; --panel: #0d1117; --brd: #30363d;
             --neon: #58a6ff; --win: #238636; --gold: #f1e05a; --red: #f85149; --purple: #a371f7;
         }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #c9d1d9; margin: 0; padding: 10px; }
-        .container { max-width: 1100px; margin: auto; border: 1px solid var(--brd); padding: 15px; border-radius: 20px; background: var(--panel); }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #c9d1d9; margin: 0; padding: 10px; overflow-x: hidden; }
+        .container { max-width: 1100px; margin: auto; border: 1px solid var(--brd); padding: 15px; border-radius: 20px; background: var(--panel); box-shadow: 0 0 40px rgba(0,0,0,0.7); }
         
-        /* Stats Dashboard */
+        /* Stats Table */
         .mega-dash { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; margin-bottom: 15px; }
-        .stat-card { background: #161b22; border: 1px solid var(--brd); padding: 8px; border-radius: 12px; text-align: center; border-bottom: 3px solid var(--neon); }
-        .stat-card b { display: block; font-size: 15px; color: var(--gold); }
+        .stat-card { background: #161b22; border: 1px solid var(--brd); padding: 10px; border-radius: 12px; text-align: center; border-bottom: 3px solid var(--neon); }
+        .stat-card b { display: block; font-size: 16px; color: var(--gold); }
 
-        /* Trap & Shift Alerts */
-        .alerts-zone { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
-        .alert-box { padding: 10px; border-radius: 10px; font-size: 11px; font-weight: bold; text-align: center; border: 1px solid var(--brd); }
-        .trap-active { background: rgba(248, 81, 73, 0.1); border-color: var(--red); color: var(--red); animation: pulse 1.5s infinite; }
-        .shift-active { background: rgba(163, 113, 247, 0.1); border-color: var(--purple); color: var(--purple); animation: pulse 2s infinite; }
-        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        /* Alerts Area */
+        .alerts-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .alert-box { padding: 10px; border-radius: 10px; font-size: 11px; font-weight: bold; text-align: center; border: 1px solid var(--brd); background: #000; }
+        .trap-active { border-color: var(--red); color: var(--red); animation: pulse 1s infinite; }
+        .shift-active { border-color: var(--purple); color: var(--purple); animation: pulse 1.5s infinite; }
+        @keyframes pulse { 50% { opacity: 0.4; } }
 
-        /* History */
-        .history-box { background: #000; border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--brd); overflow-x: auto; display: flex; gap: 12px; }
-        .h-item { font-size: 35px; min-width: 45px; position: relative; }
-        .h-streak { position: absolute; top: -5px; right: -5px; background: var(--red); color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
+        /* History Ribbon - Large Icons */
+        .history-box { background: #000; border-radius: 12px; padding: 15px; margin-bottom: 15px; border: 1px solid var(--brd); display: flex; gap: 15px; overflow-x: auto; }
+        .h-node { font-size: 38px; min-width: 50px; position: relative; filter: drop-shadow(0 0 5px rgba(255,255,255,0.1)); }
+        .streak-badge { position: absolute; top: -5px; right: -5px; background: var(--red); color: white; font-size: 11px; padding: 2px 7px; border-radius: 12px; font-weight: bold; border: 1px solid white; }
 
         /* Main Grid */
         .main-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
-        .btn-item { background: #161b22; border: 1px solid var(--brd); border-radius: 18px; padding: 15px 5px; cursor: pointer; text-align: center; position: relative; }
-        .emoji { font-size: 45px; display: block; }
-        .abs-val { font-size: 18px; color: var(--neon); font-weight: bold; }
-        .prob-val { font-size: 10px; color: var(--win); position: absolute; top: 5px; right: 8px; font-weight: bold; }
+        .btn-item { background: #161b22; border: 1px solid var(--brd); border-radius: 20px; padding: 15px 5px; cursor: pointer; text-align: center; position: relative; transition: 0.2s; }
+        .btn-item:hover { border-color: var(--neon); transform: translateY(-2px); }
+        .emoji { font-size: 48px; display: block; margin-bottom: 5px; }
+        .abs-val { font-size: 20px; color: var(--neon); font-weight: bold; display: block; }
+        .max-val { font-size: 10px; color: #8b949e; display: block; }
+        .prob-tag { position: absolute; top: 8px; left: 8px; color: var(--win); font-size: 11px; font-weight: bold; }
 
-        /* Strategy Boards */
-        .strat-section { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
-        .strat-card { background: #161b22; border: 1px solid var(--brd); padding: 10px; border-radius: 12px; text-align: center; }
-        .strat-icons { font-size: 26px; letter-spacing: 5px; display: block; margin: 5px 0; }
+        /* STRATEGY SECTION (3+2, 3+3, 2+2) */
+        .strat-area { display: grid; grid-template-columns: 1fr; gap: 10px; margin-bottom: 20px; }
+        .strat-card { background: #1c2128; border: 1px solid var(--brd); border-radius: 15px; padding: 12px; display: flex; align-items: center; }
+        .strat-info { width: 100px; border-right: 1px solid var(--brd); margin-right: 15px; }
+        .strat-info small { font-size: 10px; color: var(--gold); display: block; }
+        .strat-info b { font-size: 16px; color: white; }
+        .strat-icons { font-size: 32px; letter-spacing: 8px; flex-grow: 1; text-align: center; }
 
-        .console { background: #000; color: #39ff14; font-family: monospace; font-size: 11px; padding: 10px; height: 50px; border-radius: 10px; border: 1px solid var(--brd); overflow-y: auto; }
-        .sys-btn { flex: 1; padding: 12px; border-radius: 10px; background: #21262d; color: white; border: 1px solid var(--brd); cursor: pointer; font-weight: bold; }
+        .console { background: #000; color: #39ff14; font-family: 'Courier New', monospace; font-size: 12px; padding: 12px; height: 60px; border-radius: 10px; border: 1px solid var(--brd); overflow-y: auto; margin-bottom: 10px; }
+        .sys-btn { flex: 1; padding: 15px; border-radius: 12px; background: #21262d; color: white; border: 1px solid var(--brd); cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="mega-dash">
-        <div class="stat-card"><small>ACCURACY</small><b id="acc">0%</b></div>
-        <div class="stat-card"><small>SYNC</small><b id="sync">0%</b></div>
-        <div class="stat-card"><small>CHICKEN</small><b id="cGap">0</b></div>
-        <div class="stat-card"><small>HEAT</small><b id="heat">0%</b></div>
+        <div class="stat-card"><small>SYNC ACCURACY</small><b id="acc">0%</b></div>
+        <div class="stat-card"><small>CHICKEN GAP</small><b id="cGap">0</b></div>
+        <div class="stat-card"><small>SERVER HEAT</small><b id="heat">0%</b></div>
         <div class="stat-card"><small>EVASION</small><b id="evade">LOW</b></div>
     </div>
 
-    <div class="alerts-zone">
-        <div id="trapRadar" class="alert-box">NO TRAP DETECTED</div>
-        <div id="shiftRadar" class="alert-box">PATTERN STABLE</div>
+    <div class="alerts-row">
+        <div id="trapBox" class="alert-box">TRAP RADAR: CLEAR</div>
+        <div id="shiftBox" class="alert-box">PATTERN: STABLE</div>
     </div>
 
     <div class="history-box" id="history"></div>
 
     <div class="main-grid">
-        <button class="btn-item" onclick="add('corn')"><span id="p-corn" class="prob-val">0%</span><span class="emoji">🌽</span><span class="abs-val" id="abs-corn">0</span></button>
-        <button class="btn-item" onclick="add('tomato')"><span id="p-tomato" class="prob-val">0%</span><span class="emoji">🍅</span><span class="abs-val" id="abs-tomato">0</span></button>
-        <button class="btn-item" onclick="add('carrot')"><span id="p-carrot" class="prob-val">0%</span><span class="emoji">🥕</span><span class="abs-val" id="abs-carrot">0</span></button>
-        <button class="btn-item" onclick="add('pepper')"><span id="p-pepper" class="prob-val">0%</span><span class="emoji">🌶️</span><span class="abs-val" id="abs-pepper">0</span></button>
-        <button class="btn-item" onclick="add('shrimp')"><span id="p-shrimp" class="prob-val">0%</span><span class="emoji">🦐</span><span class="abs-val" id="abs-shrimp">0</span></button>
-        <button class="btn-item" onclick="add('cow')"><span id="p-cow" class="prob-val">0%</span><span class="emoji">🐄</span><span class="abs-val" id="abs-cow">0</span></button>
-        <button class="btn-item" onclick="add('fish')"><span id="p-fish" class="prob-val">0%</span><span class="emoji">🐟</span><span class="abs-val" id="abs-fish">0</span></button>
-        <button class="btn-item" onclick="add('chicken')"><span id="p-chicken" class="prob-val">0%</span><span class="emoji">🐔</span><span class="abs-val" id="abs-chicken">0</span></button>
+        <button class="btn-item" onclick="add('corn')"><span class="prob-tag" id="p-corn">0%</span><span class="emoji">🌽</span><span class="abs-val" id="abs-corn">0</span><span class="max-val" id="max-corn">MAX:0</span></button>
+        <button class="btn-item" onclick="add('tomato')"><span class="prob-tag" id="p-tomato">0%</span><span class="emoji">🍅</span><span class="abs-val" id="abs-tomato">0</span><span class="max-val" id="max-tomato">MAX:0</span></button>
+        <button class="btn-item" onclick="add('carrot')"><span class="prob-tag" id="p-carrot">0%</span><span class="emoji">🥕</span><span class="abs-val" id="abs-carrot">0</span><span class="max-val" id="max-carrot">MAX:0</span></button>
+        <button class="btn-item" onclick="add('pepper')"><span class="prob-tag" id="p-pepper">0%</span><span class="emoji">🌶️</span><span class="abs-val" id="abs-pepper">0</span><span class="max-val" id="max-pepper">MAX:0</span></button>
+        <button class="btn-item" onclick="add('shrimp')"><span class="prob-tag" id="p-shrimp">0%</span><span class="emoji">🦐</span><span class="abs-val" id="abs-shrimp">0</span><span class="max-val" id="max-shrimp">MAX:0</span></button>
+        <button class="btn-item" onclick="add('cow')"><span class="prob-tag" id="p-cow">0%</span><span class="emoji">🐄</span><span class="abs-val" id="abs-cow">0</span><span class="max-val" id="max-cow">MAX:0</span></button>
+        <button class="btn-item" onclick="add('fish')"><span class="prob-tag" id="p-fish">0%</span><span class="emoji">🐟</span><span class="abs-val" id="abs-fish">0</span><span class="max-val" id="max-fish">MAX:0</span></button>
+        <button class="btn-item" onclick="add('chicken')"><span class="prob-tag" id="p-chicken">0%</span><span class="emoji">🐔</span><span class="abs-val" id="abs-chicken">0</span><span class="max-val" id="max-chicken">MAX:0</span></button>
     </div>
 
-    <div class="strat-section">
-        <div class="strat-card" style="border-top: 3px solid var(--win)"><small>4 PICKS</small><div id="p4" class="strat-icons">--</div></div>
-        <div class="strat-card" style="border-top: 3px solid var(--neon)"><small>5 PICKS</small><div id="p5" class="strat-icons">--</div></div>
-        <div class="strat-card" style="border-top: 3px solid var(--purple)"><small>6 PICKS</small><div id="p6" class="strat-icons">--</div></div>
+    <div class="strat-area">
+        <div class="strat-card" style="border-right: 6px solid var(--win)">
+            <div class="strat-info"><small>RECOMMENDED</small><b>STRAT 3+2</b></div>
+            <div id="s32" class="strat-icons">--</div>
+        </div>
+        <div class="strat-card" style="border-right: 6px solid var(--purple)">
+            <div class="strat-info"><small>AGGRESSIVE</small><b>STRAT 3+3</b></div>
+            <div id="s33" class="strat-icons">--</div>
+        </div>
+        <div class="strat-card" style="border-right: 6px solid var(--neon)">
+            <div class="strat-info"><small>STABLE</small><b>STRAT 2+2</b></div>
+            <div id="s22" class="strat-icons">--</div>
+        </div>
     </div>
 
-    <div class="console" id="log">SYSTEM READY. SCANNING FOR GHOST PATTERNS...</div>
+    <div class="console" id="log">V31 OVERLORD INITIALIZED. NO DATA DROPPED.</div>
 
-    <div style="display:flex; gap:10px; margin-top:10px;">
-        <button class="sys-btn" onclick="undo()">UNDO</button>
-        <button class="sys-btn" onclick="wipe()" style="color:var(--red)">RESET</button>
+    <div style="display:flex; gap:10px;">
+        <button class="sys-btn" onclick="undo()">UNDO LAST</button>
+        <button class="sys-btn" onclick="wipe()" style="color:var(--red)">FULL WIPE</button>
     </div>
 </div>
 
 <script>
-    const items = ["corn","tomato","carrot","pepper","shrimp","cow","fish","chicken"];
+    const veg = ["corn","tomato","carrot","pepper"];
+    const meat = ["shrimp","cow","fish","chicken"];
     const emojis = {corn:"🌽",tomato:"🍅",carrot:"🥕",pepper:"🌶️",shrimp:"🦐",cow:"🐄",fish:"🐟",chicken:"🐔"};
-    let db = JSON.parse(localStorage.getItem("v29_db") || "[]");
-    let lastPicks = []; let wins = 0; let rounds = 0; let failStreak = 0;
-
-    function log(m) { const l = document.getElementById("log"); l.innerHTML += `<br>> ${m}`; l.scrollTop = l.scrollHeight; }
+    let db = JSON.parse(localStorage.getItem("v31_db") || "[]");
+    let maxAbs = JSON.parse(localStorage.getItem("v31_max") || "{}");
+    let rounds = 0; let wins = 0; let lastFull = [];
 
     function add(f) {
-        if(lastPicks.length > 0) {
-            rounds++;
-            if(lastPicks.includes(f)) { wins++; failStreak = 0; } else { failStreak++; }
-        }
-        db.push(f);
-        if(db.length > 2000) db.shift();
-        localStorage.setItem("v29_db", JSON.stringify(db));
+        if(lastFull.length > 0) { rounds++; if(lastFull.includes(f)) wins++; }
+        db.push(f); if(db.length > 2000) db.shift();
+        localStorage.setItem("v31_db", JSON.stringify(db));
         update();
     }
 
     function update() {
-        let len = db.length; let scores = {};
-        
-        // History
-        let historyHTML = ""; let streak = 1;
-        for(let i = len-1; i >= Math.max(0, len-25); i--) {
+        let len = db.length;
+        let vScores = {}; let mScores = {};
+
+        // 1. History
+        let hHTML = ""; let streak = 1;
+        for(let i=len-1; i>=Math.max(0, len-25); i--) {
             if(db[i] === db[i-1]) streak++; else {
-                historyHTML += `<div class="h-item">${emojis[db[i]]}${streak>1?`<span class="h-streak">${streak}</span>`:''}</div>`;
+                hHTML += `<div class="h-node">${emojis[db[i]]}${streak>1?`<span class="streak-badge">${streak}</span>`:''}</div>`;
                 streak = 1;
             }
         }
-        document.getElementById("history").innerHTML = historyHTML;
+        document.getElementById("history").innerHTML = hHTML;
 
-        // Logic & Trap Radar
-        items.forEach(f => {
+        // 2. Scoring & Max Abs
+        [...veg, ...meat].forEach(f => {
             let lastIdx = db.lastIndexOf(f);
             let abs = (lastIdx === -1) ? len : len - 1 - lastIdx;
+            if(!maxAbs[f] || abs > maxAbs[f]) maxAbs[f] = abs;
+            localStorage.setItem("v31_max", JSON.stringify(maxAbs));
+
             document.getElementById(`abs-${f}`).innerText = abs;
-            scores[f] = (abs * 8) + (db.slice(-40).filter(x=>x===f).length * 12);
+            document.getElementById(`max-${f}`).innerText = `MAX:${maxAbs[f]}`;
+            
+            let score = (abs * 10) + (db.slice(-40).filter(x=>x===f).length * 15);
+            if(veg.includes(f)) vScores[f] = score; else mScores[f] = score;
         });
 
-        // Pattern Shift Detection
-        let last5 = db.slice(-5);
-        let last5Meat = last5.filter(x => ["shrimp","cow","fish","chicken"].includes(x)).length;
-        let prev5 = db.slice(-10, -5);
-        let prev5Meat = prev5.filter(x => ["shrimp","cow","fish","chicken"].includes(x)).length;
+        const sV = Object.entries(vScores).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);
+        const sM = Object.entries(mScores).sort((a,b)=>b[1]-a[1]).map(x=>x[0]);
+
+        // 3. Probabilities
+        let total = Object.values(vScores).reduce((a,b)=>a+b,0) + Object.values(mScores).reduce((a,b)=>a+b,0);
+        [...veg, ...meat].forEach(f => {
+            let sc = veg.includes(f) ? vScores[f] : mScores[f];
+            document.getElementById(`p-${f}`).innerText = Math.round((sc/total)*100) + "%";
+        });
+
+        // 4. Strategies (3+2, 3+3, 2+2)
+        const p32 = [...sV.slice(0,3), ...sM.slice(0,2)];
+        const p33 = [...sV.slice(0,3), ...sM.slice(0,3)];
+        const p22 = [...sV.slice(0,2), ...sM.slice(0,2)];
+        lastFull = p33;
+
+        document.getElementById("s32").innerText = p32.map(x=>emojis[x]).join("");
+        document.getElementById("s33").innerText = p33.map(x=>emojis[x]).join("");
+        document.getElementById("s22").innerText = p22.map(x=>emojis[x]).join("");
+
+        // 5. Trap & Shift Alerts
+        let heat = (db.slice(-10).filter(x=>meat.includes(x)).length * 10);
+        document.getElementById("heat").innerText = heat + "%";
         
-        const shiftR = document.getElementById("shiftRadar");
-        if(Math.abs(last5Meat - prev5Meat) >= 3) {
-            shiftR.innerText = "⚠️ PATTERN SHIFT DETECTED";
-            shiftR.className = "alert-box shift-active";
-        } else {
-            shiftR.innerText = "PATTERN STABLE";
-            shiftR.className = "alert-box";
-        }
+        const trapBox = document.getElementById("trapBox");
+        if(len > 5 && db[len-1] === db[len-2] && db[len-2] === db[len-3]) {
+            trapBox.innerText = `🚨 TRAP: ${emojis[db[len-1]]} OVER-STACK`;
+            trapBox.className = "alert-box trap-active";
+        } else { trapBox.innerText = "TRAP RADAR: CLEAR"; trapBox.className = "alert-box"; }
 
-        const sorted = Object.entries(scores).sort((a,b) => b[1] - a[1]);
-        
-        // Trap Radar (Top Score is too high)
-        const trapR = document.getElementById("trapRadar");
-        if(sorted[0][1] > 300) {
-            trapR.innerText = `🚨 TRAP RADAR: ${emojis[sorted[0][0]]} HIGH RISK`;
-            trapR.className = "alert-box trap-active";
-        } else {
-            trapR.innerText = "NO TRAP DETECTED";
-            trapR.className = "alert-box";
-        }
-
-        lastPicks = sorted.slice(0,6).map(x => x[0]);
-        document.getElementById("p4").innerText = sorted.slice(0,4).map(x => emojis[x[0]]).join("");
-        document.getElementById("p5").innerText = sorted.slice(0,5).map(x => emojis[x[0]]).join("");
-        document.getElementById("p6").innerText = sorted.slice(0,6).map(x => emojis[x[0]]).join("");
-
-        // Dashboard
-        let acc = rounds > 0 ? Math.round((wins/rounds)*100) : 0;
-        document.getElementById("acc").innerText = acc + "%";
-        document.getElementById("sync").innerText = acc + "%";
-        document.getElementById("evade").innerText = failStreak > 3 ? "HIGH" : "LOW";
-        document.getElementById("heat").innerText = (last5Meat * 20) + "%";
+        document.getElementById("acc").innerText = rounds > 0 ? Math.round((wins/rounds)*100) + "%" : "0%";
         if(db.lastIndexOf('chicken') !== -1) document.getElementById("cGap").innerText = len - 1 - db.lastIndexOf('chicken');
-
-        log(`Latest: ${emojis[db[len-1]]} | Evasion: ${failStreak}`);
+        
+        const l = document.getElementById("log");
+        l.innerHTML += `<br>> Round ${len}: ${emojis[db[len-1]]}`; l.scrollTop = l.scrollHeight;
     }
 
     function undo() { db.pop(); update(); }
-    function wipe() { if(confirm("RESET?")) { db=[]; localStorage.clear(); location.reload(); } }
+    function wipe() { if(confirm("RESET ALL?")) { db=[]; maxAbs={}; localStorage.clear(); location.reload(); } }
     update();
 </script>
 </body>
