@@ -3,62 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>V66 — THE STREAK RIDER // PATTERN MIRROR</title>
+    <title>V68 — THE MASTERMIND</title>
     <style>
-        :root { --bg: #010101; --panel: #0d1117; --brd: #30363d; --neon: #00f2ff; --win: #00ff41; --gold: #ffd700; --red: #ff003c; }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; }
-        .container { max-width: 480px; margin: auto; border: 1px solid var(--brd); padding: 12px; border-radius: 20px; background: var(--panel); }
+        :root { --bg: #050505; --panel: #0d1117; --brd: #30363d; --neon: #00f2ff; --win: #00ff41; --gold: #ffd700; }
+        body { font-family: sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; }
+        .container { max-width: 450px; margin: auto; border: 1px solid var(--brd); border-radius: 20px; padding: 15px; background: var(--panel); }
         
-        /* الكروت العلوية: تركيز كامل على التكرار */
-        .live-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 15px; }
-        .card { background: #000; border: 1px solid var(--brd); border-radius: 12px; padding: 10px 5px; text-align: center; transition: 0.3s; }
-        .card.active { border-color: var(--win); box-shadow: 0 0 15px rgba(0,255,65,0.2); }
-        .card .emoji { font-size: 30px; display: block; }
-        .card .type { font-size: 8px; font-weight: bold; color: var(--gold); margin: 4px 0; text-transform: uppercase; }
-        .card .val { font-size: 12px; color: var(--win); font-weight: bold; }
+        /* القسم العلوي (التوقعات المباشرة) */
+        .live-picks { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+        .p-card { background: #000; border: 1px solid #333; border-radius: 12px; padding: 12px 5px; text-align: center; }
+        .p-card.hot { border-color: var(--gold); box-shadow: 0 0 10px rgba(255,215,0,0.3); }
+        .p-card .emoji { font-size: 32px; display: block; margin-bottom: 5px; }
+        .p-card .tag { font-size: 8px; color: var(--neon); font-weight: bold; text-transform: uppercase; }
+        .p-card .perc { font-size: 11px; color: var(--win); font-weight: bold; }
 
-        .status-strip { background: #000; border: 1px solid var(--neon); border-radius: 10px; padding: 8px; text-align: center; margin-bottom: 15px; font-size: 11px; font-weight: bold; }
-
-        .groups { border: 1px solid var(--gold); border-radius: 15px; background: rgba(0,0,0,0.4); padding: 10px; margin-bottom: 15px; }
-        .g-row { padding: 10px 0; border-bottom: 1px solid #222; text-align: center; }
-        .g-row:last-child { border-bottom: none; }
-        .g-title { font-size: 9px; color: var(--gold); letter-spacing: 2px; margin-bottom: 6px; font-weight: bold; }
+        /* المجموعات الإجبارية (2+2, 3+2, 3+3) */
+        .group-box { border: 1.5px solid var(--gold); border-radius: 15px; padding: 10px; margin-bottom: 20px; background: rgba(0,0,0,0.4); }
+        .g-item { text-align: center; padding: 8px 0; border-bottom: 1px solid #222; }
+        .g-item:last-child { border-bottom: none; }
+        .g-label { font-size: 9px; color: var(--gold); letter-spacing: 2px; font-weight: bold; margin-bottom: 5px; }
         .g-icons { display: flex; justify-content: center; gap: 12px; font-size: 22px; }
 
-        .history { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid #222; }
-        .h-node { min-width: 38px; height: 38px; background: #161b22; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+        .history { display: flex; gap: 5px; overflow-x: auto; margin-bottom: 15px; }
+        .h-node { min-width: 35px; height: 35px; background: #161b22; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
 
         .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 15px; }
-        .btn { background: #161b22; border: 1px solid var(--brd); border-radius: 12px; padding: 15px 0; cursor: pointer; color: #fff; }
-        .btn span { font-size: 12px; color: var(--neon); display: block; margin-top: 5px; font-weight: bold; }
+        .btn { background: #161b22; border: 1px solid var(--brd); border-radius: 10px; padding: 15px 0; cursor: pointer; color: #fff; }
+        .btn span { font-size: 11px; color: var(--neon); display: block; margin-top: 4px; font-weight: bold; }
 
-        table { width: 100%; border-collapse: collapse; font-size: 11px; }
-        th { background: #161b22; color: var(--neon); padding: 10px; border-bottom: 2px solid #333; }
+        table { width: 100%; border-collapse: collapse; font-size: 10px; }
+        th { color: var(--neon); padding: 10px; border-bottom: 2px solid #333; }
         td { padding: 10px; text-align: center; border-bottom: 1px solid #111; }
-        .win-txt { color: var(--win); font-weight: bold; }
+        .score-win { color: var(--win); font-weight: bold; }
 
-        .sys { display: flex; gap: 10px; margin-top: 10px; }
-        .sys-btn { flex: 1; padding: 14px; border-radius: 10px; background: #21262d; color: #fff; border: 1px solid var(--brd); font-weight: bold; cursor: pointer; }
+        .sys { display: flex; gap: 10px; }
+        .sys-btn { flex: 1; padding: 12px; border-radius: 10px; background: #21262d; border: 1px solid var(--brd); color: #fff; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div id="liveCards" class="live-cards"></div>
+    <div id="livePicks" class="live-picks"></div>
 
-    <div class="status-strip" id="statusBox">ANALYZING STREAK PATTERNS...</div>
-
-    <div class="groups">
-        <div class="g-row">
-            <div class="g-title">OMNI 6 (3+3 STREAK FOCUS)</div>
+    <div class="group-box">
+        <div class="g-item">
+            <div class="g-label">OMNI 6 (3 VEG + 3 MEAT)</div>
             <div id="g6" class="g-icons"></div>
         </div>
-        <div class="g-row">
-            <div class="g-title">ULTRA 5 (3+2 BALANCE)</div>
+        <div class="g-item">
+            <div class="g-label">ULTRA 5 (3 VEG + 2 MEAT)</div>
             <div id="g5" class="g-icons"></div>
         </div>
-        <div class="g-row">
-            <div class="g-title">STABLE 4 (2+2 SYNC)</div>
+        <div class="g-item">
+            <div class="g-label">STABLE 4 (2 VEG + 2 MEAT)</div>
             <div id="g4" class="g-icons"></div>
         </div>
     </div>
@@ -81,25 +78,25 @@
         <tbody id="stats"></tbody>
     </table>
 
-    <div class="sys">
+    <div class="sys" style="margin-top:15px;">
         <button class="sys-btn" onclick="undo()">UNDO</button>
-        <button class="sys-btn" onclick="reset()" style="color:var(--red)">CLEAR BRAIN</button>
+        <button class="sys-btn" onclick="reset()" style="color:#ff4d4d">CLEAR BRAIN</button>
     </div>
 </div>
 
 <script>
     const veg = ["corn", "tomato", "carrot", "pepper"], meat = ["shrimp", "cow", "fish", "chicken"];
     const emojis = {corn:"🌽",tomato:"🍅",carrot:"🥕",pepper:"🌶️",shrimp:"🦐",cow:"🐄",fish:"🐟",chicken:"🐔"};
-    let db = JSON.parse(localStorage.getItem("v66_db") || "[]");
+    let db = JSON.parse(localStorage.getItem("v68_db") || "[]");
 
     function add(f) { db.push(f); save(); }
     function undo() { db.pop(); save(); }
     function reset() { if(confirm("Reset?")) { db = []; save(); } }
-    function save() { localStorage.setItem("v66_db", JSON.stringify(db)); update(); }
+    function save() { localStorage.setItem("v68_db", JSON.stringify(db)); update(); }
 
     function update() {
         const len = db.length; if(len === 0) return;
-        const last = db[len-1], p2 = db[len-2], p3 = db[len-3];
+        const last = db[len-1], p2 = db[len-2];
 
         let hHTML = ""; for(let i=len-1; i>=Math.max(0, len-20); i--) hHTML += `<div class="h-node">${emojis[db[i]]}</div>`;
         document.getElementById("history").innerHTML = hHTML;
@@ -109,56 +106,41 @@
             let abs = (db.lastIndexOf(f) === -1) ? len : len - 1 - db.lastIndexOf(f);
             document.getElementById(`abs-${f}`).innerText = abs;
             
-            // 🔥 نظام سكور التكرار الجديد 🔥
-            let s = abs * 5; reasons[f] = "SCAN";
+            let s = abs * 10; let r = "SCAN";
 
-            // إذا تكرر الصنف ورا بعض (Streak Rider)
-            if (f === last) { 
-                s = 5000; 
-                if (f === p2) s = 7500; // لو تكرر مرتين السكور بيعلى أكتر
-                if (f === p2 && f === p3) s = 10000; // موجة تكرار قوية
-                reasons[f] = "STREAK"; 
-            }
-            
-            // نمط التبادل (ZigZag)
-            else if (f === p2 && last !== f) { s = 4500; reasons[f] = "ZIGZAG"; }
-            
-            // نظام الجعفلة (Sector Shift) بناءً على صورك
-            let vLast10 = db.slice(-10).filter(x => veg.includes(x)).length;
-            if ((vLast10 >= 7 && meat.includes(f)) || (vLast10 <= 3 && veg.includes(f))) {
-                if (s < 2150) { s = 2150 + (abs * 2); reasons[f] = "SHIFT"; }
-            }
+            // 🔥 منطق الصور: التكرار أولاً 🔥
+            if (abs === 0) { s = 5000; r = "STREAK"; }
+            else if (abs === 1 && f === p2) { s = 4500; r = "ZIGZAG"; }
+            else if (abs >= 14) { s = 2178; r = "SHIFT"; }
+            else if (abs > 7) { s = 1600; r = "SHIFT"; }
 
-            scores[f] = s;
+            scores[f] = s; reasons[f] = r;
         });
-
-        document.getElementById("statusBox").innerText = (last === p2) ? "🔥 STRONG STREAK DETECTED - FOLLOW WAVE" : "STABLE PATTERN ANALYSIS";
 
         let sV = [...veg].sort((a,b) => scores[b] - scores[a]);
         let sM = [...meat].sort((a,b) => scores[b] - scores[a]);
 
-        // كروت التوقعات (مبنية على التكرار)
+        // تحديث كروت الـ Live Picks
         let top4 = [...sV.slice(0,2), ...sM.slice(0,2)].sort((a,b) => scores[b] - scores[a]);
-        document.getElementById("liveCards").innerHTML = top4.map(x => `
-            <div class="card ${reasons[x]=='STREAK'?'active':''}">
+        document.getElementById("livePicks").innerHTML = top4.map(x => `
+            <div class="p-card ${reasons[x]=='STREAK'?'hot':''}">
                 <span class="emoji">${emojis[x]}</span>
-                <span class="type">${reasons[x]}</span>
-                <span class="val">${Math.round(scores[x])}</span>
+                <span class="tag">${reasons[x]}</span>
+                <span class="perc">${Math.round(scores[x]/5000*100)}%</span>
             </div>
         `).join("");
 
-        // المجموعات 2+2 و 3+2 و 3+3
-        const d = (l) => l.map(x => emojis[x]).join(" ");
+        // تحديث المجموعات الإجبارية
+        const d = (list) => list.map(x => emojis[x]).join(" ");
         document.getElementById("g6").innerText = d([...sV.slice(0,3), ...sM.slice(0,3)].sort((a,b) => scores[b] - scores[a]));
         document.getElementById("g5").innerText = d([...sV.slice(0,3), ...sM.slice(0,2)].sort((a,b) => scores[b] - scores[a]));
         document.getElementById("g4").innerText = d([...sV.slice(0,2), ...sM.slice(0,2)].sort((a,b) => scores[b] - scores[a]));
 
+        // الجدول
         let all = [...veg, ...meat].sort((a,b) => scores[b] - scores[a]);
-        let tHTML = "";
-        all.forEach(f => {
-            tHTML += `<tr><td>${emojis[f]}</td><td>${document.getElementById(`abs-${f}`).innerText}</td><td class="${scores[f]>2000?'win-txt':''}">${Math.round(scores[f])}</td><td class="${scores[f]>2000?'win-txt':''}">${reasons[f]}</td></tr>`;
-        });
-        document.getElementById("stats").innerHTML = tHTML;
+        document.getElementById("stats").innerHTML = all.map(f => `
+            <tr><td>${emojis[f]}</td><td>${document.getElementById(`abs-${f}`).innerText}</td><td class="score-win">${Math.round(scores[f])}</td><td class="score-win">${reasons[f]}</td></tr>
+        `).join("");
     }
     update();
 </script>
