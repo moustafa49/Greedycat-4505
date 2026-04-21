@@ -3,67 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>V60 — THE NEURAL OVERLORD // AI LEARNING</title>
+    <title>V63 — THE ULTIMATE SYMPHONY // PRO EDITION</title>
     <style>
-        :root {
-            --bg: #010101; --panel: #0d1117; --brd: #30363d;
-            --neon: #00f2ff; --win: #00ff41; --gold: #ffd700; --red: #ff003c; --rare: #bc13fe;
-        }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; }
-        .container { max-width: 500px; margin: auto; border: 1px solid var(--brd); padding: 15px; border-radius: 20px; background: var(--panel); box-shadow: 0 0 50px #000; }
+        :root { --bg: #050505; --panel: #0d1117; --brd: #30363d; --neon: #00f2ff; --win: #00ff41; --gold: #ffd700; --red: #ff003c; --purple: #bc13fe; }
+        body { font-family: 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; }
+        .container { max-width: 480px; margin: auto; border: 1px solid var(--brd); padding: 12px; border-radius: 20px; background: var(--panel); box-shadow: 0 0 30px #000; }
         
-        /* Master Header */
-        .header { background: #000; border: 2px solid var(--neon); border-radius: 15px; padding: 15px; text-align: center; margin-bottom: 12px; position: relative; }
-        .main-icons { font-size: 48px; letter-spacing: 12px; text-shadow: 0 0 20px var(--neon); }
-        .pwr-bar { height: 4px; background: #222; width: 80%; margin: 10px auto; border-radius: 10px; overflow: hidden; }
-        #pwrFill { height: 100%; background: var(--win); width: 0%; transition: 0.5s; }
+        /* 🔥 Top Display (Image 7 style) 🔥 */
+        .live-status { background: #000; border: 2px solid var(--neon); border-radius: 15px; padding: 15px; text-align: center; margin-bottom: 12px; }
+        .main-prediction { font-size: 42px; letter-spacing: 12px; text-shadow: 0 0 15px var(--neon); }
+        .conf-bar { height: 4px; background: #222; border-radius: 10px; margin: 10px auto; width: 80%; overflow: hidden; }
+        #confFill { height: 100%; background: var(--win); width: 0%; transition: 0.8s; }
 
-        /* 🔥 TRI-LEVEL PICKS PANEL (2+2, 3+2, 3+3) 🔥 */
-        .picks-box { background: rgba(0,0,0,0.6); border: 1.5px solid var(--gold); border-radius: 15px; padding: 12px; margin-bottom: 15px; }
-        .pick-row { display: flex; flex-direction: column; align-items: center; padding: 10px; border-bottom: 1px solid #222; }
-        .pick-row:last-child { border-bottom: none; }
-        .label { font-size: 10px; color: var(--gold); letter-spacing: 3px; font-weight: bold; margin-bottom: 6px; }
-        .icons-wrap { display: flex; gap: 15px; font-size: 26px; filter: drop-shadow(0 0 5px var(--gold)); }
-        .reason-tag { font-size: 8px; color: var(--neon); margin-top: 2px; }
+        /* 🔥 Live Picks Cards (Image 3 style) 🔥 */
+        .live-picks-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 12px; }
+        .live-card { background: rgba(255,255,255,0.03); border: 1px solid #333; border-radius: 10px; padding: 8px 2px; text-align: center; }
+        .live-card img, .live-card span.emoji { font-size: 26px; display: block; margin-bottom: 5px; }
+        .status-label { font-size: 7px; font-weight: bold; text-transform: uppercase; display: block; }
+        .perc-label { font-size: 10px; color: var(--win); font-weight: bold; }
 
-        .history { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 8px; margin-bottom: 10px; }
-        .h-node { font-size: 26px; min-width: 38px; height: 38px; background: #161b22; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        /* 🔥 Groups Section (Image 4 & 7) 🔥 */
+        .groups-box { border: 1px solid var(--gold); border-radius: 12px; background: rgba(0,0,0,0.5); padding: 10px; margin-bottom: 12px; }
+        .group-row { display: flex; flex-direction: column; align-items: center; padding: 8px 0; border-bottom: 1px solid #222; }
+        .group-row:last-child { border-bottom: none; }
+        .group-label { font-size: 8px; color: var(--gold); letter-spacing: 2px; margin-bottom: 4px; font-weight: bold; }
+        .group-icons { display: flex; gap: 8px; font-size: 18px; }
 
+        /* Sector Warning Bar */
+        .warning-strip { font-size: 9px; text-align: center; color: var(--gold); margin-bottom: 5px; font-weight: bold; }
+        .sat-bar { height: 5px; display: flex; border-radius: 10px; overflow: hidden; margin-bottom: 10px; border: 1px solid #333; }
+
+        /* History & Controls */
+        .history { display: flex; gap: 5px; overflow-x: auto; padding-bottom: 10px; }
+        .h-node { min-width: 35px; height: 35px; background: #161b22; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
         .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 15px; }
-        .btn { background: #161b22; border: 1px solid var(--brd); border-radius: 12px; padding: 12px 0; cursor: pointer; color: #fff; }
-        .btn .abs { font-size: 12px; color: var(--neon); display: block; font-weight: bold; margin-top: 5px; }
+        .btn { background: #161b22; border: 1px solid var(--brd); border-radius: 10px; padding: 12px 0; cursor: pointer; color: #fff; }
+        .btn .abs { font-size: 12px; color: var(--neon); display: block; margin-top: 4px; font-weight: bold; }
 
-        /* Table Analysis */
-        table { width: 100%; border-collapse: collapse; font-size: 10px; background: #000; border-radius: 10px; }
-        th { background: #161b22; color: var(--neon); padding: 8px; border-bottom: 1px solid var(--brd); }
+        /* Table */
+        table { width: 100%; border-collapse: collapse; font-size: 10px; background: #000; border-radius: 8px; overflow: hidden; }
+        th { background: #161b22; color: var(--neon); padding: 8px; }
         td { padding: 8px; text-align: center; border-bottom: 1px solid #111; }
-        .win-txt { color: var(--win); font-weight: bold; }
-        .rare-txt { color: var(--rare); font-weight: bold; }
+        .high-score { color: var(--win); font-weight: bold; }
+        .jafala-score { color: var(--purple); font-weight: bold; }
 
-        .sys-btn { flex: 1; padding: 14px; border-radius: 12px; background: #21262d; color: #fff; border: 1px solid var(--brd); cursor: pointer; font-weight: bold; }
+        .sys-btns { display: flex; gap: 10px; margin-top: 10px; }
+        .sys-btn { flex: 1; padding: 12px; border-radius: 8px; background: #21262d; color: #fff; border: 1px solid var(--brd); font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header">
-        <div id="prediction" class="main-icons">?? ?? ??</div>
-        <div class="pwr-bar"><div id="pwrFill"></div></div>
-        <div id="aiBrain" style="font-size: 10px; color: var(--gold);">NEURAL CORE: STANDBY</div>
+    <div class="live-status">
+        <div id="mainPred" class="main-prediction">?? ?? ??</div>
+        <div class="conf-bar"><div id="confFill"></div></div>
+        <div style="font-size: 9px; color: var(--win); letter-spacing: 1px;">AI STATUS: NEURAL PATTERN LOCKED</div>
     </div>
 
-    <div class="picks-box">
-        <div class="pick-row">
-            <div class="label">OMNI 6 (3 VEG + 3 MEAT)</div>
-            <div id="picks6" class="icons-wrap">-- -- -- -- -- --</div>
+    <div id="livePicks" class="live-picks-grid"></div>
+
+    <div class="warning-strip" id="warnText">STABLE SECTOR</div>
+    <div class="sat-bar"><div id="vBar" style="background:var(--neon); width:50%"></div><div id="mBar" style="background:var(--red); width:50%"></div></div>
+
+    <div class="groups-box">
+        <div class="group-row">
+            <div class="group-label">OMNI 6 (3+3 MIXED)</div>
+            <div id="g6" class="group-icons"></div>
         </div>
-        <div class="pick-row">
-            <div class="label">ULTRA 5 (3 VEG + 2 MEAT)</div>
-            <div id="picks5" class="icons-wrap">-- -- -- -- --</div>
+        <div class="group-row">
+            <div class="group-label">ULTRA 5 (3+2 BALANCED)</div>
+            <div id="g5" class="group-icons"></div>
         </div>
-        <div class="pick-row">
-            <div class="label">STABLE 4 (2 VEG + 2 MEAT)</div>
-            <div id="picks4" class="icons-wrap">-- -- -- --</div>
+        <div class="group-row">
+            <div class="group-label">STABLE 4 (2+2 FORCED)</div>
+            <div id="g4" class="group-icons"></div>
         </div>
     </div>
 
@@ -81,95 +94,91 @@
     </div>
 
     <table>
-        <thead><tr><th>TARGET</th><th>ABS</th><th>SCORE</th><th>REASON</th></tr></thead>
+        <thead><tr><th>TARGET</th><th>ABS</th><th>SCORE</th><th>CONFIDENCE</th></tr></thead>
         <tbody id="stats"></tbody>
     </table>
 
-    <div style="display:flex; gap:10px; margin-top:15px;">
+    <div class="sys-btns">
         <button class="sys-btn" onclick="undo()">UNDO</button>
-        <button class="sys-btn" onclick="reset()" style="color:var(--red)">CLEAR BRAIN</button>
+        <button class="sys-btn" onclick="reset()" style="color:var(--red)">FULL RESET</button>
     </div>
 </div>
 
 <script>
-    const veg = ["corn", "tomato", "carrot", "pepper"];
-    const meat = ["shrimp", "cow", "fish", "chicken"];
+    const veg = ["corn", "tomato", "carrot", "pepper"], meat = ["shrimp", "cow", "fish", "chicken"];
     const emojis = {corn:"🌽",tomato:"🍅",carrot:"🥕",pepper:"🌶️",shrimp:"🦐",cow:"🐄",fish:"🐟",chicken:"🐔"};
-    let db = JSON.parse(localStorage.getItem("v60_db") || "[]");
+    let db = JSON.parse(localStorage.getItem("v63_db") || "[]");
 
     function add(f) { db.push(f); save(); }
     function undo() { db.pop(); save(); }
-    function reset() { if(confirm("Reset?")) { db = []; save(); } }
-    function save() { localStorage.setItem("v60_db", JSON.stringify(db)); update(); }
+    function reset() { if(confirm("Reset Brain?")) { db = []; save(); } }
+    function save() { localStorage.setItem("v63_db", JSON.stringify(db)); update(); }
 
     function update() {
         const len = db.length; if(len === 0) return;
-        const last = db[len-1], p2 = db[len-2], p3 = db[len-3], p4 = db[len-4];
+        const last = db[len-1], p2 = db[len-2], p3 = db[len-3];
 
-        // History
+        // History UI
         let hHTML = ""; for(let i=len-1; i>=Math.max(0, len-20); i--) hHTML += `<div class="h-node">${emojis[db[i]]}</div>`;
         document.getElementById("history").innerHTML = hHTML;
 
-        let scores = {}, reasons = {};
+        // Saturation Logic
+        let vCount = db.slice(-10).filter(x => veg.includes(x)).length;
+        document.getElementById("vBar").style.width = (vCount * 10) + "%";
+        document.getElementById("mBar").style.width = (100 - (vCount * 10)) + "%";
+        document.getElementById("warnText").innerText = vCount >= 7 ? "VEG SATURATED ⚠️ TARGET MEAT" : (vCount <= 3 ? "MEAT SATURATED ⚠️ TARGET VEG" : "STABLE SECTOR");
+
+        let scores = {}, reasons = {}, confs = {};
         [...veg, ...meat].forEach(f => {
             let abs = (db.lastIndexOf(f) === -1) ? len : len - 1 - db.lastIndexOf(f);
             document.getElementById(`abs-${f}`).innerText = abs;
             
-            // 🔥 ADVANCED AI LOGIC 🔥
-            let s = abs * 10;
-            reasons[f] = "SCANNING";
-
-            // 1. التكرار (Streak Control)
-            if (f === last) { s += 5000; reasons[f] = "STREAK"; }
+            let s = abs * 15; reasons[f] = "NORMAL";
             
-            // 2. النمط المتكرر (Pattern Recognition) - زي فلفل فلفل طماطم فلفل فلفل
-            if (f === last && p2 === last) { s += 2000; reasons[f] = "HEAVY STREAK"; }
-            if (f === p3 && last === p2) { s += 4000; reasons[f] = "PATTERN XY"; }
-
-            // 3. الجعفلة (Jafala Detection) - لو السيرفر كسر النمط فجأة
-            if (last !== p2 && last !== p3 && f === p4) { s += 2500; reasons[f] = "JAFALA HIT"; }
-
-            // 4. الغياب الطويل (Due/Rare)
-            if (abs > 35) { s += (abs * 30); reasons[f] = "RARE DUE"; }
-
-            // 5. ميزان القطاعات (Sector Balancing)
-            let last5 = db.slice(-5);
-            let vCount = last5.filter(x => veg.includes(x)).length;
-            if (vCount >= 4 && meat.includes(f)) { s += 1500; reasons[f] = "SECTOR SHIFT"; }
-
+            // 🔥 AI Scoring Logic (Based on Image 4 & 7) 🔥
+            if (f === last) { s = 5000; reasons[f] = "STREAK"; }
+            else if (f === p3 && last === p2) { s = 4500; reasons[f] = "ZIGZAG"; }
+            else if (abs > 30) { s = 3000 + (abs * 2); reasons[f] = "RE-ENTRY"; }
+            
+            // Jafala Detection (Sector Flip)
+            if ((vCount >= 8 && meat.includes(f)) || (vCount <= 2 && veg.includes(f))) {
+                s += 2000; reasons[f] = "SHIFT";
+            }
+            
             scores[f] = s;
+            confs[f] = Math.min(99, Math.round((s / 5000) * 100));
         });
 
-        // 🔥 FORCED BALANCED PICKS (2+2, 3+2, 3+3) 🔥
-        let sVeg = [...veg].sort((a,b) => scores[b] - scores[a]);
-        let sMeat = [...meat].sort((a,b) => scores[b] - scores[a]);
+        // Forced Balanced Sorting
+        let sV = [...veg].sort((a,b) => scores[b] - scores[a]);
+        let sM = [...meat].sort((a,b) => scores[b] - scores[a]);
 
-        // 6 Picks (3+3)
-        let o6 = [...sVeg.slice(0,3), ...sMeat.slice(0,3)].sort((a,b) => scores[b] - scores[a]);
-        document.getElementById("picks6").innerHTML = o6.map(x => `<div>${emojis[x]}<div class="reason-tag">${reasons[x]}</div></div>`).join("");
+        // Live Cards UI
+        let top4 = [...sV.slice(0,2), ...sM.slice(0,2)].sort((a,b) => scores[b] - scores[a]);
+        document.getElementById("livePicks").innerHTML = top4.map(x => `
+            <div class="live-card">
+                <span class="emoji">${emojis[x]}</span>
+                <span class="status-label" style="color:${reasons[x]=='STREAK'?'var(--win)':(reasons[x]=='ZIGZAG'?'var(--neon)':'var(--gold)')}">${reasons[x]}</span>
+                <span class="perc-label">${confs[x]}%</span>
+            </div>
+        `).join("");
 
-        // 5 Picks (3 Veg + 2 Meat)
-        let o5 = [...sVeg.slice(0,3), ...sMeat.slice(0,2)].sort((a,b) => scores[b] - scores[a]);
-        document.getElementById("picks5").innerHTML = o5.map(x => `<div>${emojis[x]}<div class="reason-tag">${reasons[x]}</div></div>`).join("");
+        // Groups UI
+        const drawGroup = (list) => list.map(x => emojis[x]).join(" ");
+        document.getElementById("g6").innerText = drawGroup([...sV.slice(0,3), ...sM.slice(0,3)].sort((a,b) => scores[b] - scores[a]));
+        document.getElementById("g5").innerText = drawGroup([...sV.slice(0,3), ...sM.slice(0,2)].sort((a,b) => scores[b] - scores[a]));
+        document.getElementById("g4").innerText = drawGroup([...sV.slice(0,2), ...sM.slice(0,2)].sort((a,b) => scores[b] - scores[a]));
 
-        // 4 Picks (2 Veg + 2 Meat)
-        let o4 = [...sVeg.slice(0,2), ...sMeat.slice(0,2)].sort((a,b) => scores[b] - scores[a]);
-        document.getElementById("picks4").innerHTML = o4.map(x => `<div>${emojis[x]}<div class="reason-tag">${reasons[x]}</div></div>`).join("");
+        // Table UI
+        let allSorted = [...veg, ...meat].sort((a,b) => scores[b] - scores[a]);
+        document.getElementById("mainPred").innerText = allSorted.slice(0,3).map(x => emojis[x]).join(" ");
+        document.getElementById("confFill").style.width = confs[allSorted[0]] + "%";
 
-        // Table
-        let sorted = [...veg, ...meat].sort((a,b) => scores[b] - scores[a]);
         let tHTML = "";
-        sorted.forEach(f => {
-            let cl = reasons[f] !== "SCANNING" ? "class='win-txt'" : "";
-            tHTML += `<tr><td>${emojis[f]}</td><td>${document.getElementById(`abs-${f}`).innerText}</td><td>${Math.round(scores[f])}</td><td ${cl}>${reasons[f]}</td></tr>`;
+        allSorted.forEach(f => {
+            tHTML += `<tr><td>${emojis[f]}</td><td>${document.getElementById(`abs-${f}`).innerText}</td><td class="${scores[f]>2000?'high-score':''}">${Math.round(scores[f])}</td><td class="perc-label">${confs[f]}%</td></tr>`;
         });
         document.getElementById("stats").innerHTML = tHTML;
-
-        // Prediction & Power
-        document.getElementById("prediction").innerText = o4.slice(0,3).map(x => emojis[x]).join("");
-        let pwr = Math.min(100, Math.round(scores[sorted[0]]/5000*100));
-        document.getElementById("pwrFill").style.width = pwr + "%";
-        document.getElementById("aiBrain").innerText = pwr > 85 ? "AI STATUS: PATTERN LOCKED 🎯" : "AI STATUS: LEARNING STRATEGY...";
     }
     update();
 </script>
