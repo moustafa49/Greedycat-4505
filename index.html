@@ -2,228 +2,168 @@
 <html lang="ar" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>THE SINGULARITY V15 // FINAL DOMINATION</title>
+    <title>V22 — THE GHOST ENGINE // FINAL ASCENSION</title>
     <style>
         :root {
-            --bg: #000205; --panel: #050a14; --brd: #112240;
-            --neon: #00f2ff; --win: #00ff88; --gold: #ffcc00; --red: #ff3366; --void: #7000ff;
+            --bg: #05070a; --panel: #0d1117; --brd: #30363d;
+            --neon: #58a6ff; --win: #238636; --gold: #f1e05a; --red: #f85149; --ghost: #e6edf3;
         }
-        body { font-family: 'Consolas', 'Courier New', monospace; background: var(--bg); color: #8892b0; margin: 0; padding: 10px; overflow-x: hidden; }
-        .container { max-width: 1200px; margin: auto; border: 1px solid var(--brd); padding: 20px; background: rgba(10, 25, 47, 0.4); border-radius: 20px; box-shadow: 0 0 50px rgba(0,0,0,0.5); }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #c9d1d9; margin: 0; padding: 10px; }
+        .container { max-width: 1200px; margin: auto; border: 1px solid var(--brd); padding: 15px; border-radius: 25px; background: #0d1117; box-shadow: 0 0 60px rgba(0,0,0,0.9); }
         
-        /* Header & Status */
-        .header { text-align: center; border-bottom: 2px solid var(--void); margin-bottom: 20px; padding-bottom: 15px; }
-        .header h1 { color: var(--neon); text-shadow: 0 0 15px var(--neon); margin: 0; font-size: 26px; letter-spacing: 5px; }
+        /* Heat Map & Ghost Tracker */
+        .ghost-header { display: grid; grid-template-columns: 2fr 1fr; gap: 15px; margin-bottom: 20px; }
+        .heat-bar-container { background: #161b22; height: 30px; border-radius: 15px; border: 1px solid var(--brd); overflow: hidden; position: relative; }
+        .heat-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--neon), var(--gold), var(--red)); transition: 0.5s; }
         
-        .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .m-card { background: var(--panel); border: 1px solid var(--brd); padding: 15px; border-radius: 12px; position: relative; text-align: center; }
-        .m-card small { font-size: 10px; letter-spacing: 1px; color: var(--neon); }
-        .m-card b { display: block; color: var(--gold); font-size: 22px; margin-top: 5px; }
+        .dash { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px; margin-bottom: 20px; }
+        .stat-card { background: #161b22; border: 1px solid var(--brd); padding: 10px; border-radius: 15px; text-align: center; }
 
-        /* Grid System */
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
-        .btn-cell { background: #0a192f; border: 1px solid var(--brd); border-radius: 15px; padding: 25px 5px; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden; }
-        .btn-cell:hover { border-color: var(--neon); background: rgba(0, 242, 255, 0.05); }
-        .emoji { font-size: 45px; display: block; filter: drop-shadow(0 0 10px rgba(255,255,255,0.2)); }
-        .mult-tag { font-size: 10px; color: var(--gold); font-weight: bold; position: absolute; top: 5px; right: 8px; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+        .btn-item { background: #161b22; border: 1px solid var(--brd); border-radius: 20px; padding: 15px 5px; cursor: pointer; position: relative; transition: 0.2s; }
+        .emoji { font-size: 35px; display: block; }
+        .abs-tag { font-size: 10px; color: var(--neon); font-weight: bold; }
 
-        /* Logic Highlights */
-        .god-target { border: 2px solid var(--void) !important; box-shadow: 0 0 25px var(--void); animation: pulse 0.6s infinite alternate; }
-        .streak-hit { border: 2px solid var(--purple) !important; box-shadow: 0 0 15px #bc8cff; }
-        @keyframes pulse { from { opacity: 0.7; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
-        
-        .radar-pulse { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 2px solid var(--neon); animation: radar 1.5s infinite; pointer-events: none; opacity: 0; }
-        @keyframes radar { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.6); opacity: 0; } }
+        /* Status Effects */
+        .ready-to-strike { border: 2px solid var(--win) !important; box-shadow: 0 0 20px var(--win); animation: strike 0.5s infinite alternate; }
+        @keyframes strike { from { transform: scale(1); } to { transform: scale(1.05); } }
 
-        /* Strategy Panels */
-        .strat-wrap { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 20px; }
-        .panel { background: var(--panel); border: 1px solid var(--brd); border-radius: 15px; padding: 15px; position: relative; border-top: 3px solid var(--brd); }
-        .p-title { font-size: 11px; color: var(--neon); font-weight: bold; text-transform: uppercase; margin-bottom: 10px; }
-        .p-icons { font-size: 35px; letter-spacing: 6px; text-align: center; display: block; }
+        .formation-box { background: #161b22; border: 1px solid var(--brd); border-radius: 15px; padding: 15px; margin-bottom: 15px; text-align: center; }
+        .icons-lg { font-size: 30px; letter-spacing: 10px; margin: 10px 0; display: block; }
 
-        /* Stealth & Console */
-        .void-msg { color: var(--red); font-size: 11px; font-weight: bold; margin-top: 5px; display: none; animation: flash 0.5s infinite; }
-        @keyframes flash { 0% { opacity: 1; } 50% { opacity: 0; } }
-        .console { background: #000; border: 1px solid var(--brd); color: var(--win); font-size: 10px; padding: 10px; border-radius: 8px; height: 80px; overflow-y: auto; font-family: monospace; }
-
-        .sys-btn { flex: 1; padding: 15px; border-radius: 10px; border: 1px solid var(--void); background: transparent; color: #fff; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .sys-btn:hover { background: var(--void); box-shadow: 0 0 15px var(--void); }
-        .history { display: flex; gap: 8px; overflow-x: auto; padding: 15px; background: rgba(0,0,0,0.5); border-radius: 15px; border: 1px solid var(--brd); margin-top: 15px; }
+        .console { background: #000; color: #00ff00; font-family: 'Courier New', monospace; font-size: 11px; padding: 10px; height: 80px; overflow-y: auto; border-radius: 10px; border: 1px solid #333; }
+        .sys-btn { flex: 1; padding: 12px; border-radius: 10px; background: #21262d; color: #fff; border: 1px solid var(--brd); cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="header">
-        <h1>SINGULARITY V15 // NEURAL TERMINAL</h1>
-        <div id="status" style="font-size:10px; color:var(--win)">SYSTEM_CORE: ONLINE // NO_LIMIT_DETECTED</div>
-    </div>
-
-    <div class="metrics">
-        <div class="m-card" style="border-top: 3px solid var(--neon)">
-            <small>SERVER ENTROPY</small>
-            <b id="entropy">0.00</b>
+    <div class="ghost-header">
+        <div class="heat-bar-container">
+            <div id="heatFill" class="heat-fill"></div>
+            <small style="position:absolute; top:5px; left:45%; color:white; font-weight:bold;">SERVER TEMPERATURE</small>
         </div>
-        <div class="m-card" style="border-top: 3px solid var(--gold)">
-            <small>GOD PROBABILITY</small>
-            <b id="winProb">0%</b>
-        </div>
-        <div class="m-card" id="stealthPanel" style="border-top: 3px solid var(--win)">
-            <small>STEALTH STATUS</small>
-            <b id="stealthSignal">SCANNING</b>
-            <div id="voidAlert" class="void-msg">!! DRAIN DETECTED !!</div>
-        </div>
-        <div class="m-card" style="border-top: 3px solid var(--void)">
-            <small>CLUSTER STATE</small>
-            <b id="clusterState">STABLE</b>
+        <div class="stat-card" id="ghostStatus" style="border-color: var(--neon)">
+            <small>GHOST SYNC</small>
+            <b id="syncPercent">0%</b>
         </div>
     </div>
 
-    <div class="grid" id="mainGrid">
-        <button class="btn-cell" onclick="add('corn')"><span class="mult-tag">x5</span><span class="emoji">🌽</span></button>
-        <button class="btn-cell" onclick="add('tomato')"><span class="mult-tag">x5</span><span class="emoji">🍅</span></button>
-        <button class="btn-cell" onclick="add('carrot')"><span class="mult-tag">x5</span><span class="emoji">🥕</span></button>
-        <button class="btn-cell" onclick="add('pepper')"><span class="mult-tag">x5</span><span class="emoji">🌶️</span></button>
-        <button class="btn-cell" onclick="add('shrimp')"><span class="mult-tag">x10</span><span class="emoji">🦐</span></button>
-        <button class="btn-cell" onclick="add('cow')"><span class="mult-tag">x15</span><span class="emoji">🐄</span></button>
-        <button class="btn-cell" onclick="add('fish')"><span class="mult-tag">x25</span><span class="emoji">🐟</span></button>
-        <button class="btn-cell" onclick="add('chicken')"><span class="mult-tag">x45</span><span class="emoji">🐔</span></button>
+    <div class="dash">
+        <div class="stat-card"><small>ACCURACY</small><b id="acc">0%</b></div>
+        <div class="stat-card"><small>STREAK</small><b id="streak">0</b></div>
+        <div class="stat-card"><small>MOOD</small><b id="mood">SCANNING</b></div>
+        <div class="stat-card"><small>SIGNAL</small><b id="signal">WAIT</b></div>
     </div>
 
-    <div class="strat-wrap">
-        <div class="panel" style="border-color: var(--win)">
-            <div class="p-title">🛡️ SECURE STACK (3V + 2M)</div>
-            <div id="p32" class="p-icons">--</div>
-        </div>
-        <div class="panel" style="border-color: var(--gold)">
-            <div class="p-title">🔥 EXECUTION STACK (2V + 3M)</div>
-            <div id="p23" class="p-icons">--</div>
-        </div>
-        <div class="panel" style="border-color: var(--void)">
-            <div class="p-title">👁️ GOD SELECTION (SINGLE)</div>
-            <div id="pGod" class="p-icons">--</div>
-        </div>
+    <div class="grid">
+        <button class="btn-item" onclick="add('corn')"><span class="emoji">🌽</span><span class="abs-tag" id="abs-corn">0</span></button>
+        <button class="btn-item" onclick="add('tomato')"><span class="emoji">🍅</span><span class="abs-tag" id="abs-tomato">0</span></button>
+        <button class="btn-item" onclick="add('carrot')"><span class="emoji">🥕</span><span class="abs-tag" id="abs-carrot">0</span></button>
+        <button class="btn-item" onclick="add('pepper')"><span class="emoji">🌶️</span><span class="abs-tag" id="abs-pepper">0</span></button>
+        <button class="btn-item" onclick="add('shrimp')"><span class="emoji">🦐</span><span class="abs-tag" id="abs-shrimp">0</span></button>
+        <button class="btn-item" onclick="add('cow')"><span class="emoji">🐄</span><span class="abs-tag" id="abs-cow">0</span></button>
+        <button class="btn-item" onclick="add('fish')"><span class="emoji">🐟</span><span class="abs-tag" id="abs-fish">0</span></button>
+        <button class="btn-item" onclick="add('chicken')"><span class="emoji">🐔</span><span class="abs-tag" id="abs-chicken">0</span></button>
     </div>
 
-    <div class="console" id="console">ACCESS GRANTED. WAITING FOR DATA INPUT...</div>
-
-    <div style="display:flex; gap:10px; margin-top:15px">
-        <button class="sys-btn" onclick="undo()">ROLLBACK</button>
-        <button class="sys-btn" onclick="wipe()">WIPE CORE</button>
-        <button id="streakModeBtn" class="sys-btn" onclick="toggleStreak()">STREAK MODE: OFF</button>
+    <div class="formation-box" id="mainFormationBox">
+        <h4 style="margin:0; color:var(--gold);">RECOMMENDED STRATEGY (3+2 / 3+3)</h4>
+        <div id="formationIcons" class="icons-lg">--</div>
+        <div id="aiAdvice" style="font-size:12px; color:var(--neon);">WAITING FOR DATA SYNC...</div>
     </div>
 
-    <div class="history" id="historyFeed"></div>
+    <div class="console" id="log">GHOST ENGINE V22 BOOTING... DONE.</div>
+
+    <div style="display:flex; gap:10px; margin-top:10px;">
+        <button class="sys-btn" onclick="undo()">UNDO</button>
+        <button class="sys-btn" onclick="wipe()" style="color:var(--red)">WIPE MEMORY</button>
+    </div>
 </div>
 
 <script>
     const items = ["corn","tomato","carrot","pepper","shrimp","cow","fish","chicken"];
-    const veg = ["corn","tomato","carrot","pepper"];
     const meat = ["shrimp","cow","fish","chicken"];
-    const multis = {corn:5, tomato:5, carrot:5, pepper:5, shrimp:10, cow:15, fish:25, chicken:45};
     const emojis = {corn:"🌽",tomato:"🍅",carrot:"🥕",pepper:"🌶️",shrimp:"🦐",cow:"🐄",fish:"🐟",chicken:"🐔"};
+    let db = JSON.parse(localStorage.getItem("v22_db") || "[]");
+    let ghostWins = 0; let totalRounds = 0; let serverHeat = 0;
 
-    let db = JSON.parse(localStorage.getItem("singularity_v15_db") || "[]");
-    let streakMode = false;
-
-    function log(msg) {
-        const c = document.getElementById("console");
-        c.innerHTML += `<br>> ${msg}`;
-        c.scrollTop = c.scrollHeight;
-    }
-
-    function toggleStreak() {
-        streakMode = !streakMode;
-        document.getElementById("streakModeBtn").innerText = streakMode ? "STREAK MODE: ON" : "STREAK MODE: OFF";
-        document.getElementById("streakModeBtn").style.borderColor = streakMode ? "var(--win)" : "var(--void)";
-        update();
-    }
+    function log(m) { const l = document.getElementById("log"); l.innerHTML += `<br>> ${m}`; l.scrollTop = l.scrollHeight; }
 
     function add(f) {
+        // اختبار التوقع الوهمي قبل الإضافة
+        const currentPred = getTopPrediction();
+        if(currentPred.length > 0) {
+            totalRounds++;
+            if(currentPred.includes(f)) ghostWins++;
+        }
+
         db.push(f);
-        if(db.length > 2000) db.shift();
-        localStorage.setItem("singularity_v15_db", JSON.stringify(db));
-        log(`SIGNAL_CAPTURED: ${f.toUpperCase()}`);
+        if(db.length > 1500) db.shift();
+        localStorage.setItem("v22_db", JSON.stringify(db));
         update();
+    }
+
+    function getTopPrediction() {
+        // محرك داخلي سريع للتوقع
+        let scores = {};
+        items.forEach(i => {
+            let last = db.lastIndexOf(i);
+            scores[i] = (last === -1) ? db.length : db.length - 1 - last;
+        });
+        return Object.entries(scores).sort((a,b)=>b[1]-a[1]).slice(0,5).map(x=>x[0]);
     }
 
     function undo() { db.pop(); update(); }
-    function wipe() { if(confirm("ERASE CORE DATABASE?")) { db=[]; update(); } }
+    function wipe() { if(confirm("Wipe?")) { db=[]; localStorage.clear(); location.reload(); } }
 
     function update() {
         let len = db.length;
         let scores = {};
-        let last = db[len-1];
+        
+        // 1. حساب الحرارة (Server Heat)
+        let last5 = db.slice(-5);
+        let meatCount = last5.filter(x => meat.includes(x)).length;
+        serverHeat = (meatCount / 5) * 100;
+        document.getElementById("heatFill").style.width = serverHeat + "%";
 
-        // 1. NEURAL SCORING ENGINE
+        // 2. مزامنة الشبح (Ghost Sync)
+        let sync = totalRounds > 0 ? Math.round((ghostWins/totalRounds)*100) : 0;
+        document.getElementById("syncPercent").innerText = sync + "%";
+
+        // 3. تحليل الأصناف
         items.forEach(f => {
             let lastIdx = db.lastIndexOf(f);
             let abs = (lastIdx === -1) ? len : len - 1 - lastIdx;
-            
-            // Frequency calculation
-            let freq = db.slice(-40).filter(x => x === f).length;
-            
-            // Pattern Recognition
-            let patScore = 0;
-            if(len > 4) {
-                let trio = db.slice(-3).join("");
-                for(let i=0; i<len-4; i++) {
-                    if(db.slice(i, i+3).join("") === trio && db[i+3] === f) patScore += 120;
-                }
-            }
-
-            let s = (abs * 5) + (freq * 25) + patScore;
-            
-            // Streak Bias
-            if(f === last) s += streakMode ? 400 : 50;
-            
-            scores[f] = s;
+            document.getElementById(`abs-${f}`).innerText = abs;
+            scores[f] = abs * (f === 'chicken' ? 0.5 : 1); 
         });
 
         const sorted = Object.entries(scores).sort((a,b) => b[1] - a[1]);
-        const topV = sorted.filter(x => veg.includes(x[0])).map(x => x[0]);
-        const topM = sorted.filter(x => meat.includes(x[0])).map(x => x[0]);
+        const top5 = sorted.slice(0,5).map(x => x[0]);
 
-        // 2. RENDER STRATEGIES
-        document.getElementById("p32").innerText = [...topV.slice(0,3), ...topM.slice(0,2)].map(x => emojis[x]).join("");
-        document.getElementById("p23").innerText = [...topV.slice(0,2), ...topM.slice(0,3)].map(x => emojis[x]).join("");
-        document.getElementById("pGod").innerText = emojis[sorted[0][0]];
-
-        // 3. METRICS & STEALTH
-        document.getElementById("winProb").innerText = Math.min(99, Math.floor((sorted[0][1] / (sorted[2][1]||1)) * 40)) + "%";
-        document.getElementById("entropy").innerText = (Math.random() * 0.8).toFixed(2);
+        // 4. الواجهة الذكية
+        document.getElementById("formationIcons").innerText = top5.map(x => emojis[x]).join("");
         
-        let last12Veg = db.slice(-12).filter(x => veg.includes(x)).length;
-        const stealth = document.getElementById("stealthSignal");
-        const alert = document.getElementById("voidAlert");
+        const advice = document.getElementById("aiAdvice");
+        const box = document.getElementById("mainFormationBox");
         
-        if(last12Veg > 10) {
-            stealth.innerText = "DRAINING"; stealth.style.color = "var(--red)";
-            alert.style.display = "block";
+        if(sync > 70 && len > 10) {
+            advice.innerText = "🔥 ENGINE SYNCED: HIGH ACCURACY DETECTED. STRIKE!";
+            box.classList.add("ready-to-strike");
+            document.getElementById("signal").innerText = "STRIKE";
+            document.getElementById("signal").style.color = "var(--win)";
         } else {
-            stealth.innerText = "EXTRACTING"; stealth.style.color = "var(--win)";
-            alert.style.display = "none";
+            advice.innerText = "⌛ SYNCING: COLLECTING SERVER PATTERNS...";
+            box.classList.remove("ready-to-strike");
+            document.getElementById("signal").innerText = "WAIT";
+            document.getElementById("signal").style.color = "var(--gold)";
         }
 
-        // 4. RADAR & GRID UI
-        const btns = document.querySelectorAll(".btn-cell");
-        items.forEach((f, i) => {
-            btns[i].className = "btn-cell";
-            btns[i].querySelectorAll(".radar-pulse").forEach(r => r.remove());
-
-            if(f === sorted[0][0]) btns[i].classList.add("god-target");
-            
-            // Radar for "Overdue" items
-            let lastIdx = db.lastIndexOf(f);
-            let gap = len - 1 - lastIdx;
-            if(gap > (300 / multis[f])) {
-                let pulse = document.createElement("div");
-                pulse.className = "radar-pulse";
-                btns[i].appendChild(pulse);
-            }
-        });
-
-        document.getElementById("historyFeed").innerHTML = db.slice(-20).reverse().map(x => `<span style="font-size:25px">${emojis[x]}</span>`).join("");
+        document.getElementById("acc").innerText = sync + "%";
+        document.getElementById("mood").innerText = serverHeat > 60 ? "HOT" : "COLD";
+        
+        log(`ROUND ${len}: Result ${emojis[db[len-1]]} | Sync: ${sync}%`);
     }
 
     update();
