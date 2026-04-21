@@ -2,87 +2,88 @@
 <html lang="ar" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>V40 — OMNI-PREDATOR // TRAP-COUNTER ENGINE</title>
+    <title>V43 — TOTAL RECALL // HYPER-INTELLIGENT BRAIN</title>
     <style>
         :root {
-            --bg: #020202; --panel: #0a0a0c; --brd: #1a1a1c;
-            --neon: #00f2ff; --win: #00ff41; --red: #ff003c; --gold: #ffd700;
+            --bg: #050505; --panel: #0f1115; --brd: #1f2328;
+            --neon: #00d4ff; --win: #00ff41; --gold: #ffcc00; --purple: #bc13fe; --red: #ff3131;
         }
-        body { font-family: 'Courier New', monospace; background: var(--bg); color: #fff; margin: 0; padding: 10px; overflow-x: hidden; }
-        .container { max-width: 950px; margin: auto; border: 2px solid var(--brd); padding: 15px; border-radius: 5px; position: relative; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: #e6edf3; margin: 0; padding: 10px; }
+        .container { max-width: 900px; margin: auto; border: 1px solid var(--brd); padding: 15px; border-radius: 20px; background: var(--panel); box-shadow: 0 10px 50px rgba(0,0,0,0.5); }
         
-        /* Predator Status Area */
-        .predator-core { background: #000; border: 1px solid var(--red); padding: 20px; margin-bottom: 20px; text-align: center; border-left: 10px solid var(--red); box-shadow: 0 0 20px rgba(255, 0, 60, 0.1); }
-        .ai-title { font-size: 10px; letter-spacing: 5px; color: var(--red); display: block; margin-bottom: 5px; }
-        .target-prediction { font-size: 60px; letter-spacing: 25px; color: #fff; text-shadow: 0 0 30px var(--win); margin: 10px 0; }
-        .trap-meter { font-size: 14px; color: var(--gold); font-weight: bold; }
+        /* The Neural Display */
+        .neural-display { background: #000; border: 1px solid var(--purple); border-radius: 15px; padding: 20px; margin-bottom: 20px; text-align: center; position: relative; overflow: hidden; }
+        .neural-display::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: linear-gradient(90deg, transparent, var(--purple), transparent); animation: scan 2s linear infinite; }
+        @keyframes scan { 0% { left: -100%; } 100% { left: 100%; } }
+        
+        .main-prediction { font-size: 55px; letter-spacing: 20px; color: #fff; text-shadow: 0 0 15px var(--purple); margin: 10px 0; display: block; }
+        .status-text { font-size: 14px; font-weight: bold; color: var(--gold); text-transform: uppercase; }
 
-        /* Real-time History Sync */
-        .history-sync { display: flex; gap: 15px; overflow-x: auto; padding: 15px; background: #050505; border: 1px solid var(--brd); margin-bottom: 20px; scrollbar-width: none; }
-        .h-node { font-size: 40px; min-width: 50px; position: relative; filter: grayscale(0.5); transition: 0.3s; }
-        .h-node.latest { filter: grayscale(0); transform: scale(1.2); border-bottom: 3px solid var(--win); }
+        /* History Sync Bar */
+        .history-sync { display: flex; gap: 12px; overflow-x: auto; padding: 10px; margin-bottom: 15px; background: rgba(0,0,0,0.3); border-radius: 10px; border: 1px solid var(--brd); }
+        .h-node { font-size: 35px; min-width: 50px; text-align: center; position: relative; }
+        .h-node:first-child { border-bottom: 2px solid var(--win); transform: scale(1.1); }
 
-        /* The Grid */
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 25px; }
-        .item-btn { background: #0d0d0f; border: 1px solid var(--brd); border-radius: 4px; padding: 20px 0; cursor: pointer; transition: 0.2s; position: relative; }
-        .item-btn:hover { border-color: var(--neon); background: #111; }
-        .emoji { font-size: 45px; display: block; margin-bottom: 10px; }
-        .abs-num { font-size: 18px; color: var(--neon); font-weight: bold; }
+        /* Input Grid */
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+        .btn { background: #161b22; border: 1px solid var(--brd); border-radius: 15px; padding: 15px 0; cursor: pointer; transition: 0.1s; }
+        .btn:active { background: var(--brd); transform: translateY(2px); }
+        .emoji { font-size: 45px; display: block; }
+        .abs-tag { font-size: 15px; color: var(--neon); font-weight: bold; margin-top: 5px; display: block; }
 
-        /* Prediction Matrix */
+        /* Strat Matrix */
         .matrix { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .matrix-box { background: #080808; border: 1px solid var(--brd); padding: 15px; text-align: center; }
-        .matrix-box h4 { font-size: 11px; margin: 0 0 10px 0; color: var(--gold); }
-        .matrix-icons { font-size: 28px; letter-spacing: 8px; }
+        .m-box { background: #0d1117; border: 1px solid var(--brd); padding: 12px; text-align: center; border-radius: 12px; }
+        .m-box h6 { margin: 0 0 8px 0; font-size: 11px; color: #8b949e; }
+        .m-icons { font-size: 26px; letter-spacing: 6px; }
 
-        /* Logic Table */
-        .logic-table { width: 100%; border-collapse: collapse; font-size: 12px; background: #050505; }
-        .logic-table th, .logic-table td { padding: 12px; border: 1px solid var(--brd); text-align: center; }
-        .logic-table th { color: var(--neon); text-transform: uppercase; }
-        .danger-zone { background: rgba(255, 0, 60, 0.1); color: var(--red); font-weight: bold; }
+        /* Full Intel Table */
+        .intel-table { width: 100%; border-collapse: collapse; font-size: 13px; background: #000; border-radius: 10px; overflow: hidden; }
+        .intel-table th, .intel-table td { padding: 12px; border: 1px solid var(--brd); text-align: center; }
+        .intel-table th { background: #161b22; color: var(--neon); }
+        .row-hot { background: rgba(188, 19, 254, 0.1); color: var(--purple); font-weight: bold; }
 
-        .sys-actions { display: flex; gap: 10px; margin-top: 20px; }
-        .action-btn { flex: 1; padding: 15px; background: #111; border: 1px solid var(--brd); color: #fff; font-weight: bold; cursor: pointer; }
+        .sys-btn { width: 100%; padding: 15px; background: #21262d; border: 1px solid var(--brd); color: #fff; font-weight: bold; cursor: pointer; margin-top: 10px; border-radius: 10px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="predator-core">
-        <span class="ai-title">OMNI-PREDATOR ACTIVE // TRAP DETECTOR V4.0</span>
-        <div class="target-prediction" id="mainTarget">?? ?? ??</div>
-        <div class="trap-meter" id="trapAlert">SENSING SERVER PATTERN...</div>
+    <div class="neural-display">
+        <span class="status-text" id="aiMood">🧠 SYSTEM INITIALIZING...</span>
+        <div class="main-prediction" id="mainTarget">?? ?? ??</div>
+        <div id="aiLogic" style="color: var(--neon); font-size: 12px; font-family: monospace;">WAITING FOR DATA INPUT...</div>
     </div>
 
-    <div class="history-sync" id="syncBar"></div>
+    <div class="history-sync" id="history"></div>
 
     <div class="grid">
-        <button class="item-btn" onclick="add('corn')"><span class="emoji">🌽</span><span class="abs-num" id="abs-corn">0</span></button>
-        <button class="item-btn" onclick="add('tomato')"><span class="emoji">🍅</span><span class="abs-num" id="abs-tomato">0</span></button>
-        <button class="item-btn" onclick="add('carrot')"><span class="emoji">🥕</span><span class="abs-val" id="abs-carrot">0</span></button>
-        <button class="item-btn" onclick="add('pepper')"><span class="emoji">🌶️</span><span class="abs-num" id="abs-pepper">0</span></button>
-        <button class="item-btn" onclick="add('shrimp')"><span class="emoji">🦐</span><span class="abs-num" id="abs-shrimp">0</span></button>
-        <button class="item-btn" onclick="add('cow')"><span class="emoji">🐄</span><span class="abs-num" id="abs-cow">0</span></button>
-        <button class="item-btn" onclick="add('fish')"><span class="emoji">🐟</span><span class="abs-num" id="abs-fish">0</span></button>
-        <button class="item-btn" onclick="add('chicken')"><span class="emoji">🐔</span><span class="abs-num" id="abs-chicken">0</span></button>
+        <button class="btn" onclick="add('corn')"><span class="emoji">🌽</span><span class="abs-tag" id="abs-corn">0</span></button>
+        <button class="btn" onclick="add('tomato')"><span class="emoji">🍅</span><span class="abs-tag" id="abs-tomato">0</span></button>
+        <button class="btn" onclick="add('carrot')"><span class="emoji">🥕</span><span class="abs-tag" id="abs-carrot">0</span></button>
+        <button class="btn" onclick="add('pepper')"><span class="emoji">🌶️</span><span class="abs-tag" id="abs-pepper">0</span></button>
+        <button class="btn" onclick="add('shrimp')"><span class="emoji">🦐</span><span class="abs-tag" id="abs-shrimp">0</span></button>
+        <button class="btn" onclick="add('cow')"><span class="emoji">🐄</span><span class="abs-tag" id="abs-cow">0</span></button>
+        <button class="btn" onclick="add('fish')"><span class="emoji">🐟</span><span class="abs-tag" id="abs-fish">0</span></button>
+        <button class="btn" onclick="add('chicken')"><span class="emoji">🐔</span><span class="abs-tag" id="abs-chicken">0</span></button>
     </div>
 
     <div class="matrix">
-        <div class="matrix-box"><h4>STRAT 3+2</h4><div id="s32" class="matrix-icons">--</div></div>
-        <div class="matrix-box" style="border-color: var(--win)"><h4>STRAT 3+3</h4><div id="s33" class="matrix-icons">--</div></div>
-        <div class="matrix-box"><h4>STRAT 2+2</h4><div id="s22" class="matrix-icons">--</div></div>
+        <div class="m-box"><h6>STRAT 3+2 (BALANCED)</h6><div id="s32" class="m-icons">--</div></div>
+        <div class="m-box" style="border-color: var(--purple);"><h6>STRAT 3+3 (ATTACK)</h6><div id="s33" class="m-icons">--</div></div>
+        <div class="m-box"><h6>STRAT 2+2 (DEFENSE)</h6><div id="s22" class="m-icons">--</div></div>
     </div>
 
-    <table class="logic-table">
+    <table class="intel-table">
         <thead>
-            <tr><th>TARGET</th><th>ABSENCE</th><th>TRAP CHANCE</th><th>AI PRIORITY</th></tr>
+            <tr><th>ITEM</th><th>ABSENCE</th><th>SCORE</th><th>AI SIGNAL</th></tr>
         </thead>
-        <tbody id="logicBody"></tbody>
+        <tbody id="intelBody"></tbody>
     </table>
 
-    <div class="sys-actions">
-        <button class="action-btn" onclick="undo()">RECALL (UNDO)</button>
-        <button class="action-btn" onclick="wipe()" style="color:var(--red)">TERMINATE DATA</button>
+    <div style="display:flex; gap:10px; margin-top:10px;">
+        <button class="sys-btn" onclick="undo()">UNDO</button>
+        <button class="sys-btn" onclick="wipe()" style="color:var(--red)">FULL RESET</button>
     </div>
 </div>
 
@@ -90,64 +91,56 @@
     const veg = ["corn","tomato","carrot","pepper"];
     const meat = ["shrimp","cow","fish","chicken"];
     const emojis = {corn:"🌽",tomato:"🍅",carrot:"🥕",pepper:"🌶️",shrimp:"🦐",cow:"🐄",fish:"🐟",chicken:"🐔"};
-    let db = JSON.parse(localStorage.getItem("omni_db") || "[]");
+    let db = JSON.parse(localStorage.getItem("v43_db") || "[]");
 
     function add(f) {
         db.push(f); if(db.length > 2500) db.shift();
-        localStorage.setItem("omni_db", JSON.stringify(db));
+        localStorage.setItem("v43_db", JSON.stringify(db));
         update();
     }
 
     function update() {
         const len = db.length;
         const last = db[len-1];
+        const prev = db[len-2];
+        const pprev = db[len-3];
         
-        // 1. Live Sync Bar (History connected to Brain)
-        let sHTML = "";
-        for(let i=len-1; i>=Math.max(0, len-15); i--) {
-            let cls = (i === len-1) ? "h-node latest" : "h-node";
-            sHTML += `<div class="${cls}">${emojis[db[i]]}</div>`;
+        let hHTML = "";
+        for(let i=len-1; i>=Math.max(0, len-20); i--) {
+            hHTML += `<div class="h-node">${emojis[db[i]]}</div>`;
         }
-        document.getElementById("syncBar").innerHTML = sHTML;
+        document.getElementById("history").innerHTML = hHTML;
 
-        // 2. The Trap-Counter Logic
         let scores = {};
-        let logicHTML = "";
-        let isTrapMode = false;
-
-        // Check for "The Stacker Trap" (3+ repeats)
-        let streak = 0;
-        let j = len-1; while(j >= 0 && db[j] === last) { streak++; j--; }
-        if(streak >= 2) isTrapMode = true;
+        let tableHTML = "";
 
         [...veg, ...meat].forEach(f => {
             let lastIdx = db.lastIndexOf(f);
             let abs = (lastIdx === -1) ? len : len - 1 - lastIdx;
             document.getElementById(`abs-${f}`).innerText = abs;
 
-            // PREDICTOR FORMULA
-            let base = abs * 10;
+            // --- THE TOTAL RECALL ENGINE ---
+            let score = abs * 10;
             
-            // Link History to Prediction
-            if(isTrapMode && f === last) {
-                base += (streak * 300); // Follow the streak (The Momentum Mind)
-            }
-            
-            // Anti-Trap Logic: If server shifts from meat to veg suddenly
-            if(len > 1 && meat.includes(db[len-2]) && veg.includes(db[len-1])) {
-                if(meat.includes(f)) base += 200; // Expected immediate meat return
+            // 1. REPEAT POWER (Immediate response)
+            if (f === last) score += 600; 
+
+            // 2. OSCILLATION / ZIGZAG (f-p-f pattern)
+            if (len >= 3 && last !== prev && pprev === last && f === prev) {
+                score += 800; // Extremely high prediction for return
             }
 
-            scores[f] = base;
-            let trapChance = (f === last) ? (streak * 25) : 0;
-            let priority = Math.min(99, Math.round(base / 8));
-            let rowCls = (priority > 80) ? "class='danger-zone'" : "";
+            // 3. RECENT FREQUENCY (Last 5 moves impact)
+            let freq = db.slice(-6).filter(x => x === f).length;
+            score += (freq * 50);
 
-            logicHTML += `<tr ${rowCls}><td>${emojis[f]}</td><td>${abs}</td><td>${trapChance}%</td><td>${priority}</td></tr>`;
+            scores[f] = score;
+            let signal = (score > 1000) ? "🚨 CRITICAL" : (score > 600 ? "🔥 HIGH" : "---");
+            let rowCls = (score > 600) ? "class='row-hot'" : "";
+            tableHTML += `<tr ${rowCls}><td>${emojis[f]}</td><td>${abs}</td><td>${Math.round(score)}</td><td>${signal}</td></tr>`;
         });
-        document.getElementById("logicBody").innerHTML = logicHTML;
+        document.getElementById("intelBody").innerHTML = tableHTML;
 
-        // 3. Execution (The 3+2 / 3+3 / 2+2)
         const sv = veg.sort((a,b) => scores[b] - scores[a]);
         const sm = meat.sort((a,b) => scores[b] - scores[a]);
 
@@ -160,21 +153,24 @@
         document.getElementById("s22").innerText = p22.map(x=>emojis[x]).join("");
         document.getElementById("mainTarget").innerText = p33.slice(0,3).map(x=>emojis[x]).join("");
 
-        // Trap Alert Text
-        const alert = document.getElementById("trapAlert");
-        if(isTrapMode) {
-            alert.innerText = `🚨 TRAP DETECTED: ${emojis[last]} STREAK (x${streak}). RIDING WAVE!`;
-            alert.style.color = "var(--red)";
+        const mood = document.getElementById("aiMood");
+        const logic = document.getElementById("aiLogic");
+
+        if (len >= 3 && last !== prev && pprev === last) {
+            mood.innerText = "🚨 ZIGZAG DETECTED";
+            logic.innerText = `OSCILLATION BETWEEN ${emojis[last]} AND ${emojis[prev]}. TARGETING RETURN.`;
+        } else if (last === prev) {
+            mood.innerText = "🔥 STREAK MODE";
+            logic.innerText = `MOMENTUM ON ${emojis[last]}. PREDICTING CONTINUATION.`;
         } else {
-            alert.innerText = "SENSING SERVER PATTERN: STABLE RECOVERY MODE.";
-            alert.style.color = "var(--win)";
+            mood.innerText = "📡 SCANNING CYCLES";
+            logic.innerText = "BALANCED SERVER STATE. FOLLOWING HYBRID PROBABILITY.";
         }
     }
 
     function undo() { db.pop(); update(); }
-    function wipe() { if(confirm("TERMINATE ENGINE MEMORY?")) { db=[]; localStorage.clear(); location.reload(); } }
+    function wipe() { if(confirm("WIPE MEMORY?")) { db=[]; localStorage.clear(); location.reload(); } }
     update();
 </script>
 </body>
 </html>
-
