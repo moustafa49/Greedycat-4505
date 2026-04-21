@@ -2,184 +2,193 @@
 <html lang="ar" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>V48 — OMNI-GOD MODE // THE FINAL ARCHITECT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V50 — THE MASTERPIECE // FULL SYSTEM</title>
     <style>
         :root {
-            --bg: #020202; --panel: #0a0a0c; --brd: #1a1a1c;
-            --neon: #00f2ff; --win: #00ff41; --gold: #ffd700; --red: #ff003c; --rare: #ff00ff;
+            --bg: #050505; --panel: #0d1117; --brd: #30363d;
+            --neon: #00f2ff; --win: #00ff41; --gold: #ffd700; --red: #ff003c; --rare: #bc13fe;
         }
-        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 8px; }
-        .container { max-width: 950px; margin: auto; border: 1px solid var(--brd); padding: 15px; border-radius: 20px; background: var(--panel); box-shadow: 0 0 50px rgba(0, 242, 255, 0.1); }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); color: #fff; margin: 0; padding: 10px; overflow-x: hidden; }
+        .container { max-width: 500px; margin: auto; border: 1px solid var(--brd); padding: 15px; border-radius: 25px; background: var(--panel); box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
         
-        /* Master Oracle Display */
-        .oracle-header { background: #000; border: 2px solid var(--neon); border-radius: 15px; padding: 20px; margin-bottom: 20px; text-align: center; border-bottom: 5px solid var(--neon); position: relative; }
-        .main-prediction { font-size: 65px; letter-spacing: 20px; color: #fff; text-shadow: 0 0 25px var(--neon); margin: 10px 0; }
-        .power-meter { font-size: 18px; font-weight: bold; color: var(--win); margin-top: 5px; }
+        /* Oracle Header */
+        .header { background: #000; border: 2px solid var(--neon); border-radius: 20px; padding: 20px; text-align: center; margin-bottom: 15px; position: relative; }
+        .main-icons { font-size: 55px; letter-spacing: 15px; color: #fff; text-shadow: 0 0 20px var(--neon); margin: 10px 0; }
+        .pwr-badge { background: var(--win); color: #000; padding: 5px 15px; border-radius: 50px; font-weight: bold; font-size: 18px; display: inline-block; }
+        .ai-status { font-size: 12px; color: var(--gold); margin-top: 8px; font-weight: bold; }
 
-        /* Sector Balancer (NEW) */
-        .balancer { display: flex; height: 10px; background: #222; border-radius: 5px; margin: 15px 0; overflow: hidden; border: 1px solid var(--brd); }
-        #vegBar { width: 50%; background: var(--win); transition: 0.5s; }
-        #meatBar { width: 50%; background: var(--red); transition: 0.5s; }
-        .bal-labels { display: flex; justify-content: space-between; font-size: 11px; color: #8b949e; margin-bottom: 20px; }
+        /* Balancer Bar */
+        .bal-wrap { margin: 15px 0; text-align: center; }
+        .bal-bar { display: flex; height: 12px; background: #222; border-radius: 10px; overflow: hidden; border: 1px solid #444; }
+        #vBar { width: 50%; background: var(--neon); transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        #mBar { width: 50%; background: var(--red); transition: 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .bal-text { display: flex; justify-content: space-between; font-size: 10px; color: #8b949e; margin-top: 5px; font-weight: bold; }
 
-        /* History Sync */
-        .history-bar { display: flex; gap: 8px; overflow-x: auto; padding: 10px; background: rgba(0,0,0,0.5); border-radius: 10px; margin-bottom: 15px; border: 1px solid var(--brd); }
-        .h-node { font-size: 35px; min-width: 45px; text-align: center; }
+        /* History Stripe */
+        .history { display: flex; gap: 8px; overflow-x: auto; padding: 10px 0; margin-bottom: 15px; scrollbar-width: none; }
+        .h-item { font-size: 35px; min-width: 45px; height: 45px; background: rgba(255,255,255,0.05); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+        .h-item:first-child { border: 2px solid var(--win); transform: scale(1.1); background: rgba(0,255,65,0.1); }
 
         /* Input Grid */
         .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
-        .btn { background: #161b22; border: 1px solid var(--brd); border-radius: 12px; padding: 15px 0; cursor: pointer; text-align: center; }
-        .emoji { font-size: 40px; display: block; }
-        .abs-val { font-size: 14px; color: var(--neon); font-weight: bold; }
+        .btn { background: #161b22; border: 1px solid var(--brd); border-radius: 15px; padding: 12px 0; cursor: pointer; transition: 0.1s; position: relative; }
+        .btn:active { transform: scale(0.92); background: #21262d; }
+        .btn .emoji { font-size: 40px; display: block; }
+        .btn .abs { font-size: 14px; color: var(--neon); font-weight: bold; margin-top: 5px; display: block; }
 
-        /* Strategy matrix */
-        .matrix { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
-        .m-box { background: #0d1117; border: 1px solid var(--brd); padding: 12px; text-align: center; border-radius: 12px; }
-        .m-icons { font-size: 25px; letter-spacing: 5px; }
+        /* Analysis Table */
+        .table-area { background: #000; border-radius: 15px; overflow: hidden; border: 1px solid var(--brd); margin-bottom: 15px; }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th { background: #161b22; color: var(--neon); padding: 10px; font-size: 11px; }
+        td { padding: 10px; text-align: center; border-top: 1px solid var(--brd); }
+        .high-conf { color: var(--win); font-weight: bold; }
 
-        /* Pro Intel Table */
-        .intel-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-        .intel-table th, .intel-table td { padding: 10px; border: 1px solid var(--brd); text-align: center; }
-        .intel-table th { background: #161b22; color: var(--neon); }
-        .confidence-high { color: var(--win); font-weight: bold; }
-
-        .f-btn { width: 100%; padding: 15px; background: #21262d; border: 1px solid var(--brd); color: #fff; font-weight: bold; cursor: pointer; margin-top: 10px; border-radius: 10px; }
+        /* Buttons Footer */
+        .footer { display: flex; gap: 10px; }
+        .sys-btn { flex: 1; padding: 15px; border-radius: 12px; border: 1px solid var(--brd); background: #21262d; color: #fff; font-weight: bold; cursor: pointer; }
+        .sys-btn:active { background: #30363d; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="oracle-header">
-        <span style="color:var(--neon); font-size: 10px; letter-spacing: 5px;">OMNI-GOD V48 // SECTOR ARCHITECT</span>
-        <div class="main-prediction" id="mainTarget">?? ?? ??</div>
-        <div class="power-meter" id="powerLevel">POWER: 0%</div>
-        <div id="aiAdvice" style="font-size: 12px; color: var(--gold); margin-top: 5px;">AWAITING DATA...</div>
+    <div class="header">
+        <div style="font-size: 10px; letter-spacing: 3px; color: var(--neon);">ULTIMATE V50 // AI PREDICTOR</div>
+        <div class="main-icons" id="prediction">?? ?? ??</div>
+        <div class="pwr-badge" id="pwr">POWER: 0%</div>
+        <div class="ai-status" id="status">INITIALIZING NEURAL NETWORK...</div>
     </div>
 
-    <div class="balancer"><div id="vegBar"></div><div id="meatBar"></div></div>
-    <div class="bal-labels"><span>VEG SECTOR</span><span id="balStatus">BALANCED</span><span>MEAT SECTOR</span></div>
+    <div class="bal-wrap">
+        <div class="bal-bar"><div id="vBar"></div><div id="mBar"></div></div>
+        <div class="bal-text"><span>VEG SECTOR</span><span id="balLabel">BALANCED</span><span>MEAT SECTOR</span></div>
+    </div>
 
-    <div class="history-bar" id="history"></div>
+    <div class="history" id="history"></div>
 
     <div class="grid">
-        <button class="btn" onclick="add('corn')"><span class="emoji">🌽</span><span class="abs-val" id="abs-corn">0</span></button>
-        <button class="btn" onclick="add('tomato')"><span class="emoji">🍅</span><span class="abs-val" id="abs-tomato">0</span></button>
-        <button class="btn" onclick="add('carrot')"><span class="emoji">🥕</span><span class="abs-val" id="abs-carrot">0</span></button>
-        <button class="btn" onclick="add('pepper')"><span class="emoji">🌶️</span><span class="abs-val" id="abs-pepper">0</span></button>
-        <button class="btn" onclick="add('shrimp')"><span class="emoji">🦐</span><span class="abs-val" id="abs-shrimp">0</span></button>
-        <button class="btn" onclick="add('cow')"><span class="emoji">🐄</span><span class="abs-val" id="abs-cow">0</span></button>
-        <button class="btn" onclick="add('fish')"><span class="emoji">🐟</span><span class="abs-val" id="abs-fish">0</span></button>
-        <button class="btn" onclick="add('chicken')"><span class="emoji">🐔</span><span class="abs-val" id="abs-chicken">0</span></button>
+        <button class="btn" onclick="add('corn')"><span class="emoji">🌽</span><span class="abs" id="abs-corn">0</span></button>
+        <button class="btn" onclick="add('tomato')"><span class="emoji">🍅</span><span class="abs" id="abs-tomato">0</span></button>
+        <button class="btn" onclick="add('carrot')"><span class="emoji">🥕</span><span class="abs" id="abs-carrot">0</span></button>
+        <button class="btn" onclick="add('pepper')"><span class="emoji">🌶️</span><span class="abs" id="abs-pepper">0</span></button>
+        <button class="btn" onclick="add('shrimp')"><span class="emoji">🦐</span><span class="abs" id="abs-shrimp">0</span></button>
+        <button class="btn" onclick="add('cow')"><span class="emoji">🐄</span><span class="abs" id="abs-cow">0</span></button>
+        <button class="btn" onclick="add('fish')"><span class="emoji">🐟</span><span class="abs" id="abs-fish">0</span></button>
+        <button class="btn" onclick="add('chicken')"><span class="emoji">🐔</span><span class="abs" id="abs-chicken">0</span></button>
     </div>
 
-    <div class="matrix">
-        <div class="m-box"><h6>DYNAMIC 3+2</h6><div id="s32" class="m-icons">--</div></div>
-        <div class="m-box" style="border-color: var(--neon);"><h6>OMNI 3+3</h6><div id="s33" class="m-icons">--</div></div>
-        <div class="m-box"><h6>SHIFT 2+2</h6><div id="s22" class="m-icons">--</div></div>
+    <div class="table-area">
+        <table>
+            <thead><tr><th>TARGET</th><th>ABSENCE</th><th>PROBABILITY</th></tr></thead>
+            <tbody id="stats"></tbody>
+        </table>
     </div>
 
-    <table class="intel-table">
-        <thead>
-            <tr><th>TARGET</th><th>ABS</th><th>SCORE</th><th>CONFIDENCE</th></tr>
-        </thead>
-        <tbody id="intelBody"></tbody>
-    </table>
-
-    <div style="display:flex; gap:10px;">
-        <button class="f-btn" onclick="undo()">UNDO</button>
-        <button class="f-btn" onclick="wipe()" style="color:var(--red)">FULL RESET</button>
+    <div class="footer">
+        <button class="sys-btn" onclick="undo()">UNDO</button>
+        <button class="sys-btn" onclick="reset()" style="color:var(--red)">FULL RESET</button>
     </div>
 </div>
 
 <script>
-    const veg = ["corn","tomato","carrot","pepper"];
-    const meat = ["shrimp","cow","fish","chicken"];
+    const veg = ["corn", "tomato", "carrot", "pepper"];
+    const meat = ["shrimp", "cow", "fish", "chicken"];
     const rare = ["chicken", "fish"];
     const emojis = {corn:"🌽",tomato:"🍅",carrot:"🥕",pepper:"🌶️",shrimp:"🦐",cow:"🐄",fish:"🐟",chicken:"🐔"};
-    let db = JSON.parse(localStorage.getItem("v48_db") || "[]");
+    
+    let db = JSON.parse(localStorage.getItem("v50_data") || "[]");
 
-    function add(f) {
-        db.push(f); if(db.length > 3000) db.shift();
-        localStorage.setItem("v48_db", JSON.stringify(db));
-        update();
+    function add(item) {
+        db.push(item);
+        if (db.length > 2000) db.shift();
+        saveAndUI();
     }
 
-    function update() {
+    function undo() { db.pop(); saveAndUI(); }
+    function reset() { if(confirm("Reset data?")) { db = []; saveAndUI(); } }
+
+    function saveAndUI() {
+        localStorage.setItem("v50_data", JSON.stringify(db));
+        updateUI();
+    }
+
+    function updateUI() {
         const len = db.length;
-        if(len === 0) return;
-        const last = db[len-1];
+        if (len === 0) return;
+
+        const last = db[len - 1];
         const last20 = db.slice(-20);
-        
+
+        // Update History
         let hHTML = "";
-        for(let i=len-1; i>=Math.max(0, len-20); i--) hHTML += `<div class="h-node">${emojis[db[i]]}</div>`;
+        for (let i = len - 1; i >= Math.max(0, len - 20); i--) {
+            hHTML += `<div class="h-item">${emojis[db[i]]}</div>`;
+        }
         document.getElementById("history").innerHTML = hHTML;
 
-        // 1. Sector Balancer Calculation
+        // Update Balancer
         let vCount = last20.filter(x => veg.includes(x)).length;
         let vPerc = (vCount / last20.length) * 100;
-        document.getElementById("vegBar").style.width = vPerc + "%";
-        document.getElementById("meatBar").style.width = (100 - vPerc) + "%";
-        const balStatus = document.getElementById("balStatus");
-        if(vPerc > 70) balStatus.innerText = "VEG SATURATED ⚠️";
-        else if(vPerc < 30) balStatus.innerText = "MEAT SATURATED ⚠️";
-        else balStatus.innerText = "SECTOR BALANCED";
+        document.getElementById("vBar").style.width = vPerc + "%";
+        document.getElementById("mBar").style.width = (100 - vPerc) + "%";
+        document.getElementById("balLabel").innerText = vPerc > 75 ? "VEG SATURATED ⚠️" : (vPerc < 25 ? "MEAT SATURATED ⚠️" : "BALANCED");
 
-        // 2. Advanced Scoring Engine
+        // Advanced Logic Engine
         let scores = {};
-        let tableHTML = "";
-        
-        // Find Pattern (مثال الفلفل والطماطم)
-        let counts = {};
-        last20.forEach(x => counts[x] = (counts[x] || 0) + 1);
-        let topItems = Object.keys(counts).sort((a,b) => counts[b] - counts[a]).slice(0, 2);
-
         [...veg, ...meat].forEach(f => {
             let lastIdx = db.lastIndexOf(f);
             let abs = (lastIdx === -1) ? len : len - 1 - lastIdx;
             document.getElementById(`abs-${f}`).innerText = abs;
 
-            let score = abs * 5;
-            if (f === last) score += 700; // Streak priority
-            if (len >= 3 && db[len-1] !== db[len-2] && db[len-3] === db[len-1] && f === db[len-2]) score += 900; // Zigzag priority
-            
-            // Sector Shift Bonus
-            if (vPerc > 70 && meat.includes(f)) score += 500;
-            if (vPerc < 30 && veg.includes(f)) score += 500;
+            // 1. BASE SCORE
+            let score = abs * 10;
 
-            // Rarity Overdue
-            if (rare.includes(f) && abs > 45) score += (abs * 25);
+            // 2. STREAK SUPREMACY (تصحيح غلطة النسخة اللي فاتت)
+            if (f === last) score += 3000; 
+
+            // 3. ZIGZAG LOGIC (🌶️🍅🌶️ -> 🍅)
+            if (len >= 3 && db[len-1] !== db[len-2] && db[len-3] === db[len-1] && f === db[len-2]) {
+                score += 2500;
+            }
+
+            // 4. RARITY (فراخة وسمكة)
+            if (rare.includes(f) && abs > 40) score += (abs * 30);
+
+            // 5. SECTOR SHIFT (تغيير النوع)
+            if (vPerc > 75 && meat.includes(f)) score += 800;
+            if (vPerc < 25 && veg.includes(f)) score += 800;
 
             scores[f] = score;
-            let conf = Math.min(99, Math.round(score / 15));
-            let confClass = conf > 80 ? "class='confidence-high'" : "";
-            tableHTML += `<tr><td>${emojis[f]}</td><td>${abs}</td><td>${Math.round(score)}</td><td ${confClass}>${conf}%</td></tr>`;
         });
-        document.getElementById("intelBody").innerHTML = tableHTML;
 
-        const sv = veg.sort((a,b) => scores[b] - scores[a]);
-        const sm = meat.sort((a,b) => scores[b] - scores[a]);
-        const p33 = [...sv.slice(0,3), ...sm.slice(0,3)];
+        // Generate Stats Table
+        let sorted = [...veg, ...meat].sort((a, b) => scores[b] - scores[a]);
+        let tableHTML = "";
+        sorted.forEach(f => {
+            let prob = Math.min(99, Math.round((scores[f] / 3000) * 100));
+            let cl = prob > 80 ? "class='high-conf'" : "";
+            tableHTML += `<tr><td>${emojis[f]}</td><td>${document.getElementById(`abs-${f}`).innerText}</td><td ${cl}>${prob}%</td></tr>`;
+        });
+        document.getElementById("stats").innerHTML = tableHTML;
+
+        // Final Prediction & Power
+        const top3 = sorted.slice(0, 3);
+        document.getElementById("prediction").innerText = top3.map(x => emojis[x]).join("");
         
-        document.getElementById("s32").innerText = [...sv.slice(0,3), ...sm.slice(0,2)].map(x=>emojis[x]).join("");
-        document.getElementById("s33").innerText = p33.map(x=>emojis[x]).join("");
-        document.getElementById("s22").innerText = [...sv.slice(0,2), ...sm.slice(0,2)].map(x=>emojis[x]).join("");
-        document.getElementById("mainTarget").innerText = p33.slice(0,3).map(x=>emojis[x]).join("");
+        let powerVal = Math.min(100, Math.round((scores[sorted[0]] / 3000) * 100));
+        const pwr = document.getElementById("pwr");
+        pwr.innerText = `POWER: ${powerVal}%`;
+        pwr.style.background = powerVal > 85 ? "var(--win)" : "var(--gold)";
 
-        // Power Level & Advice
-        let maxScore = Math.max(...Object.values(scores));
-        let power = Math.min(100, Math.round(maxScore / 18));
-        document.getElementById("powerLevel").innerText = `POWER: ${power}%`;
-        document.getElementById("powerLevel").style.color = power > 80 ? "var(--win)" : "var(--gold)";
-
-        const advice = document.getElementById("aiAdvice");
-        if(power > 85) advice.innerText = "🎯 HIGH CONFIDENCE STRIKE DETECTED. GO HEAVY.";
-        else if (vPerc > 70) advice.innerText = "🔄 SECTOR SHIFT IMMINENT. TARGET MEAT SECTOR.";
-        else advice.innerText = "SCANNING PATTERNS... FOLLOW THE OMNI-3+3.";
+        const status = document.getElementById("status");
+        if (powerVal > 85) status.innerText = "🔥 STREAK/PATTERN CONFIRMED. HIGH ENTRY.";
+        else if (vPerc > 75) status.innerText = "🔄 SECTOR SATURATED. EXPECTING MEAT SHIFT.";
+        else status.innerText = "SCANNING SERVER WAVEFORMS...";
     }
 
-    function undo() { db.pop(); update(); }
-    function wipe() { if(confirm("ERASE ALL BRAIN DATA?")) { db=[]; localStorage.clear(); location.reload(); } }
-    update();
+    // Initial run
+    updateUI();
 </script>
 </body>
 </html>
