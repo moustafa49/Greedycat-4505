@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="ar" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<title>Greedy Cat — PRO PREDICTOR V2</title>
+<style>
+    body{font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;background:#020617;color:#e5e7eb;margin:0;padding:16px}
+    h1{color:#22c55e;margin:8px 0 16px;text-align:center;text-transform:uppercase;letter-spacing:2px}
+    .wrap{max-width:980px;margin:auto}
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+    
+    button{padding:20px;font-size:32px;background:#0f172a;color:#fff;border:2px solid #1e293b;border-radius:16px;cursor:pointer;transition:all 0.2s}
+    button:hover{background:#1e293b;transform:scale(1.05)}
+    button:active{transform:scale(0.95)}
+    
+    /* أنماط التميز للأزرار */
+    button.best{border-color:#22c55e;box-shadow:0 0 20px rgba(34,197,94,0.4);background:#064e3b}
+    button.second{border-color:#eab308;box-shadow:0 0 15px rgba(234,179,8,0.3);background:#422006}
+
+    .bar{display:flex;gap:10px;justify-content:center;margin-bottom:20px}
+    .btn-action{padding:10px 20px;font-size:16px;background:#334155;border-radius:8px}
+    
+    .section{background:#0f172a;border:1px solid #1e293b;border-radius:14px;padding:15px;margin-bottom:15px}
+    .title{font-weight:bold;color:#22c55e;margin-bottom:10px;display:flex;justify-content:space-between}
+    .big{font-size:24px;letter-spacing:4px}
+    .row{display:flex;flex-wrap:wrap;gap:15px}
+    .col{flex:1 1 300px}
+    
+    .stat-box{display:inline-block;padding:5px 10px;background:#1e293b;border-radius:6px;margin:2px;font-size:13px}
+    canvas{background:#000;border-radius:12px;display:block;margin:auto;max-width:100%}
+    .highlight{color:#22c55e;font-weight:bold}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+    <h1>Greedy Cat — <span style="color:#fff">GOD MODE</span></h1>
+
+    <div class="grid" id="mainGrid">
+        <button onclick="add('corn')">🌽</button>
+        <button onclick="add('tomato')">🍅</button>
+        <button onclick="add('carrot')">🥕</button>
+        <button onclick="add('pepper')">🌶️</button>
+        <button onclick="add('fish')">🐟</button>
+        <button onclick="add('shrimp')">🦐</button>
+        <button onclick="add('cow')">🐄</button>
+        <button onclick="add('chicken')">🐔</button>
+    </div>
+
+    <div class="bar">
+        <button class="btn-action" onclick="undo()">Undo</button>
+        <button class="btn-action" onclick="reset()">Reset Data</button>
+        <button class="btn-action" id="botBtn" onclick="toggleBot()" style="background:#16a34a">Bot: OFF</button>
+    </div>
+
+    <div class="section">
+        <div class="title">History (Last 20) <span id="accuracy" style="color:#fff"></span></div>
+        <div id="history" class="big"></div>
+    </div>
+
+    <div class="row">
+        <div class="col section">
+            <div class="title">AI Primary Prediction 🎯</div>
+            <div id="prediction" class="big">--</div>
+            <div id="why" style="font-size:12px;color:#9ca3af;margin-top:8px"></div>
+        </div>
+        <div class="col section">
+            <div class="title">Safe Strategy (Top 5) 🛡️</div>
+            <div id="top5" class="big">--</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col section">
+            <div class="title">Live Probabilities %</div>
+            <div id="prob" style="display:grid;grid-template-columns:1fr 1fr;gap:5px"></div>
+        </div>
+        <div class="col section">
+            <div class="title">Absence Tracker (الغيبة)</div>
+            <div id="absence" style="display:flex;flex-wrap:wrap;gap:5px"></div>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="title">Pattern Analysis Radar</div>
+        <canvas id="radar" width="300" height="300"></canvas>
+    </div>
+</div>
+
+<script>
+// --- CONFIG & DATA ---
+const foods = ["corn","tomato","carrot","pepper","fish","shrimp","cow","chicken"];
+const veg = ["corn","tomato","carrot","pepper"];
+const meat = ["fish","shrimp","cow","chicken"];
+const emoji = {corn:"🌽",tomato:"🍅",carrot:"🥕",pepper:"🌶️",fish:"🐟",shrimp:"🦐",cow:"🐄",chicken:"🐔"};
+const values = {corn:5,tomato:5,carrot:5,pepper:5,fish:8,shrimp:10,cow:15,chicken:45};
+
+let history = JSON.parse(localStorage.getItem("gc_v2_hist") || "[]");
+let bot = false;
+let totalPredictions = 0;
+let correctPredictions = 0;
+
+// --- CORE FUNCTIONS ---
+function save() {
+    localStorage.setItem("gc_v2_hist", JSON.stringify(history));
+}
+
+function add(f) {
+    if (window.currentPicks) {
+        totalPredictions++;
+        if (window.currentPicks.includes(f)) correctPredictions++;
+    }
+    history.push(f);
+    if (history.length > 500) history.shift();
+    save();
+    update();
+}
+
+function undo() { history.pop(); save(); update(); }
+function reset() { if(confirm("Clear all data?")) { history=[]; save(); update(); } }
+
+// --- MATH ENGINE ---
+function getStats(f) {
+    let lastIdx = history.lastIndexOf(f);
+    let abs = lastIdx === -1 ? history.length : history.length - 1 - lastIdx;
+    let mom = history.slice(-10).filter(x => x === f).length;
+    
+    // Pattern Matching (Sequence of 2)
+    let pat = 0;
+    if (history.length > 3) {
+        let lastTwo = history.slice(-2).join("-");
+        for (let i = 0; i < history.length - 2; i++) {
+            if (history.slice(i, i+2).join("-") === lastTwo && history[i+2] === f) pat++;
+        }
+    }
+    return { abs, mom, pat };
+}
+
+function calculateScores() {
+    let scores = {};
+    foods.forEach(f => {
+        let { abs, mom, pat } = getStats(f);
+        // المعادلة الذهبية
+        let s = 0;
+        s += pat * 15;        // قوة الأنماط المتكررة
+        s += mom * 5;         // قوة الزخم
+        s += abs * 1.2;       // قانون الاحتمالات المتأخرة
+        s += (values[f] / 10); // ترجيح القيم الأعلى قليلاً
+        
+        scores[f] = s;
+    });
+    return scores;
+}
+
+// --- UI UPDATE ---
+function update() {
+    const scores = calculateScores();
+    const sorted = Object.entries(scores).sort((a,b) => b[1] - a[1]);
+    
+    // 1. Prediction Logic
+    const best = sorted[0][0];
+    const alt = sorted[1][0];
+    
+    // 2. Strategy (Top 5: 3 Veg + 2 Meat to balance risk)
+    const topVeg = sorted.filter(x => veg.includes(x[0])).slice(0, 3).map(x => x[0]);
+    const topMeat = sorted.filter(x => meat.includes(x[0])).slice(0, 2).map(x => x[0]);
+    const top5 = [...topVeg, ...topMeat];
+    window.currentPicks = top5;
+
+    // 3. Update HTML
+    document.getElementById("history").innerHTML = history.slice(-15).map(x => emoji[x]).join(" ");
+    document.getElementById("prediction").innerHTML = `${emoji[best]} <span style="font-size:16px">Backup: ${emoji[alt]}</span>`;
+    document.getElementById("top5").innerHTML = top5.map(x => emoji[x]).join(" ");
+    
+    // Stats
+    document.getElementById("accuracy").innerText = `Accuracy: ${totalPredictions ? ((correctPredictions/totalPredictions)*100).toFixed(1) : 0}%`;
+    
+    // Probability List
+    let totalScore = Object.values(scores).reduce((a,b)=>a+b, 0);
+    document.getElementById("prob").innerHTML = sorted.map(([f, s]) => `
+        <div class="stat-box">${emoji[f]} ${((s/totalScore)*100).toFixed(1)}%</div>
+    `).join("");
+
+    // Absence List
+    document.getElementById("absence").innerHTML = foods.map(f => {
+        let a = getStats(f).abs;
+        return `<div class="stat-box" style="color:${a > 10 ? '#ef4444' : '#fff'}">${emoji[f]} ${a}</div>`;
+    }).join("");
+
+    // 4. Highlight Grid Buttons
+    const btns = document.getElementById("mainGrid").querySelectorAll("button");
+    foods.forEach((f, i) => {
+        btns[i].className = "";
+        if (f === best) btns[i].className = "best";
+        else if (top5.includes(f)) btns[i].className = "second";
+    });
+
+    drawRadar(scores);
+}
+
+function toggleBot() {
+    bot = !bot;
+    let b = document.getElementById("botBtn");
+    b.innerText = "Bot: " + (bot ? "ON" : "OFF");
+    b.style.background = bot ? "#ef4444" : "#16a34a";
+}
+
+// --- VISUALS ---
+function drawRadar(scores) {
+    const canvas = document.getElementById("radar");
+    const ctx = canvas.getContext("2d");
+    const cx = 150, cy = 150, r = 100;
+    ctx.clearRect(0, 0, 300, 300);
+
+    // Draw Circles
+    ctx.strokeStyle = "#1e293b";
+    for(let j=1; j<=4; j++) {
+        ctx.beginPath();
+        ctx.arc(cx, cy, (r/4)*j, 0, Math.PI*2);
+        ctx.stroke();
+    }
+
+    // Draw Data
+    ctx.beginPath();
+    ctx.strokeStyle = "#22c55e";
+    ctx.fillStyle = "rgba(34, 197, 94, 0.2)";
+    let maxS = Math.max(...Object.values(scores));
+    
+    foods.forEach((f, i) => {
+        let ang = (i / foods.length) * Math.PI * 2 - Math.PI/2;
+        let val = (scores[f] / maxS) * r;
+        let x = cx + Math.cos(ang) * val;
+        let y = cy + Math.sin(ang) * val;
+        if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+        
+        // Labels
+        let lx = cx + Math.cos(ang) * (r + 20);
+        let ly = cy + Math.sin(ang) * (r + 20);
+        ctx.font = "16px Arial";
+        ctx.fillText(emoji[f], lx-10, ly+5);
+    });
+    ctx.closePath();
+    ctx.fill();
+    ctx.stroke();
+}
+
+// Initial Run
+update();
+</script>
+</body>
+</html>
